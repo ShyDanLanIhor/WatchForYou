@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Images\EnterView\Background.png" />
+    <None Remove="Resources\Images\MainView\Logo.png" />
+    <None Remove="Resources\Images\MainView\ProfilePicture.jpg" />
+    <None Remove="Resources\Images\SignInView\Logo.png" />
+    <None Remove="Resources\Images\SignInView\PasswordIcon.png" />
+    <None Remove="Resources\Images\SignInView\UserIcon.png" />
+    <None Remove="Resources\Images\SignUpView\EmailIcon.png" />
+    <None Remove="Resources\Images\SignUpView\HomeSafety.png" />
+    <None Remove="Resources\Images\SignUpView\PasswordIcon.png" />
+    <None Remove="Resources\Images\SignUpView\UserIcon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FontAwesome.Sharp" Version="6.3.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.11">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.11">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Images\EnterView\Background.png" />
+    <Resource Include="Resources\Images\MainView\Logo.png" />
+    <Resource Include="Resources\Images\MainView\ProfilePicture.jpg" />
+    <Resource Include="Resources\Images\SignInView\Logo.png" />
+    <Resource Include="Resources\Images\SignInView\PasswordIcon.png" />
+    <Resource Include="Resources\Images\SignInView\UserIcon.png" />
+    <Resource Include="Resources\Images\SignUpView\EmailIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\SignUpView\HomeSafety.png" />
+    <Resource Include="Resources\Images\SignUpView\PasswordIcon.png" />
+    <Resource Include="Resources\Images\SignUpView\UserIcon.png" />
+  </ItemGroup>
+
+</Project>
