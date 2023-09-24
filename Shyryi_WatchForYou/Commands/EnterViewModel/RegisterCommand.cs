@@ -19,13 +19,13 @@ namespace Shyryi_WatchForYou.Commands.EnterViewModel
     {
         private readonly SignUpViewModel _signUpViewModel;
 
-        private AriaService userService;
+        private UserService userService;
         public RegisterCommand(SignUpViewModel signUpViewModel)
         {
 
             _signUpViewModel = signUpViewModel;
 
-            userService = new AriaService();
+            userService = new UserService();
 
             _signUpViewModel.PropertyChanged += OnViewModelPropertyChanged;
         }

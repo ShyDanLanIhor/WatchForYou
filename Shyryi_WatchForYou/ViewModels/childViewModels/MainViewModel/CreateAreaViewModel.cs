@@ -20,8 +20,8 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
 
         private AreaService areaService =
             new AreaService();
-        private AriaService userService =
-            new AriaService();
+        private UserService userService =
+            new UserService();
 
         public string AreaName { get => _areaName;
             set
@@ -89,7 +89,7 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
             try
             {
                 UserModel user = UserMapper.MapToModel(userService.
-                    GetBy(Thread.CurrentPrincipal.Identity.Name));
+                    GetByUsername(Thread.CurrentPrincipal.Identity.Name));
                 areaService.CreateArea(AreaMapper.MapToDto(
                     new AreaModel(AreaName, AreaDescription, user.Id, user)));
                 AreaName = "";

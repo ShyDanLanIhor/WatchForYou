@@ -9,7 +9,7 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
 {
     public class CreateThingViewModel : ViewModelBase
     {
-        public CreateThingViewModel(AreaDto aria)
+        public CreateThingViewModel(int areaId)
         {
         }
     }

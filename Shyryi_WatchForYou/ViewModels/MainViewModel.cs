@@ -25,7 +25,7 @@ namespace Shyryi_WatchForYou.ViewModels
         private string _caption;
         private IconChar _icon;
 
-        private AriaService userService = new AriaService();
+        private UserService userService = new UserService();
 
         public UserAccountEntity CurrentUserAccount
         {
@@ -72,14 +72,20 @@ namespace Shyryi_WatchForYou.ViewModels
 
         public MainViewModel()
         {
-            CurrentUserAccount = new UserAccountEntity();
+            UserDto user = userService.GetByUsername(Thread.CurrentPrincipal.Identity.Name);
+
+            if (user != null)
+            {
+                CurrentUserAccount = new UserAccountEntity(user.Username, $"Welcome" +
+                        $"{(!string.IsNullOrEmpty(user.FirstName) ? " " + user.FirstName : "")}" +
+                        $"{(!string.IsNullOrEmpty(user.LastName) ? " " + user.LastName : "")}");
+            }
+            else { MessageBox.Show("Invalid user, not logged in"); }
 
             ShowHomeViewCommand = new RelayCommand(ExecuteShowHomeViewCommand);
             ShowCreateAreaViewCommand = new RelayCommand(ExecuteCreateAreaViewCommand);
             ShowAreasListViewCommand = new RelayCommand(ExecuteShowAreasListViewCommand);
             ShowSettingsViewCommand = new RelayCommand(ExecuteShowSettingsViewCommand);
-
-            LoadCurrentUserData();
         }
         
         private void ExecuteShowHomeViewCommand(object obj)
@@ -102,21 +108,9 @@ namespace Shyryi_WatchForYou.ViewModels
         }
         private void ExecuteShowSettingsViewCommand(object obj)
         {
-            CurrentChildView = new SettingViewModel();
+            CurrentChildView = new SettingViewModel(this);
             Caption = "Settings Page";
             Icon = IconChar.Gear;
-        }
-        private void LoadCurrentUserData()
-        {
-            UserDto user = userService.GetBy(Thread.CurrentPrincipal.Identity.Name);
-            if (user != null)
-            {
-                CurrentUserAccount.Username = user.Username;
-                CurrentUserAccount.DisplayName = $"Welcome" +
-                    $"{(!string.IsNullOrEmpty(user.FirstName) ? " " + user.FirstName : "")}" +
-                    $"{(!string.IsNullOrEmpty(user.LastName) ? " " + user.LastName : "")}";
-            }
-            else { MessageBox.Show("Invalid user, not logged in"); }
         }
     }
 }

@@ -80,5 +80,32 @@ namespace Shyryi_WatchForYou.Models.Repositories
             }
         }
 
+        public UserDto GetBy(int userId)
+        {
+            try
+            {
+                return _dbContext.User.FirstOrDefault(u => u.Id == userId);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Cannot fetch user from the database!");
+                return null;
+            }
+        }
+
+        public bool UpdateUser(UserDto user)
+        {
+            try
+            {
+                _dbContext.User.Update(user);
+                _dbContext.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Cannot update user in the database!");
+                return false;
+            }
+        }
     }
 }

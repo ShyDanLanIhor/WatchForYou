@@ -10,5 +10,11 @@ namespace InfinityStudio.Models
     {
         public string Username { get; set; }
         public string DisplayName { get; set; }
+
+        public UserAccountEntity(string username, string displayName)
+        {
+            Username = username;
+            DisplayName = displayName;
+        }
     }
 }
