@@ -8,5 +8,9 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
 {
     public class SettingViewModel : ViewModelBase
     {
+        public SettingViewModel() 
+        { 
+
+        }
     }
 }

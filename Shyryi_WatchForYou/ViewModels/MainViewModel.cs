@@ -25,7 +25,7 @@ namespace Shyryi_WatchForYou.ViewModels
         private string _caption;
         private IconChar _icon;
 
-        private UserService userService = new UserService();
+        private AriaService userService = new AriaService();
 
         public UserAccountEntity CurrentUserAccount
         {
@@ -66,7 +66,8 @@ namespace Shyryi_WatchForYou.ViewModels
         }
 
         public ICommand ShowHomeViewCommand { get; }
-        public ICommand ShowAreasViewCommand { get; }
+        public ICommand ShowCreateAreaViewCommand { get; }
+        public ICommand ShowAreasListViewCommand { get; }
         public ICommand ShowSettingsViewCommand { get; }
 
         public MainViewModel()
@@ -74,7 +75,8 @@ namespace Shyryi_WatchForYou.ViewModels
             CurrentUserAccount = new UserAccountEntity();
 
             ShowHomeViewCommand = new RelayCommand(ExecuteShowHomeViewCommand);
-            ShowAreasViewCommand = new RelayCommand(ExecuteShowAreasViewCommand);
+            ShowCreateAreaViewCommand = new RelayCommand(ExecuteCreateAreaViewCommand);
+            ShowAreasListViewCommand = new RelayCommand(ExecuteShowAreasListViewCommand);
             ShowSettingsViewCommand = new RelayCommand(ExecuteShowSettingsViewCommand);
 
             LoadCurrentUserData();
@@ -86,11 +88,17 @@ namespace Shyryi_WatchForYou.ViewModels
             Caption = "Home Page";
             Icon = IconChar.Home;
         }
-        private void ExecuteShowAreasViewCommand(object obj)
+        private void ExecuteCreateAreaViewCommand(object obj)
         {
-            CurrentChildView = new AreasViewModel();
-            Caption = "Areas Page";
-            Icon = IconChar.AreaChart;
+            CurrentChildView = new CreateAreaViewModel();
+            Caption = "Create Area Page";
+            Icon = IconChar.BuildingUser;
+        }
+        private void ExecuteShowAreasListViewCommand(object obj)
+        {
+            CurrentChildView = new AreasListViewModel();
+            Caption = "Areas List Page";
+            Icon = IconChar.BuildingCircleArrowRight;
         }
         private void ExecuteShowSettingsViewCommand(object obj)
         {
@@ -108,10 +116,7 @@ namespace Shyryi_WatchForYou.ViewModels
                     $"{(!string.IsNullOrEmpty(user.FirstName) ? " " + user.FirstName : "")}" +
                     $"{(!string.IsNullOrEmpty(user.LastName) ? " " + user.LastName : "")}";
             }
-            else
-            {
-                MessageBox.Show("Invalid user, not logged in");
-            }
+            else { MessageBox.Show("Invalid user, not logged in"); }
         }
     }
 }

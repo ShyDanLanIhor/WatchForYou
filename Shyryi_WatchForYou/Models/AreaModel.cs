@@ -25,6 +25,15 @@ namespace Shyryi_WatchForYou.Models
             Things = new List<ThingModel>();
         }
 
+        public AreaModel(string name, string description, int userId, UserModel user)
+        {
+            Name = name;
+            Description = description;
+            UserId = userId;
+            User = user;
+            Things = new List<ThingModel>();
+        }
+
         public AreaModel(AreaModel other)
         {
             Id = other.Id;

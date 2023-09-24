@@ -20,7 +20,7 @@
         <Setter Property="FontFamily" Value="Cambria Math" />
     </Style>
     <Style x:Key="ErrorMessage" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="OrangeRed" />
+        <Setter Property="Foreground" Value="{StaticResource ErrorMessageColor}" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="FontWeight" Value="Medium" />
         <Setter Property="FontFamily" Value="Cambria Math" />

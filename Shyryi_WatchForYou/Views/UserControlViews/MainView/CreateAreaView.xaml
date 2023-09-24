@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="Shyryi_WatchForYou.Views.UserControlViews.MainView.CreateAreaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Shyryi_WatchForYou.Views.UserControlViews.MainView"
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             mc:Ignorable="d" 
+             d:DesignHeight="370" d:DesignWidth="550">
+    <Grid>
+        <StackPanel>
+            <TextBlock Text="Name of new area"
+                       Style="{StaticResource TextBoxTitles}"
+                       Margin="0,20,0,0"
+                       HorizontalAlignment="Center"
+                       Foreground="{StaticResource CreateAreaColor}"/>
+
+            <StackPanel Orientation="Horizontal" 
+                        HorizontalAlignment="Center">
+                <fa:IconImage Icon="Building" 
+                              Style="{StaticResource menuButtonIcon}"
+                              Foreground="{StaticResource CreateAreaColor}"/>
+                <TextBox x:Name="tbxNameOfNewArea"
+                         Foreground="{StaticResource CreateAreaColor}"
+                         Width="200"
+                         Text="{Binding AreaName, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource EnterViewTextBox}"
+                         Margin="0,5,0,0"
+                         Background="Transparent">
+                </TextBox>
+            </StackPanel>
+
+            <TextBlock Text="Description of new area"
+                       Style="{StaticResource TextBoxTitles}"
+                       Margin="0,20,0,0"
+                       Foreground="{StaticResource CreateAreaColor}"/>
+
+            <TextBox x:Name="tbxDescriptionOfNewArea"
+                     Text="{Binding AreaDescription, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource EnterViewTextBox}"
+                     Height="150"
+                     Margin="0,5,0,0"
+                     TextWrapping="Wrap"
+                     HorizontalContentAlignment="Left"
+                     VerticalContentAlignment="Top"
+                     Background="#24105F">
+            </TextBox>
+            <TextBlock Text="{Binding AreaInfo}"
+                       Style="{StaticResource TextBoxTitles}"
+                       Margin="0,10,0,0"
+                       HorizontalAlignment="Center"
+                       Foreground="{Binding AreaInfoColor}"/>
+            <Button x:Name="btnCreateArea"
+                Command="{Binding CreateAreaCommand}"
+                Style="{StaticResource EnterViewButton}"
+                Content="Create new area"
+                FontSize="14"
+                Cursor="Hand"
+                Margin="0,15,0,0"
+                Grid.Column="2">
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

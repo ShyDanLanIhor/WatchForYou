@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Shyryi_WatchForYou.Views.UserControlViews.MainView
 {
     /// <summary>
-    /// Interaction logic for AreaView.xaml
+    /// Interaction logic for CreateAreaView.xaml
     /// </summary>
-    public partial class AreaView : UserControl
+    public partial class CreateAreaView : UserControl
     {
-        public AreaView()
+        public CreateAreaView()
         {
             InitializeComponent();
         }

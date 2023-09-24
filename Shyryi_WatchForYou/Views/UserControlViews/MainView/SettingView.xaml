@@ -4,9 +4,113 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Shyryi_WatchForYou.Views.UserControlViews.MainView"
+             xmlns:customcontrols="clr-namespace:Shyryi_WatchForYou.CustomControls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <TextBlock Text="SettingView">/</TextBlock>
-    </Grid>
+             d:DesignHeight="370" d:DesignWidth="550">
+    <StackPanel Grid.Row="2"
+                Orientation="Vertical">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel Orientation="Vertical" Margin="0,0,25,0">
+                <TextBlock Text="Username"
+                           Style="{StaticResource TextBoxTitles}"
+                           Margin="0,20,0,0"/>
+
+                <TextBox x:Name="tbxUser"
+                         Width="200"
+                         Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource EnterViewTextBox}"
+                         Margin="0,5,0,0"
+                         Padding="30,0,0,0">
+                    <TextBox.Background>
+                        <ImageBrush ImageSource="/Shyryi_WatchForYou;component/Resources/Images/SignInView/UserIcon.png"
+                                    Stretch="Uniform"
+                                    AlignmentX="Left"/>
+                    </TextBox.Background>
+                </TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Email"
+                           Style="{StaticResource TextBoxTitles}"
+                           Margin="0,20,0,0"/>
+                <TextBox x:Name="tbxEmail"
+                         Width="200"
+                         Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource EnterViewTextBox}"
+                         Margin="0,5,0,0"
+                         Padding="30,0,0,0">
+                    <TextBox.Background>
+                        <ImageBrush ImageSource="/Resources/Images/SignUpView/EmailIcon.png"
+                                    Stretch="Uniform"
+                                    AlignmentX="Left"/>
+                    </TextBox.Background>
+                </TextBox>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel Orientation="Vertical" Margin="0,0,25,0">
+                <TextBlock Text="First Name"
+                           Style="{StaticResource TextBoxTitles}"
+                           Margin="0,20,0,0"/>
+
+                <TextBox x:Name="tbxFirstName"
+                         Width="200"
+                         Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource EnterViewTextBox}"
+                         Margin="0,5,0,0"
+                         Background="Transparent">
+                </TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Last Name"
+                           Style="{StaticResource TextBoxTitles}"
+                           Margin="0,20,0,0"/>
+                <TextBox x:Name="tbxLastName"
+                         Width="200"
+                         Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource EnterViewTextBox}"
+                         Margin="0,5,0,0"
+                         Background="Transparent">
+                </TextBox>
+            </StackPanel>
+        </StackPanel>
+
+
+        <StackPanel Orientation="Horizontal" Width="450" HorizontalAlignment="Center">
+            <StackPanel Width="200">
+                <TextBlock Text="Previous Password"
+                   Style="{StaticResource TextBoxTitles}"
+                   Margin="0,15,0,0"/>
+                <customcontrols:BindablePasswordBox Password="{Binding PreviousPassword,
+            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            Height="28"
+                                            Margin="0,5,0,0"/>
+            </StackPanel>
+            <StackPanel Width="52"/>
+
+
+            <StackPanel Width="200">
+                <TextBlock Text="New Password"
+                   Style="{StaticResource TextBoxTitles}"
+                   Margin="0,15,0,0"/>
+                <customcontrols:BindablePasswordBox Password="{Binding NewPassword,
+            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            Height="28"
+                                            Margin="0,5,0,0"/>
+            </StackPanel>
+        </StackPanel>
+
+
+        <Button x:Name="btnChange"
+             Command="{Binding ChangeCommand}"
+             Style="{StaticResource EnterViewButton}"
+             Content="Change"
+             FontSize="14"
+             Cursor="Hand"
+             Margin="0,25,0,0"
+             Grid.Column="2">
+        </Button>
+
+        
+    </StackPanel>
 </UserControl>
