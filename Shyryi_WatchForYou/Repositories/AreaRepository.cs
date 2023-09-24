@@ -69,5 +69,32 @@ namespace Shyryi_WatchForYou.Repositories
                 return false;
             }
         }
+        public AreaDto GetAreaById(int areaId)
+        {
+            try
+            {
+                return _dbContext.Area.FirstOrDefault(a => a.Id == areaId);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Cannot fetch area from the database!");
+                return null;
+            }
+        }
+
+        public bool UpdateArea(AreaDto area)
+        {
+            try
+            {
+                _dbContext.Area.Update(area);
+                _dbContext.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Cannot update area in the database!");
+                return false;
+            }
+        }
     }
 }

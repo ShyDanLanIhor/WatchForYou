@@ -20,10 +20,10 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
         private ViewModelBase _currentChildView;
         private string _caption;
         private IconChar _icon;
-        private string _thingName;
+        private string _areaName;
         private AreaDto currentArea;
 
-        private AriaService areaService = new AriaService();
+        private AreaService areaService = new AreaService();
 
         public ViewModelBase CurrentChildView
         {
@@ -52,13 +52,13 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
                 OnPropertyChanged(nameof(Icon));
             }
         }
-        public string ThingName
+        public string AreaName
         {
-            get => _thingName;
+            get => _areaName;
             set
             {
-                _thingName = value;
-                OnPropertyChanged(nameof(ThingName));
+                _areaName = value;
+                OnPropertyChanged(nameof(AreaName));
             }
         }
         public AreaDto CurrentArea
@@ -75,10 +75,11 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
         public ICommand ShowCreateThingViewCommand { get; }
         public ICommand ShowThingsListViewCommand { get; }
 
-        public MainAriaViewModel(AreaDto aria)
+
+        public MainAriaViewModel(int ariaId)
         {
-            ThingName = aria.Name;
-            currentArea = aria;
+            CurrentArea = areaService.GetAreaById(ariaId);
+            AreaName = CurrentArea.Name;
 
             ShowAriaInfoViewCommand = new RelayCommand(ExecuteShowAriaInfoViewCommand);
             ShowCreateThingViewCommand = new RelayCommand(ExecuteShowCreateThingViewCommand);
@@ -87,19 +88,19 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
 
         private void ExecuteShowAriaInfoViewCommand(object obj)
         {
-            CurrentChildView = new AriaInfoViewModel(currentArea);
+            CurrentChildView = new AriaInfoViewModel(this, CurrentArea.Id);
             Caption = "Current Area Info Page";
             Icon = IconChar.Info;
         }
         private void ExecuteShowCreateThingViewCommand(object obj)
         {
-            CurrentChildView = new CreateThingViewModel(currentArea);
+            CurrentChildView = new CreateThingViewModel(CurrentArea.Id);
             Caption = "Connect Thing Page";
             Icon = IconChar.Camera;
         }
         private void ExecuteShowThingsListViewCommand(object obj)
         {
-            CurrentChildView = new ThingsListViewModel(currentArea);
+            CurrentChildView = new ThingsListViewModel(CurrentArea.Id);
             Caption = "Things List Page";
             Icon = IconChar.List;
         }

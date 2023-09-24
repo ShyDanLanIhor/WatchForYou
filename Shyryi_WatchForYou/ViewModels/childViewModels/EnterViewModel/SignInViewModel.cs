@@ -16,6 +16,8 @@ using Shyryi_WatchForYou.Repositories.IRepositories;
 using Shyryi_WatchForYou.Services;
 using Shyryi_WatchForYou.Stores;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+using Shyryi_WatchForYou.Services.ModelServices;
+using Shyryi_WatchForYou.DTOs;
 
 namespace Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel
 {
@@ -26,6 +28,7 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel
         private string _username;
         private SecureString _password;
         private string _errorMessage;
+        private UserService userService = new UserService();
 
         public string Username
         {
@@ -60,7 +63,6 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel
         public ICommand GoToSigningUpCommand { get; }
         public SignInViewModel(NavigationService signUpViewNavigationService)
         {
-
             LoginCommand = new LoginCommand(this);
 
             GoToSigningUpCommand = new NavigateCommand(signUpViewNavigationService);

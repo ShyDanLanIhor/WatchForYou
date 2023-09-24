@@ -61,7 +61,7 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
             if (parameter is AreaDto area)
             {
                 // Створюємо ViewModel для нового вікна
-                var mainAreaViewModel = new MainAriaViewModel(area);
+                var mainAreaViewModel = new MainAriaViewModel(area.Id);
 
                 // Створюємо нове вікно та встановлюємо його ViewModel
                 var areaAreaWindow = new MainAriaView
@@ -98,10 +98,8 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
 
             window.Closed += handler;
 
-            // Показуємо вікно
             window.Show();
 
-            // Очікуємо закриття вікна
             await tcs.Task;
         }
     }

@@ -12,7 +12,7 @@ using Shyryi_WatchForYou.Repositories.IRepositories;
 
 namespace Shyryi_WatchForYou.Services.ModelServices
 {
-    public class AriaService
+    public class UserService
     {
         private readonly UserRepository 
             userRepository = new UserRepository();
@@ -21,7 +21,7 @@ namespace Shyryi_WatchForYou.Services.ModelServices
         {
             return userRepository.AddUser(user);
         }
-        public UserDto GetBy(string username)
+        public UserDto GetByUsername(string username)
         {
             try
             {
@@ -63,6 +63,41 @@ namespace Shyryi_WatchForYou.Services.ModelServices
             catch (Exception)
             {
                 MessageBox.Show("Cannot remove user!");
+                return false;
+            }
+        }
+        public bool UpdateUser(int userId, UserDto updatedUser)
+        {
+            try
+            {
+                var existingUser = userRepository.GetBy(userId);
+                if (existingUser != null)
+                {
+                    // Оновлюємо всі поля, крім Id
+                    existingUser.Username = updatedUser.Username;
+                    existingUser.Password = updatedUser.Password;
+                    existingUser.FirstName = updatedUser.FirstName;
+                    existingUser.LastName = updatedUser.LastName;
+                    existingUser.Email = updatedUser.Email;
+
+                    // Якщо необхідно оновити зони (Areas), розгляньте цей код
+                    if (updatedUser.Areas != null)
+                    {
+                        existingUser.Areas = updatedUser.Areas;
+                    }
+
+                    userRepository.UpdateUser(existingUser);
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show("User not found!");
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Cannot update user!");
                 return false;
             }
         }

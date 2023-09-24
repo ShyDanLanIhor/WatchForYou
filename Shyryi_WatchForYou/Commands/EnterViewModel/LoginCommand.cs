@@ -20,13 +20,13 @@ namespace Shyryi_WatchForYou.Commands.EnterViewModel
     {
         private readonly SignInViewModel _signInViewModel;
 
-        private AriaService userService;
+        private UserService userService;
         public LoginCommand(SignInViewModel signInViewModel)
         {
 
             _signInViewModel = signInViewModel;
 
-            userService = new AriaService();
+            userService = new UserService();
 
             _signInViewModel.PropertyChanged += OnViewModelPropertyChanged;
         }

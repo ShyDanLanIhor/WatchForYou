@@ -18,6 +18,7 @@ namespace Shyryi_WatchForYou.Models
         public string Email { get; set; }
         public ICollection<AreaModel> Areas { get; set; }
 
+        public UserModel() { }
         public UserModel(string username, string password, string email)
         {
             Username = username;

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Shyryi_WatchForYou.Models.Repositories;
+using Shyryi_WatchForYou.Services.ModelServices;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +27,15 @@ namespace Shyryi_WatchForYou.Models
             Things = new List<ThingModel>();
         }
 
+        public AreaModel(int id, string name, string description, int userId)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
+            UserId = userId;
+            Things = new List<ThingModel>();
+        }
+
         public AreaModel(string name, string description, int userId, UserModel user)
         {
             Name = name;
@@ -33,6 +44,7 @@ namespace Shyryi_WatchForYou.Models
             User = user;
             Things = new List<ThingModel>();
         }
+
 
         public AreaModel(AreaModel other)
         {
