@@ -73,14 +73,12 @@ namespace Shyryi_WatchForYou.Services.ModelServices
                 var existingUser = userRepository.GetBy(userId);
                 if (existingUser != null)
                 {
-                    // Оновлюємо всі поля, крім Id
                     existingUser.Username = updatedUser.Username;
                     existingUser.Password = updatedUser.Password;
                     existingUser.FirstName = updatedUser.FirstName;
                     existingUser.LastName = updatedUser.LastName;
                     existingUser.Email = updatedUser.Email;
 
-                    // Якщо необхідно оновити зони (Areas), розгляньте цей код
                     if (updatedUser.Areas != null)
                     {
                         existingUser.Areas = updatedUser.Areas;

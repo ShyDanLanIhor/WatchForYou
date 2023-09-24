@@ -29,6 +29,27 @@ namespace Shyryi_WatchForYou.Models
             Area = area;
         }
 
+        public ThingModel(string name, string ip, bool isVideo, bool isAlerted, string description, int areaId, AreaModel area)
+        {
+            Name = name;
+            Ip = ip;
+            IsVideo = isVideo;
+            IsAlerted = isAlerted;
+            Description = description;
+            AreaId = areaId;
+            Area = area;
+        }
+
+        public ThingModel(string name, string ip, bool isVideo, bool isAlerted, string description, int areaId)
+        {
+            Name = name;
+            Ip = ip;
+            IsVideo = isVideo;
+            IsAlerted = isAlerted;
+            Description = description;
+            AreaId = areaId;
+        }
+
         public ThingModel(ThingModel other)
         {
             Id = other.Id;

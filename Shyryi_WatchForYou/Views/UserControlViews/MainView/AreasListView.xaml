@@ -24,6 +24,7 @@
                                            TextWrapping="Wrap" 
                                            HorizontalAlignment="Center" 
                                            Margin="10"
+                                           Foreground=""
                                            Style="{StaticResource TextBoxTitles}"/>
                                 <TextBlock Text="{Binding Description}" 
                                            Width="550"

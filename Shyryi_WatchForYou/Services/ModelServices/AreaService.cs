@@ -68,7 +68,9 @@ namespace Shyryi_WatchForYou.Services.ModelServices
         {
             try
             {
-                return areaRepository.GetAreaById(areaId);
+                AreaDto area = areaRepository.GetAreaById(areaId);
+                area.User = userRepository.GetBy(area.UserId);
+                return area;
             }
             catch (Exception)
             {
