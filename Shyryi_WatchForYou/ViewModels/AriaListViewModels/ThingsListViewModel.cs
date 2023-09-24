@@ -1,5 +1,8 @@
 ﻿using Shyryi_WatchForYou.Commands;
 using Shyryi_WatchForYou.DTOs;
+using Shyryi_WatchForYou.Mappers;
+using Shyryi_WatchForYou.Models;
+using Shyryi_WatchForYou.Repositories;
 using Shyryi_WatchForYou.Services.ModelServices;
 using Shyryi_WatchForYou.Views.AriaListView;
 using System;
@@ -16,6 +19,8 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
     {
         private ObservableCollection<ThingDto> things;
 
+        private AreaService areaService =
+            new AreaService();
         private ThingService thingService =
             new ThingService();
         public ObservableCollection<ThingDto> Things
@@ -54,8 +59,9 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
         {
             if (parameter is ThingDto thing)
             {
-                thingService.RemoveThing(thing.Id);
-                things.Remove(thing);
+                thingService.UpdateThing(thing.Id, ThingMapper.MapToDto(new ThingModel(
+                    thing.Id, thing.Name, thing.Ip, thing.IsVideo, thing.IsAlerted, thing.Description, thing.AreaId,
+                    AreaMapper.MapToModel(areaService.GetAreaById(thing.AreaId)))));
             }
         }
 
