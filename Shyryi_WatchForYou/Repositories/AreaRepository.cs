@@ -31,7 +31,6 @@ namespace Shyryi_WatchForYou.Repositories
 
         public bool AddArea(AreaDto area)
         {
-            // Перевірка чи користувач, пов'язаний з цією областю, існує в базі даних.
             var user = _dbContext.User.SingleOrDefault(u => u.Username == area.User.Username);
             if (user != null)
             {

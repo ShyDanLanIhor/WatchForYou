@@ -12,7 +12,7 @@ using Shyryi_WatchForYou.Repositories.IRepositories;
 
 namespace Shyryi_WatchForYou.Services.ModelServices
 {
-    public class UserService
+    public class AriaService
     {
         private readonly UserRepository 
             userRepository = new UserRepository();

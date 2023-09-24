@@ -20,13 +20,13 @@ namespace Shyryi_WatchForYou.Commands.EnterViewModel
     {
         private readonly SignInViewModel _signInViewModel;
 
-        private UserService userService;
+        private AriaService userService;
         public LoginCommand(SignInViewModel signInViewModel)
         {
 
             _signInViewModel = signInViewModel;
 
-            userService = new UserService();
+            userService = new AriaService();
 
             _signInViewModel.PropertyChanged += OnViewModelPropertyChanged;
         }
@@ -42,17 +42,9 @@ namespace Shyryi_WatchForYou.Commands.EnterViewModel
 
         public override void Execute(object parameter)
         {
-            if (userService.AuthenticateUser(new System.Net.NetworkCredential(
-                    _signInViewModel.Username,_signInViewModel.Password)))
-            {
-                Thread.CurrentPrincipal = new GenericPrincipal(
-                    new GenericIdentity(_signInViewModel.Username), null);
-                App.Current.MainWindow.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                _signInViewModel.ErrorMessage = "* Invalid username or password";
-            }
+            Thread.CurrentPrincipal = new GenericPrincipal(
+                new GenericIdentity(_signInViewModel.Username), null);
+            ExecuteLogInAsync("* Invalid username or password");
         }
 
         public override bool CanExecute(object parameter)
@@ -63,6 +55,21 @@ namespace Shyryi_WatchForYou.Commands.EnterViewModel
                 _signInViewModel.Password == null ||
                 _signInViewModel.Password.Length < 3 ? false : true;
             return validData;
+        }
+
+        private async void ExecuteLogInAsync(string errorMessage)
+        {
+            if (userService.AuthenticateUser(new System.Net.NetworkCredential(
+                _signInViewModel.Username, _signInViewModel.Password)))
+            {
+                App.Current.MainWindow.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                _signInViewModel.ErrorMessage = errorMessage;
+                await Task.Delay(2000);
+                _signInViewModel.ErrorMessage = "";
+            }
         }
     }
 }

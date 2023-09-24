@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Shyryi_WatchForYou.Services
+namespace Shyryi_WatchForYou.Services.ModelServices
 {
     public class AreaService
     {
