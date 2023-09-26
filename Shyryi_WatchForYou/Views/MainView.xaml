@@ -10,7 +10,8 @@
         xmlns:viewModel="clr-namespace:Shyryi_WatchForYou.ViewModels"
         mc:Ignorable="d" Title="MainView" Height="450" Width="800"
         WindowStartupLocation="CenterScreen" WindowStyle="None"
-        Background="Transparent" AllowsTransparency="True">
+        Background="Transparent" AllowsTransparency="True"
+        Icon="/Resources/Images/MainView/Logo.png">
 
     <Window.Resources>
         <DataTemplate DataType="{x:Type childViewModels:HomeViewModel}">

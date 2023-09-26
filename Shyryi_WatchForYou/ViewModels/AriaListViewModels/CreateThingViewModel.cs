@@ -1,14 +1,18 @@
 ﻿using Shyryi_WatchForYou.Commands;
 using Shyryi_WatchForYou.DTOs;
+using Shyryi_WatchForYou.Exceptions;
 using Shyryi_WatchForYou.Mappers;
 using Shyryi_WatchForYou.Models;
 using Shyryi_WatchForYou.Repositories;
 using Shyryi_WatchForYou.Services.ModelServices;
+using Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -98,14 +102,10 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
             CreateThingCommand = new RelayCommand(
                 ExecuteCreateThingCommand, CanExecuteCreateThingCommand);
         }
-
         private bool CanExecuteCreateThingCommand(object obj)
         {
-            bool validData = string.IsNullOrWhiteSpace(
-                ThingName) ||
-                ThingName.Length < 3 ||
-                ThingDescription == null ||
-                ThingDescription.Length < 50 ? false : true;
+            bool validData = string.IsNullOrWhiteSpace(ThingName) ||
+                ThingName.Length < 3 ? false : true;
             return validData;
         }
 
@@ -113,15 +113,24 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
         {
             try
             {
-
+                if (Regex.IsMatch(ThingIp, @"^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$") != true)
+                { throw new InvalidDataInputException("Invalid device IP input!"); }
                 ThingService.CreateThing(ThingMapper.MapToDto(new ThingModel(
                     ThingName, ThingIp, IsVideo, false, ThingDescription, areaId,
                     AreaMapper.MapToModel(AreaService.GetAreaById(areaId)))));
                 IsVideo = false;
                 ThingName = "";
                 ThingDescription = "";
+                ThingIp = "";
                 ThingInfoColor = (Brush)App.Current.FindResource("ConnectDeviceColor");
                 ThingInfo = "Device was connected!";
+                await Task.Delay(2000);
+                ThingInfo = "";
+            }
+            catch (InputDataException e)
+            {
+                ThingInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
+                ThingInfo = e.Message;
                 await Task.Delay(2000);
                 ThingInfo = "";
             }

@@ -34,6 +34,10 @@ namespace Shyryi_WatchForYou.Services.ModelServices
         {
             return ThingRepository.RemoveThingById(thingId);
         }
+        public static bool SetThingIsAlerted(int thingId, bool isAlerted)
+        {
+            return ThingRepository.SetThingIsAlerted(thingId, isAlerted);
+        }
     }
 }
 

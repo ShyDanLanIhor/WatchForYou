@@ -58,16 +58,12 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
         {
             if (parameter is AreaDto area)
             {
-                // Створюємо ViewModel для нового вікна
                 var mainAreaViewModel = new MainAriaViewModel(area.Id);
-
-                // Створюємо нове вікно та встановлюємо його ViewModel
                 var areaAreaWindow = new MainAriaView
                 {
                     DataContext = mainAreaViewModel
                 };
 
-                // Асинхронно показуємо вікно
                 await ShowWindowAsync(areaAreaWindow);
             }
         }
@@ -83,10 +79,8 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
 
         private async Task ShowWindowAsync(Window window)
         {
-            // Використовуємо TaskCompletionSource для очікування закриття вікна
             var tcs = new TaskCompletionSource<bool>();
 
-            // Додаємо обробник події закриття вікна
             EventHandler handler = null;
             handler = (s, e) =>
             {

@@ -2,6 +2,7 @@
 using Shyryi_WatchForYou.DTOs;
 using Shyryi_WatchForYou.Models.Repositories;
 using Shyryi_WatchForYou.Services;
+using Shyryi_WatchForYou.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -112,6 +113,31 @@ namespace Shyryi_WatchForYou.Repositories
             catch (Exception)
             {
                 MessageBox.Show("Cannot remove thing from the database!");
+                return false;
+            }
+        }
+        public static bool SetThingIsAlerted(int thingId, bool isAlerted)
+        {
+            DbContextService.DbContext = new WatchForYouContext();
+            try
+            {
+                var existingThing = DbContextService.DbContext.Thing.FirstOrDefault(t => t.Id == thingId);
+                if (existingThing != null)
+                {
+                    existingThing.IsAlerted = isAlerted;
+                    DbContextService.DbContext.Thing.Update(existingThing);
+                    DbContextService.DbContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show("Thing not found!");
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Cannot update IsAlerted for the thing!");
                 return false;
             }
         }

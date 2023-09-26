@@ -9,6 +9,7 @@ using Shyryi_WatchForYou.Data;
 using Shyryi_WatchForYou.DTOs;
 using Shyryi_WatchForYou.Repositories;
 using Shyryi_WatchForYou.Services;
+using Shyryi_WatchForYou.ViewModels;
 
 namespace Shyryi_WatchForYou.Models.Repositories
 {
@@ -29,6 +30,22 @@ namespace Shyryi_WatchForYou.Models.Repositories
             {
                 return (from u in DbContextService.DbContext.User
                         where u.Username == username
+                        select u).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Cannot fetch user from the database!");
+                return null;
+            }
+        }
+
+        public static UserDto GetByEmail(string email)
+        {
+            DbContextService.DbContext = new WatchForYouContext();
+            try
+            {
+                return (from u in DbContextService.DbContext.User
+                        where u.Email == email
                         select u).FirstOrDefault();
             }
             catch (Exception)
@@ -81,7 +98,7 @@ namespace Shyryi_WatchForYou.Models.Repositories
             }
         }
 
-        public static UserDto GetBy(int userId)
+        public static UserDto GetById(int userId)
         {
             DbContextService.DbContext = new WatchForYouContext();
             try
@@ -117,7 +134,7 @@ namespace Shyryi_WatchForYou.Models.Repositories
             try
             {
                 List<ThingDto> wholeList = new List<ThingDto>();
-                UserDto user = GetBy(userId);
+                UserDto user = GetById(userId);
                 foreach (var area in AreaRepository.GetAreasByUser(user.Username))
                 {
                     foreach (var thing in ThingRepository.GetThingsByArea(area.Id))

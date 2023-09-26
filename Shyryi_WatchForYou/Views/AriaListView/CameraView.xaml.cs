@@ -1,4 +1,5 @@
-﻿using Shyryi_WatchForYou.ViewModels;
+﻿using Shyryi_WatchForYou.DTOs;
+using Shyryi_WatchForYou.ViewModels;
 using Shyryi_WatchForYou.ViewModels.AriaListViewModels;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,11 @@ namespace Shyryi_WatchForYou.Views.AriaListView
         public CameraView()
         {
             InitializeComponent();
-            this.DataContext = new CameraViewModel();
+        }
+        public CameraView(ThingDto thing)
+        {
+            InitializeComponent();
+            this.DataContext = new CameraViewModel(thing);
         }
     }
 }

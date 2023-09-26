@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:Shyryi_WatchForYou.Views.AriaListView" 
         xmlns:wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
         xmlns:viewModel="clr-namespace:Shyryi_WatchForYou.ViewModels.AriaListViewModels"
-        mc:Ignorable="d"
-        Title="CameraView" Height="450" Width="800">
+        mc:Ignorable="d" Icon="/Resources/Images/HomeView/Logo.png"
+        Title="{Binding TitleName}" Height="400" Width="500">
     <Grid>
         <wpf:WebView2 Source="{Binding WebViewUrl, Mode=OneWay}" />
     </Grid>

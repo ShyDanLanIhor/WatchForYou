@@ -1,7 +1,10 @@
 ﻿using Shyryi_WatchForYou.Commands;
+using Shyryi_WatchForYou.Exceptions;
 using Shyryi_WatchForYou.Mappers;
 using Shyryi_WatchForYou.Models;
+using Shyryi_WatchForYou.Models.Repositories;
 using Shyryi_WatchForYou.Services.ModelServices;
+using Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,7 +18,6 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
         private string _areaName;
         private string _areaDescription;
         private string _areaInfo;
-        private string _areaError;
         private Brush _areaInfoColor;
 
         public string AreaName { get => _areaName;
@@ -43,15 +45,6 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
                 OnPropertyChanged(nameof(AreaInfo));
             }
         }
-        public string AreaError
-        {
-            get => _areaError;
-            set
-            {
-                _areaError = value;
-                OnPropertyChanged(nameof(AreaError));
-            }
-        }
         public Brush AreaInfoColor
         {
             get => _areaInfoColor;
@@ -72,10 +65,7 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
         private bool CanExecuteCreateAreaCommand(object obj)
         {
             bool validData = string.IsNullOrWhiteSpace(
-                AreaName) ||
-                AreaName.Length < 3 ||
-                AreaDescription == null ||
-                AreaDescription.Length < 50 ? false : true;
+                AreaName) || AreaName.Length < 3 ? false : true;
             return validData;
         }
 
@@ -83,6 +73,8 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
         {
             try
             {
+                if (AreaService.CheckIfAreaExist(AreaName, Thread.CurrentPrincipal.Identity.Name))
+                { throw new ExistingDataException("Area name already exist!"); }
                 UserModel user = UserMapper.MapToModel(UserService.
                     GetByUsername(Thread.CurrentPrincipal.Identity.Name));
                 AreaService.CreateArea(AreaMapper.MapToDto(
@@ -91,6 +83,13 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
                 AreaDescription = "";
                 AreaInfoColor = (Brush)App.Current.FindResource("CreateAreaColor");
                 AreaInfo = "Area was created!";
+                await Task.Delay(2000);
+                AreaInfo = "";
+            }
+            catch (InputDataException e)
+            {
+                AreaInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
+                AreaInfo = e.Message;
                 await Task.Delay(2000);
                 AreaInfo = "";
             }

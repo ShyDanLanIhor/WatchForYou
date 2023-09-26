@@ -8,9 +8,10 @@
         xmlns:childViews="clr-namespace:Shyryi_WatchForYou.Views.AriaListView"
         xmlns:childViewModels="clr-namespace:Shyryi_WatchForYou.ViewModels.AriaListViewModels"
         xmlns:viewModel="clr-namespace:Shyryi_WatchForYou.ViewModels"
-        mc:Ignorable="d" Title="MainView" Height="450" Width="800"
+        mc:Ignorable="d" Title="{Binding TitleName}" Height="450" Width="800"
         WindowStartupLocation="CenterScreen" WindowStyle="None"
-        Background="Transparent" AllowsTransparency="True">
+        Background="Transparent" AllowsTransparency="True"
+        Icon="/Resources/Images/AreaMainView/Logo.png">
     
     <Window.Resources>
         <DataTemplate DataType="{x:Type childViewModels:AriaInfoViewModel}">
@@ -60,7 +61,7 @@
                     <StackPanel Orientation="Horizontal"
                                 Height="35"
                                 Margin="15,25,0,40">
-                        <Image Source="/Resources/Images/MainView/Logo.png"/>
+                        <Image Source="/Resources/Images/AreaMainView/Logo.png"/>
                         <TextBlock Text="Watch For You"
                                    Foreground="{StaticResource titleColor2}"
                                    FontFamily="Cambria Math"

@@ -13,6 +13,7 @@ using System.Net;
 using System.Security;
 using System.Security.Principal;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
@@ -49,10 +50,14 @@ namespace Shyryi_WatchForYou.Commands.EnterViewModel
         {
             try
             {
-                if(UserRepository.GetByUsername(_signUpViewModel.Username) != null)
-                {
-                    throw new ExistingUsernameException("Username already exist!");
-                }
+                if(UserService.GetByUsername(_signUpViewModel.Username) != null)
+                { throw new ExistingDataException("Username already exist!"); }
+                if (UserService.GetByEmail(_signUpViewModel.Email) != null)
+                { throw new ExistingDataException("Email already connected!"); }
+                if (Regex.IsMatch(_signUpViewModel.Email, @"^$|^.*@.*\..*$") != true)
+                { throw new InvalidDataInputException("Invalid email input!"); }
+                if (Regex.IsMatch(_signUpViewModel.Username, @"^[a-zA-Z0-9_.-]*(?<!\.)(?<!@)$") != true)
+                { throw new InvalidDataInputException("Invalid username input!"); }
                 UserService.CreateAccount(UserMapper
                     .MapToDto(new UserModel(
                         _signUpViewModel.Username,
@@ -63,7 +68,7 @@ namespace Shyryi_WatchForYou.Commands.EnterViewModel
                 await Task.Delay(2000);
                 _signUpViewModel.SignUpInfo = "";
             }
-            catch (ExistingUsernameException e)
+            catch (InputDataException e)
             {
                 _signUpViewModel.SingUpInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
                 _signUpViewModel.SignUpInfo = e.Message;
