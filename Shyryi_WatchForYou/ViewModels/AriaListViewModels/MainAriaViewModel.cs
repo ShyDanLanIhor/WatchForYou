@@ -23,8 +23,6 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
         private string _areaName;
         private AreaDto currentArea;
 
-        private AreaService areaService = new AreaService();
-
         public ViewModelBase CurrentChildView
         {
             get => _currentChildView;
@@ -78,7 +76,7 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
 
         public MainAriaViewModel(int ariaId)
         {
-            CurrentArea = areaService.GetAreaById(ariaId);
+            CurrentArea = AreaService.GetAreaById(ariaId);
             AreaName = CurrentArea.Name;
 
             ShowAriaInfoViewCommand = new RelayCommand(ExecuteShowAriaInfoViewCommand);

@@ -1,20 +1,20 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Style x:Key="SimpleText" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource SignInViewText}"/>
+    <Style x:Key="SimpleTextTxtBlk" TargetType="TextBlock">
         <Setter Property="FontSize" Value="14" />
         <Setter Property="FontWeight" Value="Medium" />
         <Setter Property="FontFamily" Value="Cambria Math" />
+        <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
-    <Style x:Key="TextBoxTitles" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource SignInViewText}"/>
+    <Style x:Key="TitleTextTxtBlk" TargetType="TextBlock">
         <Setter Property="FontSize" Value="16" />
         <Setter Property="FontWeight" Value="Medium" />
         <Setter Property="FontFamily" Value="Cambria Math" />
+        <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
-    <Style x:Key="FooterText" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource EnterViewFooterText}" />
+    <Style x:Key="FooterTextTxtBlk" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource EnterViewFooterTextTxtBlk}" />
         <Setter Property="FontSize" Value="12" />
         <Setter Property="FontWeight" Value="Medium" />
         <Setter Property="FontFamily" Value="Cambria Math" />

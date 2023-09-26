@@ -21,9 +21,7 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
     public class AreasListViewModel : ViewModelBase
     {
         private ObservableCollection<AreaDto> areas;
-        
-        private AreaService areaService = 
-            new AreaService();
+       
         public ObservableCollection<AreaDto> Areas
         {
             get { return areas; }
@@ -53,7 +51,7 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
             ShowDetailsCommand = new RelayCommand(ShowDetails);
             DeleteCommand = new RelayCommand(Delete);
 
-            areas = new ObservableCollection<AreaDto>(areaService.GetAreasByCurrentUser());
+            areas = new ObservableCollection<AreaDto>(AreaService.GetAreasByCurrentUser());
         }
 
         private async void ShowDetails(object parameter)
@@ -78,7 +76,7 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
         {
             if (parameter is AreaDto area)
             {
-                areaService.RemoveArea(area.Id);
+                AreaService.RemoveArea(area.Id);
                 areas.Remove(area);
             }
         }

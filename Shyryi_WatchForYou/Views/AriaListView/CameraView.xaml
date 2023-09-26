@@ -1,0 +1,14 @@
+﻿<Window x:Class="Shyryi_WatchForYou.Views.AriaListView.CameraView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Shyryi_WatchForYou.Views.AriaListView" 
+        xmlns:wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+        xmlns:viewModel="clr-namespace:Shyryi_WatchForYou.ViewModels.AriaListViewModels"
+        mc:Ignorable="d"
+        Title="CameraView" Height="450" Width="800">
+    <Grid>
+        <wpf:WebView2 Source="{Binding WebViewUrl, Mode=OneWay}" />
+    </Grid>
+</Window>

@@ -6,7 +6,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.VisualBasic.ApplicationServices;
+using Shyryi_WatchForYou.Data;
+using Shyryi_WatchForYou.DTOs;
 using Shyryi_WatchForYou.Services;
+using Shyryi_WatchForYou.Services.ModelServices;
 using Shyryi_WatchForYou.Stores;
 using Shyryi_WatchForYou.ViewModels;
 using Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel;
@@ -27,7 +31,7 @@ namespace Shyryi_WatchForYou
             _navigationStore = new NavigationStore();
         }
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override void OnStartup(System.Windows.StartupEventArgs e)
         {
             _navigationStore.CurrentViewModel = CreateSignInViewModel();
 
@@ -51,6 +55,7 @@ namespace Shyryi_WatchForYou
 
             base.OnStartup(e);
         }
+
 
         private SignUpViewModel CreateSignUpViewModel()
         { return new SignUpViewModel(new NavigationService(_navigationStore, CreateSignInViewModel)); }

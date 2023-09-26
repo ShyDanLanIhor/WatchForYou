@@ -1,6 +1,8 @@
 ﻿using Shyryi_WatchForYou.DTOs;
+using Shyryi_WatchForYou.Exceptions;
 using Shyryi_WatchForYou.Mappers;
 using Shyryi_WatchForYou.Models;
+using Shyryi_WatchForYou.Models.Repositories;
 using Shyryi_WatchForYou.Services.ModelServices;
 using Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel;
 using System;
@@ -8,10 +10,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Net;
+using System.Security;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace Shyryi_WatchForYou.Commands.EnterViewModel
 {
@@ -19,13 +23,10 @@ namespace Shyryi_WatchForYou.Commands.EnterViewModel
     {
         private readonly SignUpViewModel _signUpViewModel;
 
-        private UserService userService;
         public RegisterCommand(SignUpViewModel signUpViewModel)
         {
 
             _signUpViewModel = signUpViewModel;
-
-            userService = new UserService();
 
             _signUpViewModel.PropertyChanged += OnViewModelPropertyChanged;
         }
@@ -42,11 +43,40 @@ namespace Shyryi_WatchForYou.Commands.EnterViewModel
 
         public override void Execute(object parameter)
         {
-            userService.CreateAccount(UserMapper
-                .MapToDto(new UserModel(
-                    _signUpViewModel.Username,
-                    new NetworkCredential(string.Empty, _signUpViewModel.Password).Password,
-                    _signUpViewModel.Email)));
+            ExecuteRegisterAsync();
+        }
+        private async void ExecuteRegisterAsync()
+        {
+            try
+            {
+                if(UserRepository.GetByUsername(_signUpViewModel.Username) != null)
+                {
+                    throw new ExistingUsernameException("Username already exist!");
+                }
+                UserService.CreateAccount(UserMapper
+                    .MapToDto(new UserModel(
+                        _signUpViewModel.Username,
+                        new NetworkCredential(string.Empty, _signUpViewModel.Password).Password,
+                        _signUpViewModel.Email)));
+                _signUpViewModel.SingUpInfoColor = (Brush)App.Current.FindResource("SignUpColor");
+                _signUpViewModel.SignUpInfo = "Account was created!";
+                await Task.Delay(2000);
+                _signUpViewModel.SignUpInfo = "";
+            }
+            catch (ExistingUsernameException e)
+            {
+                _signUpViewModel.SingUpInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
+                _signUpViewModel.SignUpInfo = e.Message;
+                await Task.Delay(2000);
+                _signUpViewModel.SignUpInfo = "";
+            }
+            catch (Exception)
+            {
+                _signUpViewModel.SingUpInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
+                _signUpViewModel.SignUpInfo = "Account was not created!";
+                await Task.Delay(2000);
+                _signUpViewModel.SignUpInfo = "";
+            }
         }
 
         public override bool CanExecute(object parameter)

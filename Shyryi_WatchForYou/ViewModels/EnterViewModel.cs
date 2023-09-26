@@ -8,7 +8,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Shyryi_WatchForYou.Models.Repositories;
-using Shyryi_WatchForYou.Repositories.IRepositories;
 using Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel;
 using Shyryi_WatchForYou.Stores;
 

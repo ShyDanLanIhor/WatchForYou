@@ -11,16 +11,13 @@ using System.Windows;
 
 namespace Shyryi_WatchForYou.Services.ModelServices
 {
-    public class AreaService
+    public static class AreaService
     {
-        private readonly UserRepository userRepository = new UserRepository();
-        private readonly AreaRepository areaRepository = new AreaRepository();
-
-        public List<AreaDto> GetAreasByCurrentUser()
+        public static List<AreaDto> GetAreasByCurrentUser()
         {
-            UserDto user = userRepository.GetByUsername(Thread.CurrentPrincipal.Identity.Name);
-            List<AreaDto> values = areaRepository.GetAreasByUser(user.Username);
-            
+            UserDto user = UserRepository.GetByUsername(Thread.CurrentPrincipal.Identity.Name);
+            List<AreaDto> values = AreaRepository.GetAreasByUser(user.Username);
+
             foreach (AreaDto value in values)
             {
                 value.User = user;
@@ -28,28 +25,29 @@ namespace Shyryi_WatchForYou.Services.ModelServices
             return values;
         }
 
-        public bool CreateArea(AreaDto area)
+        public static bool CreateArea(AreaDto area)
         {
             string username = Thread.CurrentPrincipal.Identity.Name;
             area.User = new UserDto { Username = username };
-            return areaRepository.AddArea(area);
+            return AreaRepository.AddArea(area);
         }
 
-        public bool RemoveArea(int areaId)
+        public static bool RemoveArea(int areaId)
         {
-            return areaRepository.RemoveAreaById(areaId);
+            return AreaRepository.RemoveAreaById(areaId);
         }
-        public bool UpdateArea(int areaId, AreaDto updatedArea)
+
+        public static bool UpdateArea(int areaId, AreaDto updatedArea)
         {
             try
             {
-                var existingArea = areaRepository.GetAreaById(areaId);
+                var existingArea = AreaRepository.GetAreaById(areaId);
                 if (existingArea != null)
                 {
                     existingArea.Name = updatedArea.Name;
                     existingArea.Description = updatedArea.Description;
 
-                    areaRepository.UpdateArea(existingArea);
+                    AreaRepository.UpdateArea(existingArea);
                     return true;
                 }
                 else
@@ -64,12 +62,13 @@ namespace Shyryi_WatchForYou.Services.ModelServices
                 return false;
             }
         }
-        public AreaDto GetAreaById(int areaId)
+
+        public static AreaDto GetAreaById(int areaId)
         {
             try
             {
-                AreaDto area = areaRepository.GetAreaById(areaId);
-                area.User = userRepository.GetBy(area.UserId);
+                AreaDto area = AreaRepository.GetAreaById(areaId);
+                area.User = UserRepository.GetBy(area.UserId);
                 return area;
             }
             catch (Exception)
@@ -80,3 +79,4 @@ namespace Shyryi_WatchForYou.Services.ModelServices
         }
     }
 }
+

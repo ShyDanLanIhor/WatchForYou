@@ -26,10 +26,6 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
         private bool _isVideo;
         private Brush _thingInfoColor;
 
-        private AreaService areaService =
-            new AreaService();
-        private ThingService thingService = 
-            new ThingService();
 
         public string ThingName
         {
@@ -118,21 +114,21 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
             try
             {
 
-                thingService.CreateThing(ThingMapper.MapToDto(new ThingModel(
+                ThingService.CreateThing(ThingMapper.MapToDto(new ThingModel(
                     ThingName, ThingIp, IsVideo, false, ThingDescription, areaId,
-                    AreaMapper.MapToModel( areaService.GetAreaById(areaId)))));
+                    AreaMapper.MapToModel(AreaService.GetAreaById(areaId)))));
                 IsVideo = false;
                 ThingName = "";
                 ThingDescription = "";
-                ThingInfoColor = (Brush)App.Current.FindResource("CreateAreaColor");
-                ThingInfo = "Thing was created!";
+                ThingInfoColor = (Brush)App.Current.FindResource("ConnectDeviceColor");
+                ThingInfo = "Device was connected!";
                 await Task.Delay(2000);
                 ThingInfo = "";
             }
             catch (Exception)
             {
-                ThingInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
-                ThingInfo = "Thing was not created!";
+                ThingInfoColor = (Brush)App.Current.FindResource("ConnectDeviceColor");
+                ThingInfo = "Device was not connected!";
                 await Task.Delay(2000);
                 ThingInfo = "";
             }

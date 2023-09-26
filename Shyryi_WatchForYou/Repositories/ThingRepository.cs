@@ -1,6 +1,7 @@
 ﻿using Shyryi_WatchForYou.Data;
 using Shyryi_WatchForYou.DTOs;
 using Shyryi_WatchForYou.Models.Repositories;
+using Shyryi_WatchForYou.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +11,14 @@ using System.Windows;
 
 namespace Shyryi_WatchForYou.Repositories
 {
-    public class ThingRepository : RepositoryBase
+    public static class ThingRepository
     {
-        private readonly WatchForYouContext _dbContext = new WatchForYouContext();
-
-        public List<ThingDto> GetThingsByArea(int areaId)
+        public static List<ThingDto> GetThingsByArea(int areaId)
         {
+            DbContextService.DbContext = new WatchForYouContext();
             try
             {
-                return _dbContext.Thing.Where(t => t.Area.Id == areaId).ToList();
+                return DbContextService.DbContext.Thing.Where(t => t.Area.Id == areaId).ToList();
             }
             catch (Exception)
             {
@@ -27,11 +27,12 @@ namespace Shyryi_WatchForYou.Repositories
             }
         }
 
-        public ThingDto GetThingById(int thingId)
+        public static ThingDto GetThingById(int thingId)
         {
+            DbContextService.DbContext = new WatchForYouContext();
             try
             {
-                return _dbContext.Thing.FirstOrDefault(t => t.Id == thingId);
+                return DbContextService.DbContext.Thing.FirstOrDefault(t => t.Id == thingId);
             }
             catch (Exception)
             {
@@ -40,14 +41,15 @@ namespace Shyryi_WatchForYou.Repositories
             }
         }
 
-        public bool AddThing(ThingDto thing)
+        public static bool AddThing(ThingDto thing)
         {
-            var area = _dbContext.Area.SingleOrDefault(a => a.Id == thing.Area.Id);
+            DbContextService.DbContext = new WatchForYouContext();
+            var area = DbContextService.DbContext.Area.SingleOrDefault(a => a.Id == thing.Area.Id);
             if (area != null)
             {
                 thing.Area = area;
-                _dbContext.Thing.Add(thing);
-                _dbContext.SaveChanges();
+                DbContextService.DbContext.Thing.Add(thing);
+                DbContextService.DbContext.SaveChanges();
                 return true;
             }
             else
@@ -57,11 +59,12 @@ namespace Shyryi_WatchForYou.Repositories
             }
         }
 
-        public bool UpdateThing(int thingId, ThingDto updatedThing)
+        public static bool UpdateThing(int thingId, ThingDto updatedThing)
         {
+            DbContextService.DbContext = new WatchForYouContext();
             try
             {
-                var existingThing = _dbContext.Thing.FirstOrDefault(t => t.Id == thingId);
+                var existingThing = DbContextService.DbContext.Thing.FirstOrDefault(t => t.Id == thingId);
                 if (existingThing != null)
                 {
                     existingThing.Name = updatedThing.Name;
@@ -71,8 +74,8 @@ namespace Shyryi_WatchForYou.Repositories
                     existingThing.Description = updatedThing.Description;
                     existingThing.Area = updatedThing.Area;
 
-                    _dbContext.Thing.Update(existingThing);
-                    _dbContext.SaveChanges();
+                    DbContextService.DbContext.Thing.Update(existingThing);
+                    DbContextService.DbContext.SaveChanges();
                     return true;
                 }
                 else
@@ -88,15 +91,16 @@ namespace Shyryi_WatchForYou.Repositories
             }
         }
 
-        public bool RemoveThingById(int thingId)
+        public static bool RemoveThingById(int thingId)
         {
+            DbContextService.DbContext = new WatchForYouContext();
             try
             {
-                var thing = _dbContext.Thing.Find(thingId);
+                var thing = DbContextService.DbContext.Thing.Find(thingId);
                 if (thing != null)
                 {
-                    _dbContext.Thing.Remove(thing);
-                    _dbContext.SaveChanges();
+                    DbContextService.DbContext.Thing.Remove(thing);
+                    DbContextService.DbContext.SaveChanges();
                     return true;
                 }
                 else
@@ -113,3 +117,4 @@ namespace Shyryi_WatchForYou.Repositories
         }
     }
 }
+

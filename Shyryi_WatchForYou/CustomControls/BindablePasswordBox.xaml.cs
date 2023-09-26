@@ -23,6 +23,7 @@ namespace Shyryi_WatchForYou.CustomControls
     {
         public static readonly DependencyProperty PasswordProperty = DependencyProperty.
             Register("Password", typeof(SecureString), typeof(BindablePasswordBox));
+        public static readonly DependencyProperty ForegroundColorProperty = DependencyProperty.Register("ForegroundColor", typeof(Brush), typeof(BindablePasswordBox));
 
         public SecureString Password
         {
@@ -31,6 +32,11 @@ namespace Shyryi_WatchForYou.CustomControls
             {
                 SetValue(PasswordProperty, value);
             }
+        }
+        public Brush ForegroundColor
+        {
+            get => (Brush)GetValue(ForegroundColorProperty);
+            set => SetValue(ForegroundColorProperty, value);
         }
         public BindablePasswordBox()
         {

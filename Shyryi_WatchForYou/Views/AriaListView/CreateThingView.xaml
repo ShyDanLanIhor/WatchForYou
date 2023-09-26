@@ -12,21 +12,21 @@
             <StackPanel Orientation="Horizontal">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Name of new security object"
-                               Style="{StaticResource TextBoxTitles}"
+                               Style="{StaticResource TitleTextTxtBlk}"
                                Margin="0,20,0,0"
                                HorizontalAlignment="Center"
-                               Foreground="{StaticResource CreateAreaColor}"/>
+                               Foreground="{StaticResource ConnectDeviceColor}"/>
 
                     <StackPanel Orientation="Horizontal" 
                                 HorizontalAlignment="Center">
                         <fa:IconImage Icon="Shield" 
                                       Style="{StaticResource menuButtonIcon}"
-                                      Foreground="{StaticResource CreateAreaColor}"/>
+                                      Foreground="{StaticResource ConnectDeviceColor}"/>
                         <TextBox x:Name="tbxNameOfNewObject"
-                                 Foreground="{StaticResource CreateAreaColor}"
+                                 Foreground="{StaticResource ConnectDeviceColor}"
                                  Width="180"
                                  Text="{Binding ThingName, UpdateSourceTrigger=PropertyChanged}"
-                                 Style="{StaticResource EnterViewTextBox}"
+                                 Style="{StaticResource UnderLineTxtBox}"
                                  Margin="0,5,0,0"
                                  Background="Transparent">
                         </TextBox>
@@ -35,21 +35,21 @@
 
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="IP of new security object"
-                               Style="{StaticResource TextBoxTitles}"
+                               Style="{StaticResource TitleTextTxtBlk}"
                                Margin="0,20,0,0"
                                HorizontalAlignment="Center"
-                               Foreground="{StaticResource CreateAreaColor}"/>
+                               Foreground="{StaticResource ConnectDeviceColor}"/>
 
                     <StackPanel Orientation="Horizontal" 
                                 HorizontalAlignment="Center">
                         <fa:IconImage Icon="Passport" 
                                       Style="{StaticResource menuButtonIcon}"
-                                      Foreground="{StaticResource CreateAreaColor}"/>
+                                      Foreground="{StaticResource ConnectDeviceColor}"/>
                         <TextBox x:Name="tbxIpOfNewObject"
-                                 Foreground="{StaticResource CreateAreaColor}"
+                                 Foreground="{StaticResource ConnectDeviceColor}"
                                  Width="180"
                                  Text="{Binding ThingIp, UpdateSourceTrigger=PropertyChanged}"
-                                 Style="{StaticResource EnterViewTextBox}"
+                                 Style="{StaticResource UnderLineTxtBox}"
                                  Margin="0,5,0,0"
                                  Background="Transparent">
                         </TextBox>
@@ -60,19 +60,21 @@
             
 
             <TextBlock Text="Description of new security object"
-                       Style="{StaticResource TextBoxTitles}"
+                       Style="{StaticResource TitleTextTxtBlk}"
                        Margin="0,20,0,0"
-                       Foreground="{StaticResource CreateAreaColor}"/>
+                       Foreground="{StaticResource ConnectDeviceColor}"/>
 
             <TextBox x:Name="tbxDescriptionOfNewObject"
                      Text="{Binding ThingDescription, UpdateSourceTrigger=PropertyChanged}"
-                     Style="{StaticResource EnterViewTextBox}"
+                     Foreground="{StaticResource ConnectDeviceColor}"
+                     Style="{StaticResource UnderLineTxtBox}"
                      Height="100"
                      Margin="0,5,0,0"
                      TextWrapping="Wrap"
                      HorizontalContentAlignment="Left"
                      VerticalContentAlignment="Top"
-                     Background="#24105F">
+                     Background="#24105F"
+                     AcceptsReturn="True">
             </TextBox>
 
             <StackPanel Orientation="Horizontal" 
@@ -80,20 +82,20 @@
                         Margin="10">
                 <CheckBox Content="Available video surveillance"
                           FontFamily="Cambria Math"
-                          Foreground="{StaticResource CreateAreaColor}"
+                          Foreground="{StaticResource ConnectDeviceColor}"
                           IsChecked="{Binding IsVideo}"
                           Margin="0,5,0,0">
                     <CheckBox.Style>
                         <Style TargetType="CheckBox">
                             <Setter Property="Background" Value="Transparent" />
-                            <Setter Property="BorderBrush" Value="{StaticResource CreateAreaColor}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource ConnectDeviceColor}" />
                             <Setter Property="BorderThickness" Value="2" />
                             <Setter Property="Padding" Value="5" />
                             <Setter Property="FontSize" Value="14" />
                             <Setter Property="Foreground" Value="Black" />
                             <Style.Triggers>
                                 <Trigger Property="IsChecked" Value="True">
-                                    <Setter Property="Background" Value="{StaticResource CreateAreaColor}" />
+                                    <Setter Property="Background" Value="{StaticResource ConnectDeviceColor}" />
                                     <Setter Property="Foreground" Value="White" />
                                 </Trigger>
                             </Style.Triggers>
@@ -103,14 +105,14 @@
             </StackPanel>
 
             <TextBlock Text="{Binding ThingInfo}"
-                       Style="{StaticResource TextBoxTitles}"
+                       Style="{StaticResource TitleTextTxtBlk}"
                        Margin="0,5,0,0"
                        HorizontalAlignment="Center"
                        Foreground="{Binding ThingInfoColor}"/>
             <Button x:Name="btnCreateThing"
                     Command="{Binding CreateThingCommand}"
                     Style="{StaticResource EnterViewButton}"
-                    Content="Create new thing"
+                    Content="Connect new object"
                     FontSize="14"
                     Cursor="Hand"
                     Margin="0,5,0,0"

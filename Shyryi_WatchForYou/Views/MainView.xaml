@@ -73,7 +73,7 @@
                     </StackPanel>
 
                     <RadioButton Style="{StaticResource menuButton}"
-                                 Tag="{StaticResource color1}"
+                                 Tag="{StaticResource HomeColor}"
                                  Command="{Binding ShowHomeViewCommand}">
 
                         <StackPanel Orientation="Horizontal">
@@ -93,7 +93,7 @@
                     </RadioButton>
 
                     <RadioButton Style="{StaticResource menuButton}"
-                                 Tag="{StaticResource color6}"
+                                 Tag="{StaticResource AreasListColor}"
                                  Command="{Binding ShowAreasListViewCommand}">
 
                         <StackPanel Orientation="Horizontal">
@@ -103,7 +103,7 @@
                     </RadioButton>
 
                     <RadioButton Style="{StaticResource menuButton}"
-                                 Tag="{StaticResource color5}"
+                                 Tag="{StaticResource SettingsColor}"
                                  Command="{Binding ShowSettingsViewCommand}">
 
                         <StackPanel Orientation="Horizontal">
