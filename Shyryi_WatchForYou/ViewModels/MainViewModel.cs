@@ -18,6 +18,11 @@ using Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel;
 using System.Security.Principal;
 using Shyryi_WatchForYou.Services;
 using Shyryi_WatchForYou.Data;
+using Shyryi_WatchForYou.ViewModels.AriaListViewModels;
+using Shyryi_WatchForYou.Views.AriaListView;
+using Shyryi_WatchForYou.Repositories;
+using Shyryi_WatchForYou.Mappers;
+using Shyryi_WatchForYou.Models;
 
 namespace Shyryi_WatchForYou.ViewModels
 {
@@ -80,7 +85,9 @@ namespace Shyryi_WatchForYou.ViewModels
         {
             currentUserName = Thread.CurrentPrincipal.Identity.Name;
             UserDto user = UserService.GetByUsername(currentUserName);
-
+            CurrentChildView = new HomeViewModel();
+            Caption = "Home Page";
+            Icon = IconChar.Home;
             if (user != null)
             {
                 CurrentUserAccount = new UserAccountEntity(user.Username, $"Welcome" +
@@ -94,28 +101,33 @@ namespace Shyryi_WatchForYou.ViewModels
             ShowAreasListViewCommand = new RelayCommand(ExecuteShowAreasListViewCommand);
             ShowSettingsViewCommand = new RelayCommand(ExecuteShowSettingsViewCommand);
 
-            cancellationTokenSource = new CancellationTokenSource();
-            Task.Run(() => CheckIfAlerted(cancellationTokenSource.Token), cancellationTokenSource.Token);
+            Task.Run(CheckIfAlerted);
         }
-        private async Task CheckIfAlerted(CancellationToken cancellationToken)
+
+        private async void CheckIfAlerted()
         {
-            while (!cancellationToken.IsCancellationRequested)
+            while (true)
             {
                 UserDto user = UserService.GetByUsername(currentUserName);
                 currentUserName = Thread.CurrentPrincipal.Identity.Name;
 
-                DbContextService.RefreshDataFromDatabase();
                 List<ThingDto> things = UserService.GetAllThingsByUser(user.Id);
                 foreach (var thing in things)
                 {
                     if (thing.IsAlerted)
                     {
-                        MessageBox.Show($"Thing {thing.Id} is alerted.");
+                        MessageBoxViewModel.Show(AreaRepository.GetAreaById(thing.AreaId).Name + " " +
+                            thing.Name.ToLower() + " is alerted.");
+                        ThingService.UpdateThing(thing.Id, ThingMapper.MapToDto(new ThingModel(
+                            thing.Id, thing.Name, thing.Ip, thing.IsVideo, false, thing.Description, thing.AreaId,
+                            AreaMapper.MapToModel(AreaService.GetAreaById(thing.AreaId)))));
                     }
                 }
-                await Task.Delay(TimeSpan.FromSeconds(240), cancellationToken);
+
+                await Task.Delay(5000);
             }
         }
+
         public void StopChecking()
         {
             cancellationTokenSource.Cancel();

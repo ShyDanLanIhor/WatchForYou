@@ -1,15 +1,21 @@
 ﻿using Shyryi_WatchForYou.Commands;
 using Shyryi_WatchForYou.DTOs;
+using Shyryi_WatchForYou.Exceptions;
 using Shyryi_WatchForYou.Mappers;
 using Shyryi_WatchForYou.Models;
 using Shyryi_WatchForYou.Repositories;
 using Shyryi_WatchForYou.Services.ModelServices;
+using Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel;
 using Shyryi_WatchForYou.Views.AriaListView;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Common;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Reflection.Metadata;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -47,7 +53,7 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
 
         public ThingsListViewModel(int areaId)
         {
-            ShowCommand = new RelayCommand(ExecuteShowCommand);
+            ShowCommand = new RelayCommand(ExecuteShowCommand, CanExecuteShowCommand);
             ChangeCommand = new RelayCommand(ExecuteChangeCommand);
             DeleteCommand = new RelayCommand(ExecuteDeleteCommand);
 
@@ -58,26 +64,21 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
         {
             if (parameter is ThingDto thing)
             {
-                // Створюємо ViewModel для нового вікна
-                CameraViewModel.currentWebViewUrl = thing.Ip;
-                var mainAreaViewModel = new CameraViewModel();
+                var mainAreaViewModel = new CameraViewModel(thing);
 
-                // Створюємо нове вікно та встановлюємо його ViewModel
-                var areaAreaWindow = new CameraView()
+                var areaAreaWindow = new CameraView(thing)
                 {
                     DataContext = mainAreaViewModel
                 };
 
-                // Асинхронно показуємо вікно
                 await ShowWindowAsync(areaAreaWindow);
             }
         }
+
         private async Task ShowWindowAsync(Window window)
         {
-            // Використовуємо TaskCompletionSource для очікування закриття вікна
             var tcs = new TaskCompletionSource<bool>();
 
-            // Додаємо обробник події закриття вікна
             EventHandler handler = null;
             handler = (s, e) =>
             {
@@ -92,13 +93,34 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
             await tcs.Task;
         }
 
+        private bool CanExecuteShowCommand(object obj)
+        {
+            if (obj is ThingDto thing)
+            {
+                return thing.IsVideo == true;
+            }
+            return false;
+        }
         private void ExecuteChangeCommand(object parameter)
         {
             if (parameter is ThingDto thing)
             {
-                ThingService.UpdateThing(thing.Id, ThingMapper.MapToDto(new ThingModel(
-                    thing.Id, thing.Name, thing.Ip, thing.IsVideo, thing.IsAlerted, thing.Description, thing.AreaId,
-                    AreaMapper.MapToModel(AreaService.GetAreaById(thing.AreaId)))));
+                try
+                {
+                    if (Regex.IsMatch(thing.Ip, @"^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$") != true)
+                    { throw new InvalidDataInputException("Invalid device IP input!"); }
+                    ThingService.UpdateThing(thing.Id, ThingMapper.MapToDto(new ThingModel(
+                        thing.Id, thing.Name, thing.Ip, thing.IsVideo, thing.IsAlerted, thing.Description, thing.AreaId,
+                        AreaMapper.MapToModel(AreaService.GetAreaById(thing.AreaId)))));
+                }
+                catch (InputDataException e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Device was not connected!");
+                }
             }
         }
 

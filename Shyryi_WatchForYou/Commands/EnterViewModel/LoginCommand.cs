@@ -13,6 +13,9 @@ using System.ComponentModel;
 using Shyryi_WatchForYou.Services.ModelServices;
 using System.Windows;
 using Shyryi_WatchForYou.Models;
+using Shyryi_WatchForYou.Exceptions;
+using System.Text.RegularExpressions;
+using System.Windows.Media;
 
 namespace Shyryi_WatchForYou.Commands.EnterViewModel
 {
@@ -41,7 +44,7 @@ namespace Shyryi_WatchForYou.Commands.EnterViewModel
         {
             Thread.CurrentPrincipal = new GenericPrincipal(
                 new GenericIdentity(_signInViewModel.Username), null);
-            ExecuteLogInAsync("* Invalid username or password");
+            ExecuteLogInAsync();
         }
 
         public override bool CanExecute(object parameter)
@@ -54,16 +57,29 @@ namespace Shyryi_WatchForYou.Commands.EnterViewModel
             return validData;
         }
 
-        private async void ExecuteLogInAsync(string errorMessage)
+        private async void ExecuteLogInAsync()
         {
-            if (UserService.AuthenticateUser(new System.Net.NetworkCredential(
-                _signInViewModel.Username, _signInViewModel.Password)))
+            try
             {
-                App.Current.MainWindow.Visibility = Visibility.Collapsed;
+                if (UserService.AuthenticateUser(new System.Net.NetworkCredential(
+                    _signInViewModel.Username, _signInViewModel.Password)))
+                {
+                    App.Current.MainWindow.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    throw new ExistingDataException("* Invalid username or password");
+                }
             }
-            else
+            catch (InputDataException e)
             {
-                _signInViewModel.ErrorMessage = errorMessage;
+                _signInViewModel.ErrorMessage = e.Message;
+                await Task.Delay(2000);
+                _signInViewModel.ErrorMessage = "";
+            }
+            catch (Exception)
+            {
+                _signInViewModel.ErrorMessage = "Can not connect to database!";
                 await Task.Delay(2000);
                 _signInViewModel.ErrorMessage = "";
             }

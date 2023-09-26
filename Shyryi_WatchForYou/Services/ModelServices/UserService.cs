@@ -7,6 +7,7 @@ using Shyryi_WatchForYou.Data;
 using Shyryi_WatchForYou.DTOs;
 using Shyryi_WatchForYou.Models;
 using Shyryi_WatchForYou.Models.Repositories;
+using Shyryi_WatchForYou.ViewModels;
 
 namespace Shyryi_WatchForYou.Services.ModelServices
 {
@@ -22,6 +23,18 @@ namespace Shyryi_WatchForYou.Services.ModelServices
             try
             {
                 return UserRepository.GetByUsername(username);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Cannot fetch user!");
+                return null;
+            }
+        }
+        public static UserDto GetByEmail(string email)
+        {
+            try
+            {
+                return UserRepository.GetByEmail(email);
             }
             catch (Exception)
             {
@@ -61,7 +74,7 @@ namespace Shyryi_WatchForYou.Services.ModelServices
         {
             try
             {
-                var existingUser = UserRepository.GetBy(userId);
+                var existingUser = UserRepository.GetById(userId);
                 if (existingUser != null)
                 {
                     existingUser.Username = updatedUser.Username;

@@ -2,6 +2,7 @@
 using Shyryi_WatchForYou.DTOs;
 using Shyryi_WatchForYou.Models.Repositories;
 using Shyryi_WatchForYou.Services;
+using Shyryi_WatchForYou.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,6 +84,32 @@ namespace Shyryi_WatchForYou.Repositories
             {
                 MessageBox.Show("Cannot fetch area from the database!");
                 return null;
+            }
+        }
+        public static AreaDto GetAreaByName(string areaName)
+        {
+            DbContextService.DbContext = new WatchForYouContext();
+            try
+            {
+                return DbContextService.DbContext.Area.FirstOrDefault(a => a.Name == areaName);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Cannot fetch area from the database!");
+                return null;
+            }
+        }
+        public static bool CheckAreaByName(string areaName)
+        {
+            DbContextService.DbContext = new WatchForYouContext();
+            try
+            {
+                return DbContextService.DbContext.Area.Any(a => a.Name == areaName);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Cannot fetch area from the database!");
+                return false;
             }
         }
 

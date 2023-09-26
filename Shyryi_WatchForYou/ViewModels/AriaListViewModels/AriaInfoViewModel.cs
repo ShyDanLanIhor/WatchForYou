@@ -1,7 +1,9 @@
 ﻿using Shyryi_WatchForYou.Commands;
 using Shyryi_WatchForYou.DTOs;
+using Shyryi_WatchForYou.Exceptions;
 using Shyryi_WatchForYou.Mappers;
 using Shyryi_WatchForYou.Models;
+using Shyryi_WatchForYou.Repositories;
 using Shyryi_WatchForYou.Services.ModelServices;
 using System;
 using System.Collections.Generic;
@@ -105,12 +107,22 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
         {
             try
             {
+                if (AreaService.CheckIfAreaExist(AreaName, Thread.CurrentPrincipal.Identity.Name) &&
+                    AreaName != CurrentArea.Name)
+                { throw new ExistingDataException("Area name already exist!"); }
                 AreaService.UpdateArea(CurrentArea.Id, AreaMapper.MapToDto( new AreaModel(
                     CurrentArea.Id, AreaName, AreaDescription, CurrentArea.UserId, UserMapper.MapToModel(
                     UserService.GetByUsername(Thread.CurrentPrincipal.Identity.Name)))));
                 this.currentMainAriaViewModel.AreaName = AreaName;
                 AreaInfoColor = (Brush)App.Current.FindResource("AreaInfoColor");
                 AreaInfo = "Area was changed!";
+                await Task.Delay(2000);
+                AreaInfo = "";
+            }
+            catch (InputDataException e)
+            {
+                AreaInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
+                AreaInfo = e.Message;
                 await Task.Delay(2000);
                 AreaInfo = "";
             }

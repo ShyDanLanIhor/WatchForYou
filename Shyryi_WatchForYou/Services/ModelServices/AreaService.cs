@@ -1,6 +1,7 @@
 ﻿using Shyryi_WatchForYou.DTOs;
 using Shyryi_WatchForYou.Models.Repositories;
 using Shyryi_WatchForYou.Repositories;
+using Shyryi_WatchForYou.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,13 +69,31 @@ namespace Shyryi_WatchForYou.Services.ModelServices
             try
             {
                 AreaDto area = AreaRepository.GetAreaById(areaId);
-                area.User = UserRepository.GetBy(area.UserId);
+                area.User = UserRepository.GetById(area.UserId);
                 return area;
             }
             catch (Exception)
             {
-                MessageBox.Show("Cannot fetch area by ID!");
+                MessageBox.Show("Cannot fetch area by Name!");
                 return null;
+            }
+        }
+        public static bool CheckIfAreaExist(string areaName, string userName)
+        {
+            try
+            {
+                bool check = false;
+                List<AreaDto> areas = AreaRepository.GetAreasByUser(userName);
+                foreach(var area in areas)
+                {
+                    if (area.Name == areaName) { check = true; }
+                }
+                return AreaRepository.GetAreaByName(areaName) != null && check;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Cannot fetch area by ID!");
+                return false;
             }
         }
     }

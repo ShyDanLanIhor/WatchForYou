@@ -8,6 +8,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Resources\Images\AreaMainView\**" />
+    <Compile Remove="Resources\Images\HomeView\**" />
+    <EmbeddedResource Remove="Resources\Images\AreaMainView\**" />
+    <EmbeddedResource Remove="Resources\Images\HomeView\**" />
+    <EntityDeploy Remove="Resources\Images\AreaMainView\**" />
+    <EntityDeploy Remove="Resources\Images\HomeView\**" />
+    <None Remove="Resources\Images\AreaMainView\**" />
+    <None Remove="Resources\Images\HomeView\**" />
+    <Page Remove="Resources\Images\AreaMainView\**" />
+    <Page Remove="Resources\Images\HomeView\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Resources\Images\EnterView\Background.png" />
     <None Remove="Resources\Images\MainView\Logo.png" />
     <None Remove="Resources\Images\MainView\ProfilePicture.jpg" />
@@ -18,6 +31,14 @@
     <None Remove="Resources\Images\SignUpView\HomeSafety.png" />
     <None Remove="Resources\Images\SignUpView\PasswordIcon.png" />
     <None Remove="Resources\Images\SignUpView\UserIcon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Images\HomeView\Logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Images\AreaMainView\Logo.png" />
   </ItemGroup>
 
   <ItemGroup>

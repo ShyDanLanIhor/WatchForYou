@@ -21,6 +21,7 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
         private string _caption;
         private IconChar _icon;
         private string _areaName;
+        private string _titleName;
         private AreaDto currentArea;
 
         public ViewModelBase CurrentChildView
@@ -59,6 +60,18 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
                 OnPropertyChanged(nameof(AreaName));
             }
         }
+        public string TitleName
+        {
+            get { return _titleName; }
+            set
+            {
+                if (_titleName != value)
+                {
+                    _titleName = value;
+                    OnPropertyChanged(nameof(TitleName));
+                }
+            }
+        }
         public AreaDto CurrentArea
         {
             get { return currentArea; }
@@ -78,6 +91,8 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
         {
             CurrentArea = AreaService.GetAreaById(ariaId);
             AreaName = CurrentArea.Name;
+
+            TitleName = CurrentArea.Name + " view";
 
             ShowAriaInfoViewCommand = new RelayCommand(ExecuteShowAriaInfoViewCommand);
             ShowCreateThingViewCommand = new RelayCommand(ExecuteShowCreateThingViewCommand);
