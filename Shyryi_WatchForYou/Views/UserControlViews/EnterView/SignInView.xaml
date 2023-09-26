@@ -16,18 +16,20 @@
                Height="200" Width="200"/>
 
         <TextBlock Text="A secure home is where dreams flourish and hearts find peace."
-                   Style="{StaticResource SimpleText}"
-                   TextWrapping="Wrap"
+                   Style="{StaticResource SimpleTextTxtBlk}"
+                   Foreground="{StaticResource SignInColor}"
                    TextAlignment="Center"
                    Margin="0,5,0,0"/>
 
         <TextBlock Text="Username"
-                   Style="{StaticResource TextBoxTitles}"
+                   Foreground="{StaticResource SignInColor}"
+                   Style="{StaticResource TitleTextTxtBlk}"
                    Margin="0,20,0,0"/>
 
         <TextBox x:Name="tbxUser"
+                 Foreground="{StaticResource SignInColor}"
                  Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
-                 Style="{StaticResource EnterViewTextBox}"
+                 Style="{StaticResource UnderLineTxtBox}"
                  Margin="0,5,0,0"
                  Padding="30,0,0,0">
             <TextBox.Background>
@@ -38,14 +40,15 @@
         </TextBox>
 
         <TextBlock Text="Password"
-                   Style="{StaticResource TextBoxTitles}"
-                   Foreground="{StaticResource SignInViewText}"
+                   Foreground="{StaticResource SignInColor}"
+                   Style="{StaticResource TitleTextTxtBlk}"
                    Margin="0,15,0,0"/>
 
         <customcontrols:BindablePasswordBox Password="{Binding Password, 
         Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        Height="28"
-                                        Margin="0,5,0,0"/>
+                                            ForegroundColor="{StaticResource SignInColor}"
+                                            Height="28"
+                                            Margin="0,5,0,0"/>
 
         <TextBlock Text="{Binding ErrorMessage}"
                    Style="{StaticResource ErrorMessage}"
@@ -66,7 +69,7 @@
                     HorizontalAlignment="Center"
                     Margin="0,15,0,0">
             <TextBlock Text="Don`t have an account?"
-                       Style="{StaticResource FooterText}"
+                       Style="{StaticResource FooterTextTxtBlk}"
                        Margin="0,5,0,0"/>
             <Button Content="Sign Up"
                     Foreground="DarkCyan"

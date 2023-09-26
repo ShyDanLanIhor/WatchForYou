@@ -19,20 +19,19 @@
                 <GridViewColumn Width="550">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel>
+                            <StackPanel Margin="0,20,0,0">
+                                
                                 <TextBlock Text="{Binding Name}" 
-                                           TextWrapping="Wrap" 
-                                           HorizontalAlignment="Center" 
+                                           HorizontalAlignment="Center"
                                            Margin="10"
-                                           Foreground=""
-                                           Style="{StaticResource TextBoxTitles}"/>
+                                           Foreground="{StaticResource AreasListColor}"
+                                           Style="{StaticResource TitleTextTxtBlk}"/>
                                 <TextBlock Text="{Binding Description}" 
-                                           Width="550"
-                                           TextWrapping="Wrap" 
-                                           Margin="5"
-                                           Style="{StaticResource SimpleText}"/>
+                                           Width="500"
+                                           Foreground="{StaticResource AreasListColor}"
+                                           Style="{StaticResource SimpleTextTxtBlk}"/>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                                    <Button Content="Show objects" 
+                                    <Button Content="Show devices" 
                                             Command="{Binding DataContext.ShowDetailsCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" 
                                             CommandParameter="{Binding}">
                                         <Button.Style>

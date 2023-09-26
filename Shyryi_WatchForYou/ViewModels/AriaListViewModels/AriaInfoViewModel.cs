@@ -24,11 +24,6 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
         private Brush _areaInfoColor;
         private AreaDto currentArea;
 
-        private AreaService areaService =
-            new AreaService();
-        private UserService userService =
-            new UserService();
-
         public string AreaName
         {
             get => _areaName;
@@ -89,7 +84,7 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
         public AriaInfoViewModel(MainAriaViewModel mainAriaViewModel, int areaId)
         {
             this.currentMainAriaViewModel = mainAriaViewModel;
-            CurrentArea = areaService.GetAreaById(areaId);
+            CurrentArea = AreaService.GetAreaById(areaId);
             AreaName = CurrentArea.Name;
             AreaDescription = CurrentArea.Description;
             ChangeAreaCommand = new RelayCommand(
@@ -110,11 +105,11 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
         {
             try
             {
-                areaService.UpdateArea(CurrentArea.Id, AreaMapper.MapToDto( new AreaModel(
+                AreaService.UpdateArea(CurrentArea.Id, AreaMapper.MapToDto( new AreaModel(
                     CurrentArea.Id, AreaName, AreaDescription, CurrentArea.UserId, UserMapper.MapToModel(
-                    userService.GetByUsername(Thread.CurrentPrincipal.Identity.Name)))));
+                    UserService.GetByUsername(Thread.CurrentPrincipal.Identity.Name)))));
                 this.currentMainAriaViewModel.AreaName = AreaName;
-                AreaInfoColor = (Brush)App.Current.FindResource("CreateAreaColor");
+                AreaInfoColor = (Brush)App.Current.FindResource("AreaInfoColor");
                 AreaInfo = "Area was changed!";
                 await Task.Delay(2000);
                 AreaInfo = "";

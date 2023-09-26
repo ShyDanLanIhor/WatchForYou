@@ -5,32 +5,31 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using Microsoft.EntityFrameworkCore;
 using Shyryi_WatchForYou.Data;
 using Shyryi_WatchForYou.DTOs;
-using Shyryi_WatchForYou.Repositories.IRepositories;
+using Shyryi_WatchForYou.Repositories;
+using Shyryi_WatchForYou.Services;
 
 namespace Shyryi_WatchForYou.Models.Repositories
 {
-    public class UserRepository : RepositoryBase, IUserRepository
+    public static class UserRepository
     {
-        private readonly WatchForYouContext 
-            _dbContext = new WatchForYouContext();
-
-        public bool AddUser(UserDto user)
+        public static bool AddUser(UserDto user)
         {
-            _dbContext.User.Add(user);
-            _dbContext.SaveChanges();
+            DbContextService.DbContext = new WatchForYouContext();
+            DbContextService.DbContext.User.Add(user);
+            DbContextService.DbContext.SaveChanges();
             return true;
         }
 
-        public UserDto GetByUsername(string username)
+        public static UserDto GetByUsername(string username)
         {
+            DbContextService.DbContext = new WatchForYouContext();
             try
             {
-                return (from u in _dbContext.User
-                       where u.Username == username
-                       select u).FirstOrDefault();
+                return (from u in DbContextService.DbContext.User
+                        where u.Username == username
+                        select u).FirstOrDefault();
             }
             catch (Exception)
             {
@@ -39,11 +38,12 @@ namespace Shyryi_WatchForYou.Models.Repositories
             }
         }
 
-        public List<UserDto> GetUsersByUsernameAndPassword(string username, string password)
+        public static List<UserDto> GetUsersByUsernameAndPassword(string username, string password)
         {
+            DbContextService.DbContext = new WatchForYouContext();
             try
             {
-                return (from u in _dbContext.User
+                return (from u in DbContextService.DbContext.User
                         where u.Username == username && u.Password == password
                         select u).ToList();
             }
@@ -54,17 +54,18 @@ namespace Shyryi_WatchForYou.Models.Repositories
             }
         }
 
-        public bool RemoveUserByUsername(string username)
+        public static bool RemoveUserByUsername(string username)
         {
+            DbContextService.DbContext = new WatchForYouContext();
             try
             {
-                var user = (from u in _dbContext.User
+                var user = (from u in DbContextService.DbContext.User
                             where u.Username == username
                             select u).FirstOrDefault();
                 if (user != null)
                 {
-                    _dbContext.User.Remove(user);
-                    _dbContext.SaveChanges();
+                    DbContextService.DbContext.User.Remove(user);
+                    DbContextService.DbContext.SaveChanges();
                     return true;
                 }
                 else
@@ -80,11 +81,12 @@ namespace Shyryi_WatchForYou.Models.Repositories
             }
         }
 
-        public UserDto GetBy(int userId)
+        public static UserDto GetBy(int userId)
         {
+            DbContextService.DbContext = new WatchForYouContext();
             try
             {
-                return _dbContext.User.FirstOrDefault(u => u.Id == userId);
+                return DbContextService.DbContext.User.FirstOrDefault(u => u.Id == userId);
             }
             catch (Exception)
             {
@@ -93,12 +95,13 @@ namespace Shyryi_WatchForYou.Models.Repositories
             }
         }
 
-        public bool UpdateUser(UserDto user)
+        public static bool UpdateUser(UserDto user)
         {
+            DbContextService.DbContext = new WatchForYouContext();
             try
             {
-                _dbContext.User.Update(user);
-                _dbContext.SaveChanges();
+                DbContextService.DbContext.User.Update(user);
+                DbContextService.DbContext.SaveChanges();
                 return true;
             }
             catch (Exception)
@@ -107,5 +110,29 @@ namespace Shyryi_WatchForYou.Models.Repositories
                 return false;
             }
         }
+
+        public static List<ThingDto> GetAllThingsByUser(int userId)
+        {
+            DbContextService.DbContext = new WatchForYouContext();
+            try
+            {
+                List<ThingDto> wholeList = new List<ThingDto>();
+                UserDto user = GetBy(userId);
+                foreach (var area in AreaRepository.GetAreasByUser(user.Username))
+                {
+                    foreach (var thing in ThingRepository.GetThingsByArea(area.Id))
+                    {
+                        wholeList.Add(thing);
+                    }
+                }
+                return wholeList;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Cannot fetch things for the user!");
+                return new List<ThingDto>();
+            }
+        }
     }
 }
+

@@ -70,7 +70,7 @@
                     </StackPanel>
 
                     <RadioButton Style="{StaticResource menuButton}"
-                                 Tag="{StaticResource color1}"
+                                 Tag="{StaticResource AreaInfoColor}"
                                  Command="{Binding ShowAriaInfoViewCommand}">
 
                         <StackPanel Orientation="Horizontal">
@@ -80,22 +80,22 @@
                     </RadioButton>
 
                     <RadioButton Style="{StaticResource menuButton}"
-                                 Tag="{StaticResource CreateAreaColor}"
+                                 Tag="{StaticResource ConnectDeviceColor}"
                                  Command="{Binding ShowCreateThingViewCommand}">
 
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage Icon="Camera" Style="{StaticResource menuButtonIcon}"/>
-                            <TextBlock Text="Connect thing" Style="{StaticResource menuButtonText}"/>
+                            <TextBlock Text="Connect device" Style="{StaticResource menuButtonText}"/>
                         </StackPanel>
                     </RadioButton>
 
                     <RadioButton Style="{StaticResource menuButton}"
-                                 Tag="{StaticResource color6}"
+                                 Tag="{StaticResource DeviceListColor}"
                                  Command="{Binding ShowThingsListViewCommand}">
 
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage Icon="List" Style="{StaticResource menuButtonIcon}"/>
-                            <TextBlock Text="Things list" Style="{StaticResource menuButtonText}"/>
+                            <TextBlock Text="Devices list" Style="{StaticResource menuButtonText}"/>
                         </StackPanel>
                     </RadioButton>
 

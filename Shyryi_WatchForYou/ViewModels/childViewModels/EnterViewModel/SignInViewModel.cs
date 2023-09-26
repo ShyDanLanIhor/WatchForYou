@@ -12,7 +12,6 @@ using System.Windows.Input;
 using Shyryi_WatchForYou.Commands;
 using Shyryi_WatchForYou.Commands.EnterViewModel;
 using Shyryi_WatchForYou.Models.Repositories;
-using Shyryi_WatchForYou.Repositories.IRepositories;
 using Shyryi_WatchForYou.Services;
 using Shyryi_WatchForYou.Stores;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
@@ -28,7 +27,6 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel
         private string _username;
         private SecureString _password;
         private string _errorMessage;
-        private UserService userService = new UserService();
 
         public string Username
         {

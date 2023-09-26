@@ -7,12 +7,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using Shyryi_WatchForYou.Models.Repositories;
-using Shyryi_WatchForYou.Repositories.IRepositories;
 using System.Security;
 using Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel;
 using System.ComponentModel;
 using Shyryi_WatchForYou.Services.ModelServices;
 using System.Windows;
+using Shyryi_WatchForYou.Models;
 
 namespace Shyryi_WatchForYou.Commands.EnterViewModel
 {
@@ -20,13 +20,10 @@ namespace Shyryi_WatchForYou.Commands.EnterViewModel
     {
         private readonly SignInViewModel _signInViewModel;
 
-        private UserService userService;
         public LoginCommand(SignInViewModel signInViewModel)
         {
 
             _signInViewModel = signInViewModel;
-
-            userService = new UserService();
 
             _signInViewModel.PropertyChanged += OnViewModelPropertyChanged;
         }
@@ -59,7 +56,7 @@ namespace Shyryi_WatchForYou.Commands.EnterViewModel
 
         private async void ExecuteLogInAsync(string errorMessage)
         {
-            if (userService.AuthenticateUser(new System.Net.NetworkCredential(
+            if (UserService.AuthenticateUser(new System.Net.NetworkCredential(
                 _signInViewModel.Username, _signInViewModel.Password)))
             {
                 App.Current.MainWindow.Visibility = Visibility.Collapsed;

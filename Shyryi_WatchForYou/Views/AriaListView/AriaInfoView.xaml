@@ -10,43 +10,45 @@
     <Grid>
         <StackPanel>
             <TextBlock Text="Name of current area"
-                       Style="{StaticResource TextBoxTitles}"
+                       Style="{StaticResource TitleTextTxtBlk}"
+                       Foreground="{StaticResource AreaInfoColor}"
                        Margin="0,20,0,0"
-                       HorizontalAlignment="Center"
-                       Foreground="{StaticResource CreateAreaColor}"/>
+                       HorizontalAlignment="Center"/>
 
             <StackPanel Orientation="Horizontal" 
                         HorizontalAlignment="Center">
                 <fa:IconImage Icon="Building" 
                               Style="{StaticResource menuButtonIcon}"
-                              Foreground="{StaticResource CreateAreaColor}"/>
+                              Foreground="{StaticResource AreaInfoColor}"/>
                 <TextBox x:Name="tbxNameOfArea"
-                         Foreground="{StaticResource CreateAreaColor}"
+                         Foreground="{StaticResource AreaInfoColor}"
                          Width="200"
                          Text="{Binding AreaName, UpdateSourceTrigger=PropertyChanged}"
-                         Style="{StaticResource EnterViewTextBox}"
+                         Style="{StaticResource UnderLineTxtBox}"
                          Margin="0,5,0,0"
                          Background="Transparent">
                 </TextBox>
             </StackPanel>
 
             <TextBlock Text="Description of current area"
-                       Style="{StaticResource TextBoxTitles}"
+                       Style="{StaticResource TitleTextTxtBlk}"
                        Margin="0,20,0,0"
-                       Foreground="{StaticResource CreateAreaColor}"/>
+                       Foreground="{StaticResource AreaInfoColor}"/>
 
             <TextBox x:Name="tbxDescriptionOfNewArea"
                      Text="{Binding AreaDescription, UpdateSourceTrigger=PropertyChanged}"
-                     Style="{StaticResource EnterViewTextBox}"
+                     Style="{StaticResource UnderLineTxtBox}"
+                     Foreground="{StaticResource AreaInfoColor}"
                      Height="150"
                      Margin="0,5,0,0"
                      TextWrapping="Wrap"
                      HorizontalContentAlignment="Left"
                      VerticalContentAlignment="Top"
-                     Background="#24105F">
+                     Background="#24105F"
+                     AcceptsReturn="True">
             </TextBox>
             <TextBlock Text="{Binding AreaInfo}"
-                       Style="{StaticResource TextBoxTitles}"
+                       Style="{StaticResource TitleTextTxtBlk}"
                        Margin="0,10,0,0"
                        HorizontalAlignment="Center"
                        Foreground="{Binding AreaInfoColor}"/>

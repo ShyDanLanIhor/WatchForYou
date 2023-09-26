@@ -11,7 +11,7 @@ using Shyryi_WatchForYou.Data;
 namespace Shyryi_WatchForYou.Migrations
 {
     [DbContext(typeof(WatchForYouContext))]
-    [Migration("20230923131650_Initial-Create")]
+    [Migration("20230925233420_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

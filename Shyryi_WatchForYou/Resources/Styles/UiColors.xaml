@@ -11,20 +11,13 @@
     <Color x:Key="winBorderColor2">#FB539B</Color>
     <Color x:Key="winBorderColor3">#836EFB</Color>
     <!--Color Palette-->
-    <SolidColorBrush x:Key="color1" Color="#E285DE"/>
-    <SolidColorBrush x:Key="color2" Color="#784DFD"/>
+    <SolidColorBrush x:Key="color1" Color="#EF6C96"/>
+    <SolidColorBrush x:Key="color2" Color="#78A3FC"/>
+    <SolidColorBrush x:Key="color3" Color="#FBA1AA"/>
     <SolidColorBrush x:Key="color4" Color="#FB539B"/>
-    <SolidColorBrush x:Key="color5" Color="#7E82FC"/>
-    <SolidColorBrush x:Key="color6" Color="#FFC047"/>
-    <SolidColorBrush x:Key="color7" Color="#EF6C96"/>
-    <SolidColorBrush x:Key="color8" Color="#78A3FC"/>
-    <SolidColorBrush x:Key="color9" Color="#07F3C0"/>
-    <SolidColorBrush x:Key="color10" Color="#FBA1AA"/>
     <!--Font Colors-->
-    <SolidColorBrush x:Key="SignInViewText" Color="DarkCyan"/>
-    <SolidColorBrush x:Key="EnterViewFooterText" Color="Gray"/>
     <SolidColorBrush x:Key="titleColor2" Color="#D5CFF5"/>
-    <SolidColorBrush x:Key="titleColor3" Color="#BCBEE0"/>
+    <SolidColorBrush x:Key="titleColor3" Color="#9497CD"/>
     <SolidColorBrush x:Key="plainTextColor1" Color="#9497CD"/>
     <SolidColorBrush x:Key="plainTextColor2" Color="#7C80C2"/>
     <SolidColorBrush x:Key="plainTextColor3" Color="#7376BD"/>
@@ -35,6 +28,21 @@
     <!--Button Colors-->
     <!--TextBox Colors-->
     <!--Etc-->
+    <SolidColorBrush x:Key="HomeColor" Color="#E285DE"/>
     <SolidColorBrush x:Key="CreateAreaColor" Color="#4ADAEC"/>
+    <SolidColorBrush x:Key="AreasListColor" Color="#FFC047"/>
+    <SolidColorBrush x:Key="SettingsColor" Color="#7E82FC"/>
+
+    <SolidColorBrush x:Key="AreaInfoColor" Color="#78A3FC"/>
+    <SolidColorBrush x:Key="ConnectDeviceColor" Color="#FBA1AA"/>
+    <SolidColorBrush x:Key="DeviceListColor" Color="#07F3C0"/>
+
+    <SolidColorBrush x:Key="SignInColor" Color="#78A3FC"/>
+    <SolidColorBrush x:Key="SignUpColor" Color="#784DFD"/>
+
+    <SolidColorBrush x:Key="EnterColor" Color="#BCBEE0"/>
+    <SolidColorBrush x:Key="EnterViewFooterTextTxtBlk" Color="Gray"/>
+
     <SolidColorBrush x:Key="ErrorMessageColor" Color="OrangeRed"/>
+    
 </ResourceDictionary>

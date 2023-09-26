@@ -41,7 +41,7 @@ namespace Shyryi_WatchForYou.Views.AriaListView
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            this.Close();
         }
 
         private void btnMaximize_Click(object sender, RoutedEventArgs e)

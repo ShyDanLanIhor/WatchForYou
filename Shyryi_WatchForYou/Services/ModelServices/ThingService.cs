@@ -8,34 +8,32 @@ using System.Threading.Tasks;
 
 namespace Shyryi_WatchForYou.Services.ModelServices
 {
-    public class ThingService
+    public static class ThingService
     {
-        private readonly AreaRepository areaRepository = new AreaRepository();
-        private readonly ThingRepository thingRepository = new ThingRepository();
-
-        public List<ThingDto> GetThingsByArea(int areaId)
+        public static List<ThingDto> GetThingsByArea(int areaId)
         {
-            return thingRepository.GetThingsByArea(areaId);
+            return ThingRepository.GetThingsByArea(areaId);
         }
 
-        public ThingDto GetThingById(int thingId)
+        public static ThingDto GetThingById(int thingId)
         {
-            return thingRepository.GetThingById(thingId);
+            return ThingRepository.GetThingById(thingId);
         }
 
-        public bool CreateThing(ThingDto thing)
+        public static bool CreateThing(ThingDto thing)
         {
-            return thingRepository.AddThing(thing);
+            return ThingRepository.AddThing(thing);
         }
 
-        public bool UpdateThing(int thingId, ThingDto updatedThing)
+        public static bool UpdateThing(int thingId, ThingDto updatedThing)
         {
-            return thingRepository.UpdateThing(thingId, updatedThing);
+            return ThingRepository.UpdateThing(thingId, updatedThing);
         }
 
-        public bool RemoveThing(int thingId)
+        public static bool RemoveThing(int thingId)
         {
-            return thingRepository.RemoveThingById(thingId);
+            return ThingRepository.RemoveThingById(thingId);
         }
     }
 }
+

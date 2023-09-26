@@ -18,11 +18,6 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
         private string _areaError;
         private Brush _areaInfoColor;
 
-        private AreaService areaService =
-            new AreaService();
-        private UserService userService =
-            new UserService();
-
         public string AreaName { get => _areaName;
             set
             { 
@@ -88,9 +83,9 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
         {
             try
             {
-                UserModel user = UserMapper.MapToModel(userService.
+                UserModel user = UserMapper.MapToModel(UserService.
                     GetByUsername(Thread.CurrentPrincipal.Identity.Name));
-                areaService.CreateArea(AreaMapper.MapToDto(
+                AreaService.CreateArea(AreaMapper.MapToDto(
                     new AreaModel(AreaName, AreaDescription, user.Id, user)));
                 AreaName = "";
                 AreaDescription = "";

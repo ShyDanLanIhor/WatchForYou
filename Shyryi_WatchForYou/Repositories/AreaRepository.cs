@@ -1,6 +1,7 @@
 ﻿using Shyryi_WatchForYou.Data;
 using Shyryi_WatchForYou.DTOs;
 using Shyryi_WatchForYou.Models.Repositories;
+using Shyryi_WatchForYou.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +11,15 @@ using System.Windows;
 
 namespace Shyryi_WatchForYou.Repositories
 {
-    public class AreaRepository : RepositoryBase
+    public static class AreaRepository
     {
-        private readonly WatchForYouContext _dbContext = new WatchForYouContext();
 
-        public List<AreaDto> GetAreasByUser(string username)
+        public static List<AreaDto> GetAreasByUser(string username)
         {
+            DbContextService.DbContext = new WatchForYouContext();
             try
             {
-                return (from a in _dbContext.Area
+                return (from a in DbContextService.DbContext.Area
                         where a.User.Username == username
                         select a).ToList();
             }
@@ -29,14 +30,15 @@ namespace Shyryi_WatchForYou.Repositories
             }
         }
 
-        public bool AddArea(AreaDto area)
+        public static bool AddArea(AreaDto area)
         {
-            var user = _dbContext.User.SingleOrDefault(u => u.Username == area.User.Username);
+            DbContextService.DbContext = new WatchForYouContext();
+            var user = DbContextService.DbContext.User.SingleOrDefault(u => u.Username == area.User.Username);
             if (user != null)
             {
                 area.User = user;
-                _dbContext.Area.Add(area);
-                _dbContext.SaveChanges();
+                DbContextService.DbContext.Area.Add(area);
+                DbContextService.DbContext.SaveChanges();
                 return true;
             }
             else
@@ -46,15 +48,16 @@ namespace Shyryi_WatchForYou.Repositories
             }
         }
 
-        public bool RemoveAreaById(int areaId)
+        public static bool RemoveAreaById(int areaId)
         {
+            DbContextService.DbContext = new WatchForYouContext();
             try
             {
-                var area = _dbContext.Area.Find(areaId);
+                var area = DbContextService.DbContext.Area.Find(areaId);
                 if (area != null)
                 {
-                    _dbContext.Area.Remove(area);
-                    _dbContext.SaveChanges();
+                    DbContextService.DbContext.Area.Remove(area);
+                    DbContextService.DbContext.SaveChanges();
                     return true;
                 }
                 else
@@ -69,11 +72,12 @@ namespace Shyryi_WatchForYou.Repositories
                 return false;
             }
         }
-        public AreaDto GetAreaById(int areaId)
+        public static AreaDto GetAreaById(int areaId)
         {
+            DbContextService.DbContext = new WatchForYouContext();
             try
             {
-                return _dbContext.Area.FirstOrDefault(a => a.Id == areaId);
+                return DbContextService.DbContext.Area.FirstOrDefault(a => a.Id == areaId);
             }
             catch (Exception)
             {
@@ -82,12 +86,13 @@ namespace Shyryi_WatchForYou.Repositories
             }
         }
 
-        public bool UpdateArea(AreaDto area)
+        public static bool UpdateArea(AreaDto area)
         {
+            DbContextService.DbContext = new WatchForYouContext();
             try
             {
-                _dbContext.Area.Update(area);
-                _dbContext.SaveChanges();
+                DbContextService.DbContext.Area.Update(area);
+                DbContextService.DbContext.SaveChanges();
                 return true;
             }
             catch (Exception)

@@ -28,8 +28,6 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
         private SecureString _newPassword;
         private UserDto currentUser;
 
-        private UserService userService = new UserService();
-
         public string Username
         {
             get => _username;
@@ -90,7 +88,7 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
         public SettingViewModel(ViewModels.MainViewModel mainViewModel)
         {
             this.mainViewModel = mainViewModel;
-            currentUser = userService.GetByUsername(Thread.CurrentPrincipal.Identity.Name);
+            currentUser = UserService.GetByUsername(Thread.CurrentPrincipal.Identity.Name);
             Username = currentUser.Username;
             Email = currentUser.Email;
             FirstName = currentUser.FirstName;
@@ -102,7 +100,7 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
 
         private void ExecuteChangeCommand(object obj)
         {
-            userService.UpdateUser(currentUser.Id, UserMapper.MapToDto
+            UserService.UpdateUser(currentUser.Id, UserMapper.MapToDto
                 (new UserModel(currentUser.Id, Username,
                 new NetworkCredential(string.Empty, NewPassword).Password,
                 FirstName, LastName, Email)));

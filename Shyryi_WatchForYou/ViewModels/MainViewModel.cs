@@ -9,11 +9,15 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Shyryi_WatchForYou.Models.Repositories;
-using Shyryi_WatchForYou.Repositories.IRepositories;
 using Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel;
 using Shyryi_WatchForYou.Commands;
 using Shyryi_WatchForYou.Services.ModelServices;
 using Shyryi_WatchForYou.DTOs;
+using Microsoft.VisualBasic.ApplicationServices;
+using Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel;
+using System.Security.Principal;
+using Shyryi_WatchForYou.Services;
+using Shyryi_WatchForYou.Data;
 
 namespace Shyryi_WatchForYou.ViewModels
 {
@@ -24,8 +28,6 @@ namespace Shyryi_WatchForYou.ViewModels
         private ViewModelBase _currentChildView;
         private string _caption;
         private IconChar _icon;
-
-        private UserService userService = new UserService();
 
         public UserAccountEntity CurrentUserAccount
         {
@@ -70,9 +72,14 @@ namespace Shyryi_WatchForYou.ViewModels
         public ICommand ShowAreasListViewCommand { get; }
         public ICommand ShowSettingsViewCommand { get; }
 
+
+        private CancellationTokenSource cancellationTokenSource;
+        private string currentUserName;
+
         public MainViewModel()
         {
-            UserDto user = userService.GetByUsername(Thread.CurrentPrincipal.Identity.Name);
+            currentUserName = Thread.CurrentPrincipal.Identity.Name;
+            UserDto user = UserService.GetByUsername(currentUserName);
 
             if (user != null)
             {
@@ -86,8 +93,33 @@ namespace Shyryi_WatchForYou.ViewModels
             ShowCreateAreaViewCommand = new RelayCommand(ExecuteCreateAreaViewCommand);
             ShowAreasListViewCommand = new RelayCommand(ExecuteShowAreasListViewCommand);
             ShowSettingsViewCommand = new RelayCommand(ExecuteShowSettingsViewCommand);
+
+            cancellationTokenSource = new CancellationTokenSource();
+            Task.Run(() => CheckIfAlerted(cancellationTokenSource.Token), cancellationTokenSource.Token);
         }
-        
+        private async Task CheckIfAlerted(CancellationToken cancellationToken)
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                UserDto user = UserService.GetByUsername(currentUserName);
+                currentUserName = Thread.CurrentPrincipal.Identity.Name;
+
+                DbContextService.RefreshDataFromDatabase();
+                List<ThingDto> things = UserService.GetAllThingsByUser(user.Id);
+                foreach (var thing in things)
+                {
+                    if (thing.IsAlerted)
+                    {
+                        MessageBox.Show($"Thing {thing.Id} is alerted.");
+                    }
+                }
+                await Task.Delay(TimeSpan.FromSeconds(240), cancellationToken);
+            }
+        }
+        public void StopChecking()
+        {
+            cancellationTokenSource.Cancel();
+        }
         private void ExecuteShowHomeViewCommand(object obj)
         {
             CurrentChildView = new HomeViewModel();

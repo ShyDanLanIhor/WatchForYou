@@ -9,6 +9,7 @@ using Shyryi_WatchForYou.Commands.EnterViewModel;
 using Shyryi_WatchForYou.Commands;
 using Shyryi_WatchForYou.Stores;
 using Shyryi_WatchForYou.Services;
+using System.Windows.Media;
 
 namespace Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel
 {
@@ -18,7 +19,8 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel
         private string _username;
         private SecureString _password;
         private string _email;
-        private string _errorMessage;
+        private string _signUpInfo;
+        private Brush _signUpInfoColor;
 
         public string Username
         {
@@ -47,16 +49,24 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel
                 OnPropertyChanged(nameof(Email));
             }
         }
-        public string ErrorMessage
+        public string SignUpInfo
         {
-            get => _errorMessage;
+            get => _signUpInfo;
             set
             {
-                _errorMessage = value;
-                OnPropertyChanged(nameof(ErrorMessage));
+                _signUpInfo = value;
+                OnPropertyChanged(nameof(SignUpInfo));
             }
         }
-
+        public Brush SingUpInfoColor
+        {
+            get => _signUpInfoColor;
+            set
+            {
+                _signUpInfoColor = value;
+                OnPropertyChanged(nameof(SingUpInfoColor));
+            }
+        }
         public ICommand ShowHomeViewCommand { get; }
         public ICommand RegisterCommand { get; }
         public ICommand GoToSigningInCommand { get; }
