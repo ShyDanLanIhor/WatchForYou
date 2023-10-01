@@ -59,12 +59,27 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel
         public ICommand ShowHomeViewCommand { get; }
         public ICommand LoginCommand { get; }
         public ICommand GoToSigningUpCommand { get; }
+        public ICommand ResetPasswordCommand { get; }
         public SignInViewModel(NavigationService signUpViewNavigationService)
         {
             LoginCommand = new LoginCommand(this);
 
             GoToSigningUpCommand = new NavigateCommand(signUpViewNavigationService);
+
+            ResetPasswordCommand = new RelayCommand(ExecuteResetPasswordCommand);
         }
 
+        private void ExecuteResetPasswordCommand(object obj)
+        {
+            try
+            {
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

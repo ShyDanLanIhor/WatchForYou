@@ -16,18 +16,20 @@ namespace Shyryi_WatchForYou.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+        public bool IsVerificated { get; set; }
         public ICollection<AreaModel> Areas { get; set; }
 
         public UserModel() { }
-        public UserModel(string username, string password, string email)
+        public UserModel(string username, string password, string email, bool isVerificated)
         {
             Username = username;
             Password = password;
             Email = email;
             Areas = new List<AreaModel>();
+            IsVerificated = isVerificated;
         }
 
-        public UserModel(int id, string username, string password, string firstName, string lastName, string email)
+        public UserModel(int id, string username, string password, string firstName, string lastName, string email, bool IsVerificated)
         {
             Id = id;
             Username = username;
@@ -46,6 +48,7 @@ namespace Shyryi_WatchForYou.Models
             FirstName = other.FirstName;
             LastName = other.LastName;
             Email = other.Email;
+            IsVerificated = other.IsVerificated;
             Areas = other.Areas.Select(area => new AreaModel(area)).ToList();
         }
     }

@@ -22,7 +22,7 @@ namespace Shyryi_WatchForYou.DTOs
         public string? LastName { get; set; }
         [Required]
         public string Email { get; set; } = null!;
-
+        public bool IsVerificated { get; set; }
         public ICollection<AreaDto>? Areas { get; set; }
     }
 }
