@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Shyryi_WatchForYou.Views.UserControlViews.EnterView"
              xmlns:customcontrols="clr-namespace:Shyryi_WatchForYou.CustomControls"
              mc:Ignorable="d" 
-             d:DesignHeight="520" d:DesignWidth="250">
+             d:DesignHeight="550" d:DesignWidth="250">
     <StackPanel Width="250"
             Grid.Row="2"
             Orientation="Vertical"
@@ -64,10 +64,18 @@
                 Margin="0,25,0,0"
                 Grid.Column="2">
         </Button>
-        
+        <Button Content="Reset Password"
+                Foreground="DarkCyan"
+                FontSize="12"
+                FontWeight="Medium"
+                FontFamily="Times New Roman"
+                Margin="0,20,0,0"
+                HorizontalAlignment="Center"
+                Command="{Binding ResetPasswordCommand}"
+                Style="{StaticResource TextBlockLikeButton}"/>
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Center"
-                    Margin="0,15,0,0">
+                    Margin="0,5,0,0">
             <TextBlock Text="Don`t have an account?"
                        Style="{StaticResource FooterTextTxtBlk}"
                        Margin="0,5,0,0"/>

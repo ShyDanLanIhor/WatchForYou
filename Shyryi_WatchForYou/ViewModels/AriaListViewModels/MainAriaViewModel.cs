@@ -91,7 +91,9 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
         {
             CurrentArea = AreaService.GetAreaById(ariaId);
             AreaName = CurrentArea.Name;
-
+            CurrentChildView = new AriaInfoViewModel(this, CurrentArea.Id);
+            Caption = "Current Area Info Page";
+            Icon = IconChar.Info;
             TitleName = CurrentArea.Name + " view";
 
             ShowAriaInfoViewCommand = new RelayCommand(ExecuteShowAriaInfoViewCommand);

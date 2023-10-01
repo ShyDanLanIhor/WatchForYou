@@ -115,11 +115,11 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
                 }
                 catch (InputDataException e)
                 {
-                    MessageBox.Show(e.Message);
+                    MessageBoxViewModel.Show(e.Message);
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Device was not connected!");
+                    MessageBoxViewModel.Show("Device was not connected!");
                 }
             }
         }

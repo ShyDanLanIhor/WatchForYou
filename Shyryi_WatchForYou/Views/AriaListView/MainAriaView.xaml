@@ -72,7 +72,8 @@
 
                     <RadioButton Style="{StaticResource menuButton}"
                                  Tag="{StaticResource AreaInfoColor}"
-                                 Command="{Binding ShowAriaInfoViewCommand}">
+                                 Command="{Binding ShowAriaInfoViewCommand}"
+                                 IsChecked="True">
 
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage Icon="Info" Style="{StaticResource menuButtonIcon}"/>
