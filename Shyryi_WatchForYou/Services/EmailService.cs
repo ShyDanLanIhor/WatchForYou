@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Web;
 using System.Net.Mail;
 using System.Net;
 using System.Security.Cryptography;
-using System.Net.Sockets;
-using System.IO;
 
 namespace Shyryi_WatchForYou.Services
 {

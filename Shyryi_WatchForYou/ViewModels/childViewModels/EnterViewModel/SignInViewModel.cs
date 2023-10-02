@@ -1,29 +1,14 @@
-﻿using FontAwesome.Sharp;
-using InfinityStudio.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Security;
-using System.Security.Principal;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Shyryi_WatchForYou.Commands;
 using Shyryi_WatchForYou.Commands.EnterViewModel;
-using Shyryi_WatchForYou.Models.Repositories;
 using Shyryi_WatchForYou.Services;
-using Shyryi_WatchForYou.Stores;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using Shyryi_WatchForYou.Services.ModelServices;
 using Shyryi_WatchForYou.DTOs;
 using Shyryi_WatchForYou.Exceptions;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
-using System.Text.RegularExpressions;
 using System.Windows.Media;
-using Shyryi_WatchForYou.Mappers;
-using Shyryi_WatchForYou.Models;
-using System.Net;
 
 namespace Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel
 {

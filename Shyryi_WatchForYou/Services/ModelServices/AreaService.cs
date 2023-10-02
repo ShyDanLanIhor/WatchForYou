@@ -4,11 +4,7 @@ using Shyryi_WatchForYou.Repositories;
 using Shyryi_WatchForYou.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace Shyryi_WatchForYou.Services.ModelServices
 {

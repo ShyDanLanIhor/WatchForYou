@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Shyryi_WatchForYou.Services.ModelServices;
+using Shyryi_WatchForYou.ViewModels.AriaListViewModels;
+using Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -24,7 +27,10 @@ namespace Shyryi_WatchForYou.Views.AriaListView
         public MainAriaView()
         {
             InitializeComponent();
+            MainAreaViewModel.ViewClosed += ViewClosed;
         }
+        private void ViewClosed() { this.Close(); }
+
         [DllImport("user32.dll")]
         public static extern IntPtr SendMessage(IntPtr hWnd, int wMsg, int wParam, int lParam);
 

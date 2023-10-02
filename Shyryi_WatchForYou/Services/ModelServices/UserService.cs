@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Windows;
-using Shyryi_WatchForYou.Data;
 using Shyryi_WatchForYou.DTOs;
 using Shyryi_WatchForYou.Exceptions;
-using Shyryi_WatchForYou.Models;
 using Shyryi_WatchForYou.Models.Repositories;
 using Shyryi_WatchForYou.ViewModels;
 

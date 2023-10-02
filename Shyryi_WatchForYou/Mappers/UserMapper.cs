@@ -1,10 +1,6 @@
 ﻿using Shyryi_WatchForYou.DTOs;
 using Shyryi_WatchForYou.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Shyryi_WatchForYou.Mappers
 {

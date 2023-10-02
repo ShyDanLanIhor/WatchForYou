@@ -1,12 +1,7 @@
-﻿using Microsoft.Web.WebView2.Core;
-using Microsoft.Web.WebView2.Wpf;
-using Shyryi_WatchForYou.DTOs;
+﻿using Shyryi_WatchForYou.DTOs;
 using Shyryi_WatchForYou.Repositories;
-using Shyryi_WatchForYou.Services.ModelServices;
+using Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel;
 using System;
-using System.ComponentModel;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
 {

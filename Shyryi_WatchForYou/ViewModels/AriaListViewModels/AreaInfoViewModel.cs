@@ -3,28 +3,24 @@ using Shyryi_WatchForYou.DTOs;
 using Shyryi_WatchForYou.Exceptions;
 using Shyryi_WatchForYou.Mappers;
 using Shyryi_WatchForYou.Models;
-using Shyryi_WatchForYou.Repositories;
 using Shyryi_WatchForYou.Services.ModelServices;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
 {
-    public class AriaInfoViewModel : ViewModelBase
+    public class AreaInfoViewModel : ViewModelBase
     {
         private string _areaName;
         private string _areaDescription;
         private string _areaInfo;
-        private string _areaError;
         private Brush _areaInfoColor;
-        private AreaDto currentArea;
+
+        public static event Action AreasListChanged;
+        public static event Action<int> AreaChanged;
 
         public string AreaName
         {
@@ -53,15 +49,6 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
                 OnPropertyChanged(nameof(AreaInfo));
             }
         }
-        public string AreaError
-        {
-            get => _areaError;
-            set
-            {
-                _areaError = value;
-                OnPropertyChanged(nameof(AreaError));
-            }
-        }
         public Brush AreaInfoColor
         {
             get => _areaInfoColor;
@@ -71,24 +58,15 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
                 OnPropertyChanged(nameof(AreaInfoColor));
             }
         }
-        public AreaDto CurrentArea
-        {
-            get { return currentArea; }
-            set
-            {
-                currentArea = value;
-                OnPropertyChanged(nameof(CurrentArea));
-            }
-        }
         public ICommand ChangeAreaCommand { get; }
-        MainAriaViewModel currentMainAriaViewModel;
 
-        public AriaInfoViewModel(MainAriaViewModel mainAriaViewModel, int areaId)
+        private int currentId;
+        public AreaInfoViewModel(int areaId)
         {
-            this.currentMainAriaViewModel = mainAriaViewModel;
-            CurrentArea = AreaService.GetAreaById(areaId);
-            AreaName = CurrentArea.Name;
-            AreaDescription = CurrentArea.Description;
+            currentId = areaId;
+            AreaDto currentArea = AreaService.GetAreaById(currentId);
+            AreaName = currentArea.Name;
+            AreaDescription = currentArea.Description;
             ChangeAreaCommand = new RelayCommand(
                 ExecuteChangeAreaCommand, CanExecuteChangeAreaCommand);
         }
@@ -97,9 +75,7 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
         {
             bool validData = string.IsNullOrWhiteSpace(
                 AreaName) ||
-                AreaName.Length < 3 ||
-                AreaDescription == null ||
-                AreaDescription.Length < 50 ? false : true;
+                AreaName.Length < 3 ? false : true;
             return validData;
         }
 
@@ -107,13 +83,18 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
         {
             try
             {
-                if (AreaService.CheckIfAreaExist(AreaName, Thread.CurrentPrincipal.Identity.Name) &&
-                    AreaName != CurrentArea.Name)
+                AreaDto currentArea = AreaService.GetAreaById(currentId);
+                bool first = AreaService.CheckIfAreaExist(AreaName, Thread.CurrentPrincipal.Identity.Name);
+                bool second = AreaName != currentArea.Name;
+                if (first && second)
                 { throw new ExistingDataException("Area name already exist!"); }
-                AreaService.UpdateArea(CurrentArea.Id, AreaMapper.MapToDto( new AreaModel(
-                    CurrentArea.Id, AreaName, AreaDescription, CurrentArea.UserId, UserMapper.MapToModel(
+                AreaService.UpdateArea(currentArea.Id, AreaMapper.MapToDto( new AreaModel(
+                    currentArea.Id, AreaName, AreaDescription, currentArea.UserId, UserMapper.MapToModel(
                     UserService.GetByUsername(Thread.CurrentPrincipal.Identity.Name)))));
-                this.currentMainAriaViewModel.AreaName = AreaName;
+
+                AreasListChanged?.Invoke();
+                AreaChanged?.Invoke(currentArea.Id);
+
                 AreaInfoColor = (Brush)App.Current.FindResource("AreaInfoColor");
                 AreaInfo = "Area was changed!";
                 await Task.Delay(2000);

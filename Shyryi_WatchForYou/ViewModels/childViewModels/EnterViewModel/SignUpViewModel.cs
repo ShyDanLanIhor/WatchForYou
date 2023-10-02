@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Shyryi_WatchForYou.Commands.EnterViewModel;
 using Shyryi_WatchForYou.Commands;
-using Shyryi_WatchForYou.Stores;
 using Shyryi_WatchForYou.Services;
 using System.Windows.Media;
 

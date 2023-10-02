@@ -2,9 +2,7 @@
 using Shyryi_WatchForYou.Exceptions;
 using Shyryi_WatchForYou.Mappers;
 using Shyryi_WatchForYou.Models;
-using Shyryi_WatchForYou.Models.Repositories;
 using Shyryi_WatchForYou.Services.ModelServices;
-using Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

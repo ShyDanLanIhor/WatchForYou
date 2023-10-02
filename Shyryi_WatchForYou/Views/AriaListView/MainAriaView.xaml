@@ -14,7 +14,7 @@
         Icon="/Resources/Images/AreaMainView/Logo.png">
     
     <Window.Resources>
-        <DataTemplate DataType="{x:Type childViewModels:AriaInfoViewModel}">
+        <DataTemplate DataType="{x:Type childViewModels:AreaInfoViewModel}">
             <childViews:AriaInfoView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type childViewModels:CreateThingViewModel}">

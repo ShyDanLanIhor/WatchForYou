@@ -5,16 +5,12 @@ using Shyryi_WatchForYou.DTOs;
 using Shyryi_WatchForYou.Services.ModelServices;
 using Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
 {
-    public class MainAriaViewModel : ViewModelBase
+    public class MainAreaViewModel : ViewModelBase
     {
         private UserAccountEntity _currentUserAccount;
         private ViewModelBase _currentChildView;
@@ -22,8 +18,8 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
         private IconChar _icon;
         private string _areaName;
         private string _titleName;
-        private AreaDto currentArea;
 
+        public static event Action ViewClosed;
         public ViewModelBase CurrentChildView
         {
             get => _currentChildView;
@@ -72,50 +68,54 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
                 }
             }
         }
-        public AreaDto CurrentArea
-        {
-            get { return currentArea; }
-            set
-            {
-                currentArea = value;
-                OnPropertyChanged(nameof(CurrentArea));
-            }
-        }
 
         public ICommand ShowAriaInfoViewCommand { get; }
         public ICommand ShowCreateThingViewCommand { get; }
         public ICommand ShowThingsListViewCommand { get; }
 
-
-        public MainAriaViewModel(int ariaId)
+        private int currentId;
+        public MainAreaViewModel(int areaId)
         {
-            CurrentArea = AreaService.GetAreaById(ariaId);
-            AreaName = CurrentArea.Name;
-            CurrentChildView = new AriaInfoViewModel(this, CurrentArea.Id);
+            currentId = areaId;
+            AreaDto currentArea = AreaService.GetAreaById(areaId);
+            AreaName = currentArea.Name;
+            CurrentChildView = new AreaInfoViewModel(areaId);
             Caption = "Current Area Info Page";
             Icon = IconChar.Info;
-            TitleName = CurrentArea.Name + " view";
+            TitleName = currentArea.Name + " view";
 
             ShowAriaInfoViewCommand = new RelayCommand(ExecuteShowAriaInfoViewCommand);
             ShowCreateThingViewCommand = new RelayCommand(ExecuteShowCreateThingViewCommand);
             ShowThingsListViewCommand = new RelayCommand(ExecuteShowThingsListViewCommand);
+
+            AreaInfoViewModel.AreaChanged += (areaId) => AreaChanged(areaId);
+            AreasListViewModel.AreaIsDeleted += (areaId) =>
+            {
+                if (areaId == currentArea.Id) { ViewClosed?.Invoke(); }
+            };
+        }
+
+        private void AreaChanged(int areaId)
+        {
+            currentId = areaId;
+            AreaName = AreaService.GetAreaById(areaId).Name;
         }
 
         private void ExecuteShowAriaInfoViewCommand(object obj)
         {
-            CurrentChildView = new AriaInfoViewModel(this, CurrentArea.Id);
+            CurrentChildView = new AreaInfoViewModel(currentId);
             Caption = "Current Area Info Page";
             Icon = IconChar.Info;
         }
         private void ExecuteShowCreateThingViewCommand(object obj)
         {
-            CurrentChildView = new CreateThingViewModel(CurrentArea.Id);
+            CurrentChildView = new CreateThingViewModel(currentId);
             Caption = "Connect Thing Page";
             Icon = IconChar.Camera;
         }
         private void ExecuteShowThingsListViewCommand(object obj)
         {
-            CurrentChildView = new ThingsListViewModel(CurrentArea.Id);
+            CurrentChildView = new ThingsListViewModel(currentId);
             Caption = "Things List Page";
             Icon = IconChar.List;
         }

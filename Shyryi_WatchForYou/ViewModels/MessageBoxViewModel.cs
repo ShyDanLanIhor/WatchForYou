@@ -1,14 +1,5 @@
-﻿using Shyryi_WatchForYou.Commands;
-using Shyryi_WatchForYou.ViewModels.AriaListViewModels;
-using Shyryi_WatchForYou.Views;
-using Shyryi_WatchForYou.Views.AriaListView;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Shyryi_WatchForYou.Views;
 using System.Windows;
-using System.Windows.Input;
 
 namespace Shyryi_WatchForYou.ViewModels
 {
