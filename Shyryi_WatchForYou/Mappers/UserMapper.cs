@@ -19,7 +19,8 @@ namespace Shyryi_WatchForYou.Mappers
                 userDto.FirstName,
                 userDto.LastName,
                 userDto.Email,
-                userDto.IsVerificated
+                userDto.IsVerificated,
+                userDto.ConfirmationToken
             );
 
             if (userDto.Areas != null)
@@ -40,7 +41,8 @@ namespace Shyryi_WatchForYou.Mappers
                 FirstName = userModel.FirstName,
                 LastName = userModel.LastName,
                 Email = userModel.Email,
-                IsVerificated = userModel.IsVerificated
+                IsVerificated = userModel.IsVerificated,
+                ConfirmationToken = userModel.ConfirmationToken
             };
 
             if (userModel.Areas != null)

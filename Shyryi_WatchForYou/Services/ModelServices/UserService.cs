@@ -5,6 +5,7 @@ using System.Net;
 using System.Windows;
 using Shyryi_WatchForYou.Data;
 using Shyryi_WatchForYou.DTOs;
+using Shyryi_WatchForYou.Exceptions;
 using Shyryi_WatchForYou.Models;
 using Shyryi_WatchForYou.Models.Repositories;
 using Shyryi_WatchForYou.ViewModels;
@@ -26,7 +27,7 @@ namespace Shyryi_WatchForYou.Services.ModelServices
             }
             catch (Exception)
             {
-                MessageBox.Show("Cannot fetch user!");
+                MessageBoxViewModel.Show("Cannot fetch user!");
                 return null;
             }
         }
@@ -38,23 +39,17 @@ namespace Shyryi_WatchForYou.Services.ModelServices
             }
             catch (Exception)
             {
-                MessageBox.Show("Cannot fetch user!");
+                MessageBoxViewModel.Show("Cannot fetch user!");
                 return null;
             }
         }
 
         public static bool AuthenticateUser(NetworkCredential credential)
         {
-            try
-            {
-                var user = UserRepository.GetUsersByUsernameAndPassword(credential.UserName, credential.Password).Any();
-                return user;
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Cannot authenticate user!");
-                return false;
-            }
+            UserDto user = UserRepository.GetUsersByUsernameAndPassword(credential.UserName, credential.Password);
+            if (user == null) { throw new InvalidDataInputException("Invalid username or password"); }
+            if (user.IsVerificated == false) { throw new InvalidDataInputException("Email is not verificated"); }
+            return true;
         }
 
         public static bool DeleteAccount(string username)
@@ -65,7 +60,7 @@ namespace Shyryi_WatchForYou.Services.ModelServices
             }
             catch (Exception)
             {
-                MessageBox.Show("Cannot remove user!");
+                MessageBoxViewModel.Show("Cannot remove user!");
                 return false;
             }
         }
@@ -82,6 +77,8 @@ namespace Shyryi_WatchForYou.Services.ModelServices
                     existingUser.FirstName = updatedUser.FirstName;
                     existingUser.LastName = updatedUser.LastName;
                     existingUser.Email = updatedUser.Email;
+                    existingUser.IsVerificated = updatedUser.IsVerificated;
+                    existingUser.ConfirmationToken = updatedUser.ConfirmationToken;
 
                     if (updatedUser.Areas != null)
                     {
@@ -93,13 +90,28 @@ namespace Shyryi_WatchForYou.Services.ModelServices
                 }
                 else
                 {
-                    MessageBox.Show("User not found!");
+                    MessageBoxViewModel.Show("User not found!");
                     return false;
                 }
             }
             catch (Exception)
             {
-                MessageBox.Show("Cannot update user!");
+                MessageBoxViewModel.Show("Cannot update user!");
+                return false;
+            }
+        }
+
+        public static bool UpdateUserPassword(UserDto updatedUser, string password)
+        {
+            try
+            {
+                updatedUser.Password = password;
+                UserRepository.UpdateUser(updatedUser);
+                return true;
+            }
+            catch (Exception)
+            {
+                MessageBoxViewModel.Show("Cannot update user!");
                 return false;
             }
         }
@@ -112,7 +124,7 @@ namespace Shyryi_WatchForYou.Services.ModelServices
             }
             catch (Exception)
             {
-                MessageBox.Show("Cannot fetch things for the user!");
+                MessageBoxViewModel.Show("Cannot fetch things for the user!");
                 return new List<ThingDto>();
             }
         }

@@ -94,7 +94,7 @@ namespace Shyryi_WatchForYou.ViewModels
                         $"{(!string.IsNullOrEmpty(user.FirstName) ? " " + user.FirstName : "")}" +
                         $"{(!string.IsNullOrEmpty(user.LastName) ? " " + user.LastName : "")}");
             }
-            else { MessageBox.Show("Invalid user, not logged in"); }
+            else { MessageBoxViewModel.Show("Invalid user, not logged in"); }
 
             ShowHomeViewCommand = new RelayCommand(ExecuteShowHomeViewCommand);
             ShowCreateAreaViewCommand = new RelayCommand(ExecuteCreateAreaViewCommand);

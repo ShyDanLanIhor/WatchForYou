@@ -3,6 +3,7 @@ using Shyryi_WatchForYou.Exceptions;
 using Shyryi_WatchForYou.Mappers;
 using Shyryi_WatchForYou.Models;
 using Shyryi_WatchForYou.Models.Repositories;
+using Shyryi_WatchForYou.Services;
 using Shyryi_WatchForYou.Services.ModelServices;
 using Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel;
 using System;
@@ -56,13 +57,16 @@ namespace Shyryi_WatchForYou.Commands.EnterViewModel
                 { throw new ExistingDataException("Email already connected!"); }
                 if (Regex.IsMatch(_signUpViewModel.Email, @"^$|^.*@.*\..*$") != true)
                 { throw new InvalidDataInputException("Invalid email input!"); }
-                if (Regex.IsMatch(_signUpViewModel.Username, @"^[a-zA-Z0-9_.-]*(?<!\.)(?<!@)$") != true)
+                if (Regex.IsMatch(_signUpViewModel.Username, @"^[a-zA-Z0-9]*(?<!\.)(?<!@)$") != true)
                 { throw new InvalidDataInputException("Invalid username input!"); }
+                string confirmationToken = EmailService.GenerateUniqueToken(32);
+                string confirmationLink = $"https://localhost:7062/User/Confirm?token={confirmationToken}";
+                EmailService.SendConfirmationEmail(_signUpViewModel.Email, confirmationLink);
                 UserService.CreateAccount(UserMapper
                     .MapToDto(new UserModel(
                         _signUpViewModel.Username,
                         new NetworkCredential(string.Empty, _signUpViewModel.Password).Password,
-                        _signUpViewModel.Email)));
+                        _signUpViewModel.Email, false, confirmationToken)));
                 _signUpViewModel.SingUpInfoColor = (Brush)App.Current.FindResource("SignUpColor");
                 _signUpViewModel.SignUpInfo = "Account was created!";
                 await Task.Delay(2000);
