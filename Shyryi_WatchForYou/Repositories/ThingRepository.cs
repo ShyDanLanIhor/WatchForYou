@@ -1,14 +1,10 @@
 ﻿using Shyryi_WatchForYou.Data;
 using Shyryi_WatchForYou.DTOs;
-using Shyryi_WatchForYou.Models.Repositories;
 using Shyryi_WatchForYou.Services;
 using Shyryi_WatchForYou.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace Shyryi_WatchForYou.Repositories
 {

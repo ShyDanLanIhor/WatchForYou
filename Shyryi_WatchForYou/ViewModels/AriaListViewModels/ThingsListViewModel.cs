@@ -3,18 +3,10 @@ using Shyryi_WatchForYou.DTOs;
 using Shyryi_WatchForYou.Exceptions;
 using Shyryi_WatchForYou.Mappers;
 using Shyryi_WatchForYou.Models;
-using Shyryi_WatchForYou.Repositories;
 using Shyryi_WatchForYou.Services.ModelServices;
-using Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel;
 using Shyryi_WatchForYou.Views.AriaListView;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Common;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Reflection.Metadata;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,6 +16,8 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
 {
     public class ThingsListViewModel : ViewModelBase
     {
+        public static event Action<int> ThingIsDeleted;
+
         private ObservableCollection<ThingDto> things;
 
         public ObservableCollection<ThingDto> Things
@@ -129,6 +123,7 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
         {
             if (parameter is ThingDto thing)
             {
+                ThingIsDeleted?.Invoke(thing.Id);
                 ThingService.RemoveThing(thing.Id);
                 things.Remove(thing);
             }

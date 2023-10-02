@@ -1,8 +1,5 @@
-﻿using Shyryi_WatchForYou.Views;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Windows;
 
 namespace Shyryi_WatchForYou.DTOs
 {

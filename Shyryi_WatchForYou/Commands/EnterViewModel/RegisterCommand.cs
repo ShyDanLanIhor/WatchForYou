@@ -1,21 +1,13 @@
-﻿using Shyryi_WatchForYou.DTOs;
-using Shyryi_WatchForYou.Exceptions;
+﻿using Shyryi_WatchForYou.Exceptions;
 using Shyryi_WatchForYou.Mappers;
 using Shyryi_WatchForYou.Models;
-using Shyryi_WatchForYou.Models.Repositories;
 using Shyryi_WatchForYou.Services;
 using Shyryi_WatchForYou.Services.ModelServices;
 using Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Net;
-using System.Security;
-using System.Security.Principal;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
 

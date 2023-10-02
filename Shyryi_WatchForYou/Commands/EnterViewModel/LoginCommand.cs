@@ -1,20 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Principal;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
-using Shyryi_WatchForYou.Models.Repositories;
-using System.Security;
 using Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel;
 using System.ComponentModel;
 using Shyryi_WatchForYou.Services.ModelServices;
 using System.Windows;
-using Shyryi_WatchForYou.Models;
 using Shyryi_WatchForYou.Exceptions;
-using System.Text.RegularExpressions;
 using System.Windows.Media;
 
 namespace Shyryi_WatchForYou.Commands.EnterViewModel

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using Shyryi_WatchForYou.Data;
 using Shyryi_WatchForYou.DTOs;
 using Shyryi_WatchForYou.Repositories;

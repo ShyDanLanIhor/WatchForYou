@@ -4,16 +4,11 @@ using Shyryi_WatchForYou.DTOs;
 using Shyryi_WatchForYou.Mappers;
 using Shyryi_WatchForYou.Models;
 using Shyryi_WatchForYou.Services.ModelServices;
-using Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Security;
 using System.Threading;
 using System.Windows.Input;
-using Shyryi_WatchForYou.ViewModels;
-using Microsoft.VisualBasic.ApplicationServices;
 using System.Windows;
 using System.Windows.Media;
 using Shyryi_WatchForYou.Exceptions;
@@ -33,6 +28,8 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
         private string _settingsInfo;
         private Brush _settingsInfoColor;
         private UserDto currentUser;
+
+        public static event Action UserDataChanged;
 
         public string Username
         {
@@ -108,10 +105,8 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
         }
 
         public ICommand ChangeCommand { get; }
-        ViewModels.MainViewModel mainViewModel;
-        public SettingViewModel(ViewModels.MainViewModel mainViewModel)
+        public SettingViewModel()
         {
-            this.mainViewModel = mainViewModel;
             currentUser = UserService.GetByUsername(Thread.CurrentPrincipal.Identity.Name);
             Username = currentUser.Username;
             Email = currentUser.Email;
@@ -119,7 +114,6 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
             LastName = currentUser.LastName;
 
             ChangeCommand = new RelayCommand(ExecuteChangeCommand, CanExecuteChangeCommand);
-
         }
 
         private async void ExecuteChangeCommand(object obj)
@@ -140,9 +134,7 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
                     (new UserModel(currentUser.Id, Username,
                     new NetworkCredential(string.Empty, NewPassword).Password,
                     FirstName, LastName, Email, gotBy.IsVerificated, gotBy.ConfirmationToken)));
-                this.mainViewModel.CurrentUserAccount = new UserAccountEntity(Username, $"Welcome" +
-                            $"{(!string.IsNullOrEmpty(FirstName) ? " " + FirstName : "")}" +
-                            $"{(!string.IsNullOrEmpty(LastName) ? " " + LastName : "")}");
+                UserDataChanged?.Invoke();
                 SettingsInfoColor = (Brush)App.Current.FindResource("SettingsColor");
                 SettingsInfo = "User data was changed!";
                 await Task.Delay(2000);

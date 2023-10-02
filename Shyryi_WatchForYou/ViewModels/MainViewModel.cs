@@ -1,28 +1,18 @@
 ﻿using FontAwesome.Sharp;
 using InfinityStudio.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
-using Shyryi_WatchForYou.Models.Repositories;
 using Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel;
 using Shyryi_WatchForYou.Commands;
 using Shyryi_WatchForYou.Services.ModelServices;
 using Shyryi_WatchForYou.DTOs;
-using Microsoft.VisualBasic.ApplicationServices;
-using Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel;
-using System.Security.Principal;
-using Shyryi_WatchForYou.Services;
-using Shyryi_WatchForYou.Data;
-using Shyryi_WatchForYou.ViewModels.AriaListViewModels;
-using Shyryi_WatchForYou.Views.AriaListView;
 using Shyryi_WatchForYou.Repositories;
 using Shyryi_WatchForYou.Mappers;
 using Shyryi_WatchForYou.Models;
+using System;
+using Microsoft.VisualBasic.ApplicationServices;
 
 namespace Shyryi_WatchForYou.ViewModels
 {
@@ -101,7 +91,21 @@ namespace Shyryi_WatchForYou.ViewModels
             ShowAreasListViewCommand = new RelayCommand(ExecuteShowAreasListViewCommand);
             ShowSettingsViewCommand = new RelayCommand(ExecuteShowSettingsViewCommand);
 
+            SettingViewModel.UserDataChanged += UserDataChanged;
+
             Task.Run(CheckIfAlerted);
+        }
+
+        private void UserDataChanged()
+        {
+            UserDto user = UserService.GetByUsername(currentUserName);
+            if (user != null)
+            {
+                CurrentUserAccount = new UserAccountEntity(user.Username, $"Welcome" +
+                $"{(!string.IsNullOrEmpty(user.FirstName) ? " " + user.FirstName : "")}" +
+                        $"{(!string.IsNullOrEmpty(user.LastName) ? " " + user.LastName : "")}");
+            }
+            else { MessageBoxViewModel.Show("Invalid user, not logged in"); }
         }
 
         private async void CheckIfAlerted()
@@ -152,7 +156,7 @@ namespace Shyryi_WatchForYou.ViewModels
         }
         private void ExecuteShowSettingsViewCommand(object obj)
         {
-            CurrentChildView = new SettingViewModel(this);
+            CurrentChildView = new SettingViewModel();
             Caption = "Settings Page";
             Icon = IconChar.Gear;
         }

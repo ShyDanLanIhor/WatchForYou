@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Shyryi_WatchForYou.Services;
-using Shyryi_WatchForYou.Stores;
-using Shyryi_WatchForYou.ViewModels;
-using Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel;
+﻿using Shyryi_WatchForYou.Services;
 
 namespace Shyryi_WatchForYou.Commands
 {
