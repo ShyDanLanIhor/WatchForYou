@@ -66,22 +66,20 @@ namespace Shyryi_WatchForYou.Commands.EnterViewModel
                 {
                     App.Current.MainWindow.Visibility = Visibility.Collapsed;
                 }
-                else
-                {
-                    throw new ExistingDataException("* Invalid username or password");
-                }
             }
             catch (InputDataException e)
             {
-                _signInViewModel.ErrorMessage = e.Message;
+                _signInViewModel.SingInInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
+                _signInViewModel.SignInInfo = e.Message;
                 await Task.Delay(2000);
-                _signInViewModel.ErrorMessage = "";
+                _signInViewModel.SignInInfo = "";
             }
             catch (Exception)
             {
-                _signInViewModel.ErrorMessage = "Can not connect to database!";
+                _signInViewModel.SingInInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
+                _signInViewModel.SignInInfo = "User data was not changed!";
                 await Task.Delay(2000);
-                _signInViewModel.ErrorMessage = "";
+                _signInViewModel.SignInInfo = "";
             }
         }
     }

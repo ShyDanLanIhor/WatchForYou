@@ -17,6 +17,13 @@ using Shyryi_WatchForYou.Stores;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using Shyryi_WatchForYou.Services.ModelServices;
 using Shyryi_WatchForYou.DTOs;
+using Shyryi_WatchForYou.Exceptions;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using System.Text.RegularExpressions;
+using System.Windows.Media;
+using Shyryi_WatchForYou.Mappers;
+using Shyryi_WatchForYou.Models;
+using System.Net;
 
 namespace Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel
 {
@@ -26,7 +33,8 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel
         // fields
         private string _username;
         private SecureString _password;
-        private string _errorMessage;
+        private string _signInInfo;
+        private Brush _signInInfoColor;
 
         public string Username
         {
@@ -46,13 +54,22 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel
                 OnPropertyChanged(nameof(Password));
             }
         }
-        public string ErrorMessage
+        public string SignInInfo
         {
-            get => _errorMessage;
+            get => _signInInfo;
             set
             {
-                _errorMessage = value;
-                OnPropertyChanged(nameof(ErrorMessage));
+                _signInInfo = value;
+                OnPropertyChanged(nameof(SignInInfo));
+            }
+        }
+        public Brush SingInInfoColor
+        {
+            get => _signInInfoColor;
+            set
+            {
+                _signInInfoColor = value;
+                OnPropertyChanged(nameof(SingInInfoColor));
             }
         }
 
@@ -69,16 +86,34 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel
             ResetPasswordCommand = new RelayCommand(ExecuteResetPasswordCommand);
         }
 
-        private void ExecuteResetPasswordCommand(object obj)
+        private async void ExecuteResetPasswordCommand(object obj)
         {
             try
             {
-
+                UserDto user = UserService.GetByUsername(Username);
+                if (user == null) { throw new InvalidDataInputException("User does not exist!"); }
+                if (user.IsVerificated == false) { throw new InvalidDataInputException("Email is not verificated"); }
+                string newPassword = EmailService.GenerateUniqueToken(10);
+                UserService.UpdateUserPassword(user, newPassword);
+                EmailService.SendPasswordOnEmail(user.Email, newPassword);
+                SingInInfoColor = (Brush)App.Current.FindResource("SignInColor");
+                SignInInfo = "New password was send on email!";
+                await Task.Delay(2000);
+                SignInInfo = "";
+            }
+            catch (InputDataException e)
+            {
+                SingInInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
+                SignInInfo = e.Message;
+                await Task.Delay(2000);
+                SignInInfo = "";
             }
             catch (Exception)
             {
-
-                throw;
+                SingInInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
+                SignInInfo = "Password was not reseted!";
+                await Task.Delay(2000);
+                SignInInfo = "";
             }
         }
     }

@@ -23,7 +23,7 @@ namespace Shyryi_WatchForYou.Repositories
             }
             catch (Exception)
             {
-                MessageBox.Show("Cannot fetch things for the area!");
+                MessageBoxViewModel.Show("Cannot fetch things for the area!");
                 return new List<ThingDto>();
             }
         }
@@ -37,7 +37,7 @@ namespace Shyryi_WatchForYou.Repositories
             }
             catch (Exception)
             {
-                MessageBox.Show("Cannot fetch thing by ID!");
+                MessageBoxViewModel.Show("Cannot fetch thing by ID!");
                 return null;
             }
         }
@@ -55,7 +55,7 @@ namespace Shyryi_WatchForYou.Repositories
             }
             else
             {
-                MessageBox.Show("Area not found!");
+                MessageBoxViewModel.Show("Area not found!");
                 return false;
             }
         }
@@ -81,13 +81,13 @@ namespace Shyryi_WatchForYou.Repositories
                 }
                 else
                 {
-                    MessageBox.Show("Thing not found!");
+                    MessageBoxViewModel.Show("Thing not found!");
                     return false;
                 }
             }
             catch (Exception)
             {
-                MessageBox.Show("Cannot update thing!");
+                MessageBoxViewModel.Show("Cannot update thing!");
                 return false;
             }
         }
@@ -106,13 +106,13 @@ namespace Shyryi_WatchForYou.Repositories
                 }
                 else
                 {
-                    MessageBox.Show("Thing not found!");
+                    MessageBoxViewModel.Show("Thing not found!");
                     return false;
                 }
             }
             catch (Exception)
             {
-                MessageBox.Show("Cannot remove thing from the database!");
+                MessageBoxViewModel.Show("Cannot remove thing from the database!");
                 return false;
             }
         }
@@ -131,13 +131,13 @@ namespace Shyryi_WatchForYou.Repositories
                 }
                 else
                 {
-                    MessageBox.Show("Thing not found!");
+                    MessageBoxViewModel.Show("Thing not found!");
                     return false;
                 }
             }
             catch (Exception)
             {
-                MessageBox.Show("Cannot update IsAlerted for the thing!");
+                MessageBoxViewModel.Show("Cannot update IsAlerted for the thing!");
                 return false;
             }
         }

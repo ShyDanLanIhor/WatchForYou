@@ -53,13 +53,13 @@ namespace Shyryi_WatchForYou.Services.ModelServices
                 }
                 else
                 {
-                    MessageBox.Show("Area not found!");
+                    MessageBoxViewModel.Show("Area not found!");
                     return false;
                 }
             }
             catch (Exception)
             {
-                MessageBox.Show("Cannot update area!");
+                MessageBoxViewModel.Show("Cannot update area!");
                 return false;
             }
         }
@@ -74,7 +74,7 @@ namespace Shyryi_WatchForYou.Services.ModelServices
             }
             catch (Exception)
             {
-                MessageBox.Show("Cannot fetch area by Name!");
+                MessageBoxViewModel.Show("Cannot fetch area by Name!");
                 return null;
             }
         }
@@ -92,7 +92,7 @@ namespace Shyryi_WatchForYou.Services.ModelServices
             }
             catch (Exception)
             {
-                MessageBox.Show("Cannot fetch area by ID!");
+                MessageBoxViewModel.Show("Cannot fetch area by ID!");
                 return false;
             }
         }

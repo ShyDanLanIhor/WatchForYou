@@ -139,7 +139,7 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
                 UserService.UpdateUser(currentUser.Id, UserMapper.MapToDto
                     (new UserModel(currentUser.Id, Username,
                     new NetworkCredential(string.Empty, NewPassword).Password,
-                    FirstName, LastName, Email)));
+                    FirstName, LastName, Email, gotBy.IsVerificated, gotBy.ConfirmationToken)));
                 this.mainViewModel.CurrentUserAccount = new UserAccountEntity(Username, $"Welcome" +
                             $"{(!string.IsNullOrEmpty(FirstName) ? " " + FirstName : "")}" +
                             $"{(!string.IsNullOrEmpty(LastName) ? " " + LastName : "")}");

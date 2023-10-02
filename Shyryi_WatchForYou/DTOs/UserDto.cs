@@ -23,6 +23,7 @@ namespace Shyryi_WatchForYou.DTOs
         [Required]
         public string Email { get; set; } = null!;
         public bool IsVerificated { get; set; }
+        public string? ConfirmationToken { get; set; }
         public ICollection<AreaDto>? Areas { get; set; }
     }
 }

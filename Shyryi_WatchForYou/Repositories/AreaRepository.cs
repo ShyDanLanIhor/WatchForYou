@@ -26,7 +26,7 @@ namespace Shyryi_WatchForYou.Repositories
             }
             catch (Exception)
             {
-                MessageBox.Show("Cannot fetch areas for the user!");
+                MessageBoxViewModel.Show("Cannot fetch areas for the user!");
                 return new List<AreaDto>();
             }
         }
@@ -44,7 +44,7 @@ namespace Shyryi_WatchForYou.Repositories
             }
             else
             {
-                MessageBox.Show("User not found!");
+                MessageBoxViewModel.Show("User not found!");
                 return false;
             }
         }
@@ -63,13 +63,13 @@ namespace Shyryi_WatchForYou.Repositories
                 }
                 else
                 {
-                    MessageBox.Show("Area not found!");
+                    MessageBoxViewModel.Show("Area not found!");
                     return false;
                 }
             }
             catch (Exception)
             {
-                MessageBox.Show("Cannot remove area from the database!");
+                MessageBoxViewModel.Show("Cannot remove area from the database!");
                 return false;
             }
         }
@@ -82,7 +82,7 @@ namespace Shyryi_WatchForYou.Repositories
             }
             catch (Exception)
             {
-                MessageBox.Show("Cannot fetch area from the database!");
+                MessageBoxViewModel.Show("Cannot fetch area from the database!");
                 return null;
             }
         }
@@ -95,7 +95,7 @@ namespace Shyryi_WatchForYou.Repositories
             }
             catch (Exception)
             {
-                MessageBox.Show("Cannot fetch area from the database!");
+                MessageBoxViewModel.Show("Cannot fetch area from the database!");
                 return null;
             }
         }
@@ -108,7 +108,7 @@ namespace Shyryi_WatchForYou.Repositories
             }
             catch (Exception)
             {
-                MessageBox.Show("Cannot fetch area from the database!");
+                MessageBoxViewModel.Show("Cannot fetch area from the database!");
                 return false;
             }
         }
@@ -124,7 +124,7 @@ namespace Shyryi_WatchForYou.Repositories
             }
             catch (Exception)
             {
-                MessageBox.Show("Cannot update area in the database!");
+                MessageBoxViewModel.Show("Cannot update area in the database!");
                 return false;
             }
         }

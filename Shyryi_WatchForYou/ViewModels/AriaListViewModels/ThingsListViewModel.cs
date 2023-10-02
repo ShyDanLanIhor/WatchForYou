@@ -107,7 +107,8 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
             {
                 try
                 {
-                    if (Regex.IsMatch(thing.Ip, @"^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$") != true)
+                    if (Regex.IsMatch(thing.Ip, @"^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}:(25[0-5]|(2[0-4]|1\d|[1-9]|)\d){2}$") != true &&
+                        Regex.IsMatch(thing.Ip, @"^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$") != true)
                     { throw new InvalidDataInputException("Invalid device IP input!"); }
                     ThingService.UpdateThing(thing.Id, ThingMapper.MapToDto(new ThingModel(
                         thing.Id, thing.Name, thing.Ip, thing.IsVideo, thing.IsAlerted, thing.Description, thing.AreaId,

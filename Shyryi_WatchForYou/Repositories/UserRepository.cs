@@ -26,74 +26,42 @@ namespace Shyryi_WatchForYou.Models.Repositories
         public static UserDto GetByUsername(string username)
         {
             DbContextService.DbContext = new WatchForYouContext();
-            try
-            {
-                return (from u in DbContextService.DbContext.User
-                        where u.Username == username
-                        select u).FirstOrDefault();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Cannot fetch user from the database!");
-                return null;
-            }
+            return (from u in DbContextService.DbContext.User
+                    where u.Username == username
+                    select u).FirstOrDefault();
         }
 
         public static UserDto GetByEmail(string email)
         {
             DbContextService.DbContext = new WatchForYouContext();
-            try
-            {
-                return (from u in DbContextService.DbContext.User
-                        where u.Email == email
-                        select u).FirstOrDefault();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Cannot fetch user from the database!");
-                return null;
-            }
+            return (from u in DbContextService.DbContext.User
+                    where u.Email == email
+                    select u).FirstOrDefault();
         }
 
-        public static List<UserDto> GetUsersByUsernameAndPassword(string username, string password)
+        public static UserDto GetUsersByUsernameAndPassword(string username, string password)
         {
             DbContextService.DbContext = new WatchForYouContext();
-            try
-            {
-                return (from u in DbContextService.DbContext.User
-                        where u.Username == username && u.Password == password
-                        select u).ToList();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Cannot connect to the database!");
-                return new List<UserDto>();
-            }
+            return (from u in DbContextService.DbContext.User
+                    where u.Username == username && u.Password == password
+                    select u).FirstOrDefault();
         }
 
         public static bool RemoveUserByUsername(string username)
         {
             DbContextService.DbContext = new WatchForYouContext();
-            try
+            var user = (from u in DbContextService.DbContext.User
+                        where u.Username == username
+                        select u).FirstOrDefault();
+            if (user != null)
             {
-                var user = (from u in DbContextService.DbContext.User
-                            where u.Username == username
-                            select u).FirstOrDefault();
-                if (user != null)
-                {
-                    DbContextService.DbContext.User.Remove(user);
-                    DbContextService.DbContext.SaveChanges();
-                    return true;
-                }
-                else
-                {
-                    MessageBox.Show("User not found!");
-                    return false;
-                }
+                DbContextService.DbContext.User.Remove(user);
+                DbContextService.DbContext.SaveChanges();
+                return true;
             }
-            catch (Exception)
+            else
             {
-                MessageBox.Show("Cannot remove user from the database!");
+                MessageBoxViewModel.Show("User not found!");
                 return false;
             }
         }
@@ -101,54 +69,30 @@ namespace Shyryi_WatchForYou.Models.Repositories
         public static UserDto GetById(int userId)
         {
             DbContextService.DbContext = new WatchForYouContext();
-            try
-            {
-                return DbContextService.DbContext.User.FirstOrDefault(u => u.Id == userId);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Cannot fetch user from the database!");
-                return null;
-            }
+            return DbContextService.DbContext.User.FirstOrDefault(u => u.Id == userId);
         }
 
         public static bool UpdateUser(UserDto user)
         {
             DbContextService.DbContext = new WatchForYouContext();
-            try
-            {
-                DbContextService.DbContext.User.Update(user);
-                DbContextService.DbContext.SaveChanges();
-                return true;
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Cannot update user in the database!");
-                return false;
-            }
+            DbContextService.DbContext.User.Update(user);
+            DbContextService.DbContext.SaveChanges();
+            return true;
         }
 
         public static List<ThingDto> GetAllThingsByUser(int userId)
         {
             DbContextService.DbContext = new WatchForYouContext();
-            try
+            List<ThingDto> wholeList = new List<ThingDto>();
+            UserDto user = GetById(userId);
+            foreach (var area in AreaRepository.GetAreasByUser(user.Username))
             {
-                List<ThingDto> wholeList = new List<ThingDto>();
-                UserDto user = GetById(userId);
-                foreach (var area in AreaRepository.GetAreasByUser(user.Username))
+                foreach (var thing in ThingRepository.GetThingsByArea(area.Id))
                 {
-                    foreach (var thing in ThingRepository.GetThingsByArea(area.Id))
-                    {
-                        wholeList.Add(thing);
-                    }
+                    wholeList.Add(thing);
                 }
-                return wholeList;
             }
-            catch (Exception)
-            {
-                MessageBox.Show("Cannot fetch things for the user!");
-                return new List<ThingDto>();
-            }
+            return wholeList;
         }
     }
 }
