@@ -6,50 +6,52 @@
              xmlns:local="clr-namespace:Shyryi_WatchForYou.Views.UserControlViews.MainView"
              mc:Ignorable="d" 
              d:DesignHeight="370" d:DesignWidth="550">
-    <StackPanel>
-        <TextBlock Text="Welcome to Watch for You" 
-                   HorizontalAlignment="Center" 
-                   FontWeight="Bold" FontSize="24"
-                   Foreground="{StaticResource HomeColor}"
-                   Margin="0,10,0,0">
-            <TextBlock.Effect>
-                <DropShadowEffect Color="Purple" ShadowDepth="0" Direction="0" BlurRadius="12"/>
-            </TextBlock.Effect>
-        </TextBlock>
-        <TextBlock Text="Experience the Future of Surveillance" 
-                   Margin="0,10,0,0"
-                   FontSize="16" 
-                   Foreground="{StaticResource HomeColor}">
-            <TextBlock.Effect>
-                <DropShadowEffect Color ="Purple" ShadowDepth="0" Direction="0" BlurRadius="6"/>
-            </TextBlock.Effect>
-        </TextBlock>
-        <TextBlock Text="Watch for You - Your Window to the Future. World of Watch for You, where innovation meets security in a futuristic blend. Watch for You is not just a company; it's a visionary software solution that empowers you to monitor and safeguard your properties. Imagine having the ability to track the status of your buildings, garages, and more, by creating abstract objects in our state-of-the-art database and connecting them to smart devices like cameras and motion sensors." 
-                   Margin="0,10,0,0"
-                   Width="530"
-                   TextWrapping="Wrap"
-                   FontSize="14" 
-                   Foreground="{StaticResource HomeColor}">
-            <TextBlock.Effect>
-                <DropShadowEffect Color="Purple" ShadowDepth="0" Direction="0" BlurRadius="8"/>
-            </TextBlock.Effect>
-        </TextBlock>
-        <Image Source="/Shyryi_WatchForYou;component/Resources/Images/SignInView/Logo.png"
-               Height="100" Width="100"/>
-        <TextBlock Text="Your Space, Secured Like Never Before" 
-                   Margin="0,10,0,0" 
-                   FontSize="16" 
-                   HorizontalAlignment="Center" 
-                   Foreground="{StaticResource HomeColor}">
-            <TextBlock.Effect>
-                <DropShadowEffect Color="Purple" ShadowDepth="0" Direction="0" BlurRadius="8"/>
-            </TextBlock.Effect>
-        </TextBlock>
-        <TextBlock Text="Visit our visionary world at www.watchforyou.com and join the surveillance evolution."
-                   Margin="0,10,0,0" FontSize="14" Foreground="{StaticResource HomeColor}">
-            <TextBlock.Effect>
-                <DropShadowEffect Color="Purple" ShadowDepth="0" Direction="0" BlurRadius="6"/>
-            </TextBlock.Effect>
-        </TextBlock>
-    </StackPanel>
+    <Grid Width="490" Height="370" VerticalAlignment="Top">
+        <StackPanel>
+            <TextBlock Text="Welcome to Watch for You" 
+               HorizontalAlignment="Center" 
+               FontWeight="Bold" FontSize="24"
+               Foreground="{StaticResource HomeColor}"
+               Margin="0,10,0,0">
+                <TextBlock.Effect>
+                    <DropShadowEffect Color="Purple" ShadowDepth="0" Direction="0" BlurRadius="12"/>
+                </TextBlock.Effect>
+            </TextBlock>
+            <TextBlock Text="Experience the Future of Surveillance" 
+               Margin="0,10,0,0"
+               FontSize="16" 
+               Foreground="{StaticResource HomeColor}">
+                <TextBlock.Effect>
+                    <DropShadowEffect Color ="Purple" ShadowDepth="0" Direction="0" BlurRadius="6"/>
+                </TextBlock.Effect>
+            </TextBlock>
+            <TextBlock Text="Watch for You - Your Window to the Future. World of Watch for You, where innovation meets security in a futuristic blend. Watch for You is not just a company; it's a visionary software solution that empowers you to monitor and safeguard your properties. Imagine having the ability to track the status of your buildings, garages, and more, by creating abstract objects in our state-of-the-art database and connecting them to smart devices like cameras and motion sensors." 
+               Margin="0,10,0,0"
+               Width="490"
+               TextWrapping="Wrap"
+               FontSize="14" 
+               Foreground="{StaticResource HomeColor}">
+                <TextBlock.Effect>
+                    <DropShadowEffect Color="Purple" ShadowDepth="0" Direction="0" BlurRadius="8"/>
+                </TextBlock.Effect>
+            </TextBlock>
+            <Image Source="/Shyryi_WatchForYou;component/Resources/Images/SignInView/Logo.png"
+           Height="100" Width="100"/>
+            <TextBlock Text="Your Space, Secured Like Never Before" 
+               Margin="0,5,0,0" 
+               FontSize="16" 
+               HorizontalAlignment="Center" 
+               Foreground="{StaticResource HomeColor}">
+                <TextBlock.Effect>
+                    <DropShadowEffect Color="Purple" ShadowDepth="0" Direction="0" BlurRadius="8"/>
+                </TextBlock.Effect>
+            </TextBlock>
+            <TextBlock Text="Visit our visionary world at www.watchforyou.com and join the surveillance evolution."
+               Margin="0,5,0,0" FontSize="13" Foreground="{StaticResource HomeColor}" Width="490">
+                <TextBlock.Effect>
+                    <DropShadowEffect Color="Purple" ShadowDepth="0" Direction="0" BlurRadius="6"/>
+                </TextBlock.Effect>
+            </TextBlock>
+        </StackPanel>
+    </Grid>
 </UserControl>

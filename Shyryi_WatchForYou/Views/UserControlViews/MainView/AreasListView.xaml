@@ -27,7 +27,7 @@
                                            Foreground="{StaticResource AreasListColor}"
                                            Style="{StaticResource TitleTextTxtBlk}"/>
                                 <TextBlock Text="{Binding Description}" 
-                                           Width="500"
+                                           Width="490"
                                            Foreground="{StaticResource AreasListColor}"
                                            Style="{StaticResource SimpleTextTxtBlk}"/>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">

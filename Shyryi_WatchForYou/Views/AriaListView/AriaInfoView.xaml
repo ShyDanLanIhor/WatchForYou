@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:Shyryi_WatchForYou.Views.AriaListView"
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+             d:DesignHeight="370" d:DesignWidth="550">
+    <Grid Width="490" Height="370" VerticalAlignment="Top">
         <StackPanel>
             <TextBlock Text="Name of current area"
                        Style="{StaticResource TitleTextTxtBlk}"
