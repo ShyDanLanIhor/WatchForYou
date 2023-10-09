@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Shyryi_WatchForYou.Views.AriaListView"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="370" d:DesignWidth="550">
     <ListView ItemsSource="{Binding Things}" SelectedItem="{Binding SelectedThing}" Background="Transparent" BorderBrush="Transparent"
           ScrollViewer.IsDeferredScrollingEnabled="False" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Auto"
           Grid.Row="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,0,10,10">
@@ -26,9 +26,8 @@
                                          Margin="10"/>
                                 <TextBox Text="{Binding Description}" 
                                          Style="{StaticResource ListViewSimpleTextTxtBox}"
-                                         Width="500"
-                                         Foreground="{StaticResource DeviceListColor}"
-                                         Margin="5"/>
+                                         Width="480"
+                                         Foreground="{StaticResource DeviceListColor}"/>
                                 <TextBox Text="{Binding Ip}"
                                          HorizontalAlignment="Center"
                                          Style="{StaticResource ListViewSimpleTextTxtBox}"
