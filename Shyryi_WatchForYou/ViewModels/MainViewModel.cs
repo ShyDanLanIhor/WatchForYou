@@ -8,7 +8,6 @@ using Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel;
 using Shyryi_WatchForYou.Commands;
 using Shyryi_WatchForYou.Services.ModelServices;
 using Shyryi_WatchForYou.DTOs;
-using Shyryi_WatchForYou.Repositories;
 using Shyryi_WatchForYou.Mappers;
 using Shyryi_WatchForYou.Models;
 using System;
@@ -93,7 +92,7 @@ namespace Shyryi_WatchForYou.ViewModels
 
             SettingViewModel.UserDataChanged += UserDataChanged;
 
-            Task.Run(CheckIfAlerted);
+            //Task.Run(CheckIfAlerted);
         }
 
         private void UserDataChanged()
@@ -120,14 +119,13 @@ namespace Shyryi_WatchForYou.ViewModels
                 {
                     if (thing.IsAlerted)
                     {
-                        MessageBoxViewModel.Show(AreaRepository.GetAreaById(thing.AreaId).Name + " " +
+                        MessageBoxViewModel.Show(AreaService.GetAreaById(thing.AreaId).Name + " " +
                             thing.Name.ToLower() + " is alerted.");
                         ThingService.UpdateThing(thing.Id, ThingMapper.MapToDto(new ThingModel(
                             thing.Id, thing.Name, thing.Ip, thing.IsVideo, false, thing.Description, thing.AreaId,
                             AreaMapper.MapToModel(AreaService.GetAreaById(thing.AreaId)))));
                     }
                 }
-
                 await Task.Delay(5000);
             }
         }

@@ -1,5 +1,5 @@
 ﻿using Shyryi_WatchForYou.DTOs;
-using Shyryi_WatchForYou.Repositories;
+using Shyryi_WatchForYou.Services.ModelServices;
 using Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel;
 using System;
 
@@ -38,7 +38,7 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
 
         public CameraViewModel(ThingDto thing)
         {
-            TitleName = AreaRepository.GetAreaById(thing.AreaId).Name + " " + 
+            TitleName = AreaService.GetAreaById(thing.AreaId).Name + " " + 
                 thing.Name.ToLower() + " view.";
             webViewUrl = new Uri("http://" + thing.Ip);
         }

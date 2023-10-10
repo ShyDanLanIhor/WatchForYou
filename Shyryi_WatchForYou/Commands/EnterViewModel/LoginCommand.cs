@@ -69,7 +69,7 @@ namespace Shyryi_WatchForYou.Commands.EnterViewModel
             catch (Exception)
             {
                 _signInViewModel.SingInInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
-                _signInViewModel.SignInInfo = "User data was not changed!";
+                _signInViewModel.SignInInfo = "User was not logged in!";
                 await Task.Delay(2000);
                 _signInViewModel.SignInInfo = "";
             }

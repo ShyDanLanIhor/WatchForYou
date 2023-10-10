@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using Microsoft.VisualBasic.ApplicationServices;
-using Shyryi_WatchForYou.Data;
-using Shyryi_WatchForYou.DTOs;
+﻿using System.Windows;
 using Shyryi_WatchForYou.Services;
 using Shyryi_WatchForYou.Services.ModelServices;
 using Shyryi_WatchForYou.Stores;
