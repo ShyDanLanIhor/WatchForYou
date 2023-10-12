@@ -1,5 +1,4 @@
-﻿using InfinityStudio.Models;
-using Shyryi_WatchForYou.Commands;
+﻿using Shyryi_WatchForYou.Commands;
 using Shyryi_WatchForYou.DTOs;
 using Shyryi_WatchForYou.Mappers;
 using Shyryi_WatchForYou.Models;
@@ -9,7 +8,6 @@ using System.Net;
 using System.Security;
 using System.Threading;
 using System.Windows.Input;
-using System.Windows;
 using System.Windows.Media;
 using Shyryi_WatchForYou.Exceptions;
 using System.Threading.Tasks;

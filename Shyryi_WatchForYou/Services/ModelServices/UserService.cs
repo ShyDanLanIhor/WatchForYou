@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Threading;
-using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
-using Microsoft.VisualBasic.ApplicationServices;
 using Newtonsoft.Json;
 using Shyryi_WatchForYou.DTOs;
 using Shyryi_WatchForYou.Exceptions;
-using Shyryi_WatchForYou.ViewModels;
 using Shyryi_WatchForYou_Server.Models;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Shyryi_WatchForYou.Services.ModelServices
 {
@@ -28,9 +22,10 @@ namespace Shyryi_WatchForYou.Services.ModelServices
                     }));
                 return TcpClientService.Read<bool>() == true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                return ExceptionService
+                    .HandleDataBaseException<bool>(ex);
             }
         }
         public static UserDto GetByUsername(string username)
@@ -48,10 +43,10 @@ namespace Shyryi_WatchForYou.Services.ModelServices
                     }));
                 return TcpClientService.Read<UserDto>();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBoxViewModel.Show("Cannot fetch user!");
-                return null;
+                return ExceptionService
+                    .HandleDataBaseException<UserDto>(ex);
             }
         }
         public static UserDto GetByEmail(string email)
@@ -69,10 +64,10 @@ namespace Shyryi_WatchForYou.Services.ModelServices
                     }));
                 return TcpClientService.Read<UserDto>();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBoxViewModel.Show("Cannot fetch user!");
-                return null;
+                return ExceptionService
+                    .HandleDataBaseException<UserDto>(ex);
             }
         }
 
@@ -109,9 +104,10 @@ namespace Shyryi_WatchForYou.Services.ModelServices
                     }));
                 return TcpClientService.Read<bool>() == true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                return ExceptionService
+                    .HandleDataBaseException<bool>(ex);
             }
         }
 
@@ -132,9 +128,10 @@ namespace Shyryi_WatchForYou.Services.ModelServices
                     }));
                 return TcpClientService.Read<bool>() == true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                return ExceptionService
+                    .HandleDataBaseException<bool>(ex);
             }
         }
 
@@ -155,9 +152,10 @@ namespace Shyryi_WatchForYou.Services.ModelServices
                     }));
                 return TcpClientService.Read<bool>() == true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                return ExceptionService
+                    .HandleDataBaseException<bool>(ex);
             }
         }
 
@@ -176,10 +174,10 @@ namespace Shyryi_WatchForYou.Services.ModelServices
                     }));
                 return TcpClientService.Read<List<ThingDto>>();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                return new List<ThingDto>();
+                return ExceptionService
+                    .HandleDataBaseException<List<ThingDto>>(ex);
             }
         }
     }

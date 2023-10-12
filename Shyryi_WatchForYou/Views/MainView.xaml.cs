@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shyryi_WatchForYou.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -42,6 +43,7 @@ namespace Shyryi_WatchForYou.Views
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
+            TcpClientService.Close();
             Application.Current.Shutdown();
         }
 

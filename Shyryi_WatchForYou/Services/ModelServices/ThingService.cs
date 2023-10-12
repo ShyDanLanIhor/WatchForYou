@@ -1,10 +1,11 @@
-﻿using Microsoft.VisualBasic.ApplicationServices;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Shyryi_WatchForYou.DTOs;
+using Shyryi_WatchForYou.ViewModels;
 using Shyryi_WatchForYou_Server.Models;
 using System;
 using System.Collections.Generic;
-using System.Threading;
+using System.IO;
+using System.Net.Sockets;
 
 namespace Shyryi_WatchForYou.Services.ModelServices
 {
@@ -12,28 +13,44 @@ namespace Shyryi_WatchForYou.Services.ModelServices
     {
         public static List<ThingDto> GetThingsByArea(int areaId)
         {
-            TcpClientService.Write(JsonConvert.SerializeObject(new RequestEntity
+            try
             {
-                Type = "Get things by area",
-                Data = new
+                TcpClientService.Write(JsonConvert.SerializeObject(new RequestEntity
                 {
-                    AreaId = areaId
-                }
-            }));
-            return TcpClientService.Read<List<ThingDto>>();
+                    Type = "Get things by area",
+                    Data = new
+                    {
+                        AreaId = areaId
+                    }
+                }));
+                return TcpClientService.Read<List<ThingDto>>();
+            }
+            catch (Exception ex)
+            {
+                return ExceptionService
+                    .HandleDataBaseException<List<ThingDto>>(ex);
+            }
         }
 
         public static ThingDto GetThingById(int thingId)
         {
-            TcpClientService.Write(JsonConvert.SerializeObject(new RequestEntity
+            try
             {
-                Type = "Get thing by id",
-                Data = new
+                TcpClientService.Write(JsonConvert.SerializeObject(new RequestEntity
                 {
-                    ThingId = thingId
-                }
-            }));
-            return TcpClientService.Read<ThingDto>();
+                    Type = "Get thing by id",
+                    Data = new
+                    {
+                        ThingId = thingId
+                    }
+                }));
+                return TcpClientService.Read<ThingDto>();
+            }
+            catch (Exception ex)
+            {
+                return ExceptionService
+                    .HandleDataBaseException<ThingDto>(ex);
+            }
         }
 
         public static bool CreateThing(ThingDto thing)
@@ -48,9 +65,10 @@ namespace Shyryi_WatchForYou.Services.ModelServices
                     }));
                 return TcpClientService.Read<bool>() == true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                return ExceptionService
+                    .HandleDataBaseException<bool>(ex);
             }
         }
 
@@ -71,9 +89,10 @@ namespace Shyryi_WatchForYou.Services.ModelServices
                     }));
                 return TcpClientService.Read<bool>() == true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                return ExceptionService
+                    .HandleDataBaseException<bool>(ex);
             }
         }
 
@@ -92,9 +111,10 @@ namespace Shyryi_WatchForYou.Services.ModelServices
                     }));
                 return TcpClientService.Read<bool>() == true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                return ExceptionService
+                    .HandleDataBaseException<bool>(ex);
             }
         }
         public static bool SetThingIsAlerted(int thingId, bool isAlerted)
@@ -114,9 +134,10 @@ namespace Shyryi_WatchForYou.Services.ModelServices
                     }));
                 return TcpClientService.Read<bool>() == true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                return ExceptionService
+                    .HandleDataBaseException<bool>(ex);
             }
         }
     }
