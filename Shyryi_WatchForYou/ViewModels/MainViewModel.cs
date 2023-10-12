@@ -92,7 +92,7 @@ namespace Shyryi_WatchForYou.ViewModels
 
             SettingViewModel.UserDataChanged += UserDataChanged;
 
-            //Task.Run(CheckIfAlerted);
+            Task.Run(CheckIfAlerted);
         }
 
         private void UserDataChanged()
@@ -126,7 +126,7 @@ namespace Shyryi_WatchForYou.ViewModels
                             AreaMapper.MapToModel(AreaService.GetAreaById(thing.AreaId)))));
                     }
                 }
-                await Task.Delay(5000);
+                await Task.Delay(60000);
             }
         }
 

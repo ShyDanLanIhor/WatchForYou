@@ -1,11 +1,9 @@
 ﻿using System.Windows;
 using Shyryi_WatchForYou.Services;
-using Shyryi_WatchForYou.Services.ModelServices;
 using Shyryi_WatchForYou.Stores;
 using Shyryi_WatchForYou.ViewModels;
 using Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel;
 using Shyryi_WatchForYou.Views;
-using Shyryi_WatchForYou.Views.UserControlViews.EnterView;
 
 namespace Shyryi_WatchForYou
 {

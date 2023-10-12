@@ -8,6 +8,9 @@ using Shyryi_WatchForYou.Services.ModelServices;
 using System.Windows;
 using Shyryi_WatchForYou.Exceptions;
 using System.Windows.Media;
+using Shyryi_WatchForYou.Services;
+using System.Net.Sockets;
+using System.IO;
 
 namespace Shyryi_WatchForYou.Commands.EnterViewModel
 {
@@ -58,6 +61,22 @@ namespace Shyryi_WatchForYou.Commands.EnterViewModel
                 {
                     App.Current.MainWindow.Visibility = Visibility.Collapsed;
                 }
+            }
+            catch (TypeInitializationException)
+            {
+                _signInViewModel.SingInInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
+                _signInViewModel.SignInInfo = "Cannot connect to the server!";
+                await Task.Delay(2000);
+                _signInViewModel.SignInInfo = "";
+            }
+            catch (IOException)
+            {
+                _signInViewModel.SingInInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
+                _signInViewModel.SignInInfo = "Cannot connect to the server!";
+                await Task.Delay(2000);
+                App.Current.Dispatcher.Invoke(() =>
+                { App.Current.Shutdown(); });
+                _signInViewModel.SignInInfo = "";
             }
             catch (InputDataException e)
             {

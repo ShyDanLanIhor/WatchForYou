@@ -23,7 +23,6 @@ namespace Shyryi_WatchForYou.ViewModels
         }
         public static void Show(string message)
         {
-            // Використовуємо Dispatcher, щоб показати MessageBox в STA-потоці
             Application.Current.Dispatcher.Invoke(() =>
             {
                 var MessageBoxViewModel = new MessageBoxViewModel(message);
