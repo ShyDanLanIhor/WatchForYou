@@ -1,5 +1,6 @@
 ﻿using Shyryi_WatchForYou.DTOs;
 using Shyryi_WatchForYou.Mappers;
+using Shyryi_WatchForYou.ViewModels;
 using Shyryi_WatchForYou_Server.Models;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,26 @@ namespace Shyryi_WatchForYou.Services
         private static NetworkStream stream = client.GetStream();
         private static int additionalLength = 3;
 
+        public static string Connect()
+        {
+            try
+            {
+                if (!client.Connected)
+                {
+                    client = new TcpClient("127.0.0.1", 12345);
+                    stream = client.GetStream();
+                    return "Reconnected! Please, try again.";
+                }
+                else
+                {
+                    return "Already connected!";
+                }
+            }
+            catch (Exception ex)
+            {
+                return "Cannot connect to database!";
+            }
+        }
         public static void Close()
         {
             stream.Close();

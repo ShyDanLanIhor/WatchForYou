@@ -3,6 +3,7 @@ using Shyryi_WatchForYou.DTOs;
 using Shyryi_WatchForYou.Exceptions;
 using Shyryi_WatchForYou.Mappers;
 using Shyryi_WatchForYou.Models;
+using Shyryi_WatchForYou.Services;
 using Shyryi_WatchForYou.Services.ModelServices;
 using System;
 using System.Threading;
@@ -100,17 +101,10 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
                 await Task.Delay(2000);
                 AreaInfo = "";
             }
-            catch (InputDataException e)
+            catch (Exception ex)
             {
-                AreaInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
-                AreaInfo = e.Message;
-                await Task.Delay(2000);
-                AreaInfo = "";
-            }
-            catch (Exception)
-            {
-                AreaInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
-                AreaInfo = "Area was not changed!";
+                (AreaInfoColor, AreaInfo) =
+                    ExceptionService.HandleGUIException(ex);
                 await Task.Delay(2000);
                 AreaInfo = "";
             }

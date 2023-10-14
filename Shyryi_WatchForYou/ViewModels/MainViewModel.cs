@@ -12,6 +12,8 @@ using Shyryi_WatchForYou.Mappers;
 using Shyryi_WatchForYou.Models;
 using System;
 using Microsoft.VisualBasic.ApplicationServices;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using System.Security.Principal;
 
 namespace Shyryi_WatchForYou.ViewModels
 {
@@ -95,8 +97,11 @@ namespace Shyryi_WatchForYou.ViewModels
             Task.Run(CheckIfAlerted);
         }
 
-        private void UserDataChanged()
+        private void UserDataChanged(string username)
         {
+            Thread.CurrentPrincipal = new GenericPrincipal(
+                new GenericIdentity(username), null);
+            currentUserName = Thread.CurrentPrincipal.Identity.Name;
             UserDto user = UserService.GetByUsername(currentUserName);
             if (user != null)
             {
@@ -112,7 +117,6 @@ namespace Shyryi_WatchForYou.ViewModels
             while (true)
             {
                 UserDto user = UserService.GetByUsername(currentUserName);
-                currentUserName = Thread.CurrentPrincipal.Identity.Name;
 
                 List<ThingDto> things = UserService.GetAllThingsByUser(user.Id);
                 foreach (var thing in things)

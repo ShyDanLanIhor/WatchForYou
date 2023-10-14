@@ -12,6 +12,9 @@ using System.Windows.Media;
 using Shyryi_WatchForYou.Exceptions;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using Shyryi_WatchForYou.Services;
+using System.Security.Principal;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
 {
@@ -27,7 +30,7 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
         private Brush _settingsInfoColor;
         private UserDto currentUser;
 
-        public static event Action UserDataChanged;
+        public static event Action<string> UserDataChanged;
 
         public string Username
         {
@@ -114,45 +117,49 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
             ChangeCommand = new RelayCommand(ExecuteChangeCommand, CanExecuteChangeCommand);
         }
 
-        private async void ExecuteChangeCommand(object obj)
+private void ExecuteChangeCommand(object obj)
+{
+    try
+    {
+        UserDto gotBy;
+        if ((gotBy = UserService.GetByUsername(Username)) != null
+            && gotBy.Username != currentUser.Username)
+            throw new ExistingDataException("Username already exist!");
+        if ((gotBy = UserService.GetByEmail(Email)) != null
+            && gotBy.Email != currentUser.Email)
+            throw new ExistingDataException("Email already connected!");
+        if (!Regex.IsMatch(Email, @"^$|^.*@.*\..*$"))
+            throw new InvalidDataInputException("Invalid email input!");
+        if (!Regex.IsMatch(Username, @"^[a-zA-Z0-9_.-]*(?<!\.)(?<!@)$"))
+            throw new InvalidDataInputException("Invalid username input!");
+        UserService.UpdateUser(currentUser.Id, UserMapper.MapToDto(
+            new UserModel(
+                currentUser.Id, Username,
+                new NetworkCredential(string.Empty, NewPassword).Password,
+                FirstName, LastName, Email,
+                gotBy.IsVerificated,
+                gotBy.ConfirmationToken)));
+        UserDataChanged?.Invoke(Username);
+        Task.Run(async () =>
         {
-            try
-            {
-                UserDto gotBy = UserService.GetByUsername(Username);
-                if (gotBy != null && gotBy.Username != currentUser.Username)
-                { throw new ExistingDataException("Username already exist!"); }
-                gotBy = UserService.GetByEmail(Email);
-                if (gotBy != null && gotBy.Email != currentUser.Email)
-                { throw new ExistingDataException("Email already connected!"); }
-                if (Regex.IsMatch(Email, @"^$|^.*@.*\..*$") != true)
-                { throw new InvalidDataInputException("Invalid email input!"); }
-                if (Regex.IsMatch(Username, @"^[a-zA-Z0-9_.-]*(?<!\.)(?<!@)$") != true)
-                { throw new InvalidDataInputException("Invalid username input!"); }
-                UserService.UpdateUser(currentUser.Id, UserMapper.MapToDto
-                    (new UserModel(currentUser.Id, Username,
-                    new NetworkCredential(string.Empty, NewPassword).Password,
-                    FirstName, LastName, Email, gotBy.IsVerificated, gotBy.ConfirmationToken)));
-                UserDataChanged?.Invoke();
-                SettingsInfoColor = (Brush)App.Current.FindResource("SettingsColor");
-                SettingsInfo = "User data was changed!";
-                await Task.Delay(2000);
-                SettingsInfo = "";
-            }
-            catch (InputDataException e)
-            {
-                SettingsInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
-                SettingsInfo = e.Message;
-                await Task.Delay(2000);
-                SettingsInfo = "";
-            }
-            catch (Exception)
-            {
-                SettingsInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
-                SettingsInfo = "User data was not changed!";
-                await Task.Delay(2000);
-                SettingsInfo = "";
-            }
-        }
+            SettingsInfoColor = (Brush)App.Current.FindResource("SettingsColor");
+            SettingsInfo = "User data was changed!";
+            await Task.Delay(2000);
+            SettingsInfo = "";
+        });
+    }
+    catch (Exception ex)
+    {
+        Task.Run(async () =>
+        {
+            (SettingsInfoColor, SettingsInfo) =
+                ExceptionService.HandleGUIException(ex);
+            await Task.Delay(2000);
+            SettingsInfo = "";
+        });
+    }
+}
+
 
         private bool CanExecuteChangeCommand(object obj)
         {

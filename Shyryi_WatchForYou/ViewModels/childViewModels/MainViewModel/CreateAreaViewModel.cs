@@ -2,7 +2,9 @@
 using Shyryi_WatchForYou.Exceptions;
 using Shyryi_WatchForYou.Mappers;
 using Shyryi_WatchForYou.Models;
+using Shyryi_WatchForYou.Services;
 using Shyryi_WatchForYou.Services.ModelServices;
+using Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -84,17 +86,10 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
                 await Task.Delay(2000);
                 AreaInfo = "";
             }
-            catch (InputDataException e)
+            catch (Exception ex)
             {
-                AreaInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
-                AreaInfo = e.Message;
-                await Task.Delay(2000);
-                AreaInfo = "";
-            }
-            catch (Exception)
-            {
-                AreaInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
-                AreaInfo = "Area was not created!";
+                (AreaInfoColor, AreaInfo) =
+                    ExceptionService.HandleGUIException(ex);
                 await Task.Delay(2000);
                 AreaInfo = "";
             }

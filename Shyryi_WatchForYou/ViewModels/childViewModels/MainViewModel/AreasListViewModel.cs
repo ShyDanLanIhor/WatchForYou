@@ -5,9 +5,12 @@ using Shyryi_WatchForYou.ViewModels.AriaListViewModels;
 using Shyryi_WatchForYou.Views.AriaListView;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
 {
@@ -43,10 +46,12 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
 
         public AreasListViewModel()
         {
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                areas = new ObservableCollection<AreaDto>(AreaService.GetAreasByCurrentUser());
+            });
             ShowDetailsCommand = new RelayCommand(ShowDetails);
             DeleteCommand = new RelayCommand(Delete);
-
-            areas = new ObservableCollection<AreaDto>(AreaService.GetAreasByCurrentUser());
 
             AreaInfoViewModel.AreasListChanged += AreasListChanged;
         }
