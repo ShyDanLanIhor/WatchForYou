@@ -2,6 +2,7 @@
 using Shyryi_WatchForYou.Exceptions;
 using Shyryi_WatchForYou.Mappers;
 using Shyryi_WatchForYou.Models;
+using Shyryi_WatchForYou.Services;
 using Shyryi_WatchForYou.Services.ModelServices;
 using System;
 using System.Text.RegularExpressions;
@@ -119,17 +120,10 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
                 await Task.Delay(2000);
                 ThingInfo = "";
             }
-            catch (InputDataException e)
+            catch (Exception ex)
             {
-                ThingInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
-                ThingInfo = e.Message;
-                await Task.Delay(2000);
-                ThingInfo = "";
-            }
-            catch (Exception)
-            {
-                ThingInfoColor = (Brush)App.Current.FindResource("ConnectDeviceColor");
-                ThingInfo = "Device was not connected!";
+                (ThingInfoColor, ThingInfo) =
+                    ExceptionService.HandleGUIException(ex);
                 await Task.Delay(2000);
                 ThingInfo = "";
             }

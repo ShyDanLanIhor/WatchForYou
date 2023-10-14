@@ -86,17 +86,10 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel
                 await Task.Delay(2000);
                 SignInInfo = "";
             }
-            catch (InputDataException e)
+            catch (Exception ex)
             {
-                SingInInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
-                SignInInfo = e.Message;
-                await Task.Delay(2000);
-                SignInInfo = "";
-            }
-            catch (Exception)
-            {
-                SingInInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
-                SignInInfo = "Password was not reseted!";
+                (SingInInfoColor, SignInInfo) =
+                    ExceptionService.HandleGUIException(ex);
                 await Task.Delay(2000);
                 SignInInfo = "";
             }

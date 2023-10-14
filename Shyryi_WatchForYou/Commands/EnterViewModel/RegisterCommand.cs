@@ -64,17 +64,10 @@ namespace Shyryi_WatchForYou.Commands.EnterViewModel
                 await Task.Delay(2000);
                 _signUpViewModel.SignUpInfo = "";
             }
-            catch (InputDataException e)
+            catch (Exception ex)
             {
-                _signUpViewModel.SingUpInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
-                _signUpViewModel.SignUpInfo = e.Message;
-                await Task.Delay(2000);
-                _signUpViewModel.SignUpInfo = "";
-            }
-            catch (Exception)
-            {
-                _signUpViewModel.SingUpInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
-                _signUpViewModel.SignUpInfo = "Account was not created!";
+                (_signUpViewModel.SingUpInfoColor, _signUpViewModel.SignUpInfo) =
+                    ExceptionService.HandleGUIException(ex);
                 await Task.Delay(2000);
                 _signUpViewModel.SignUpInfo = "";
             }

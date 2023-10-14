@@ -62,33 +62,10 @@ namespace Shyryi_WatchForYou.Commands.EnterViewModel
                     App.Current.MainWindow.Visibility = Visibility.Collapsed;
                 }
             }
-            catch (TypeInitializationException)
+            catch (Exception ex)
             {
-                _signInViewModel.SingInInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
-                _signInViewModel.SignInInfo = "Cannot connect to the server!";
-                await Task.Delay(2000);
-                _signInViewModel.SignInInfo = "";
-            }
-            catch (IOException)
-            {
-                _signInViewModel.SingInInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
-                _signInViewModel.SignInInfo = "Cannot connect to the server!";
-                await Task.Delay(2000);
-                App.Current.Dispatcher.Invoke(() =>
-                { App.Current.Shutdown(); });
-                _signInViewModel.SignInInfo = "";
-            }
-            catch (InputDataException e)
-            {
-                _signInViewModel.SingInInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
-                _signInViewModel.SignInInfo = e.Message;
-                await Task.Delay(2000);
-                _signInViewModel.SignInInfo = "";
-            }
-            catch (Exception)
-            {
-                _signInViewModel.SingInInfoColor = (Brush)App.Current.FindResource("ErrorMessageColor");
-                _signInViewModel.SignInInfo = "User was not logged in!";
+                (_signInViewModel.SingInInfoColor, _signInViewModel.SignInInfo) =
+                    ExceptionService.HandleGUIException(ex);
                 await Task.Delay(2000);
                 _signInViewModel.SignInInfo = "";
             }
