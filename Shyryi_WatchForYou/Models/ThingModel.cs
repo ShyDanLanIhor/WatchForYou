@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Shyryi_WatchForYou.Mappers;
+using Shyryi_WatchForYou.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,15 +31,16 @@ namespace Shyryi_WatchForYou.Models
             Area = area;
         }
 
-        public ThingModel(string name, string ip, bool isVideo, bool isAlerted, string description, int areaId, AreaModel area)
+        public ThingModel(int id, string name, string ip, bool isVideo, bool isAlerted, string description, int areaId)
         {
+            Id = id;
             Name = name;
             Ip = ip;
             IsVideo = isVideo;
             IsAlerted = isAlerted;
             Description = description;
             AreaId = areaId;
-            Area = area;
+            Area = AreaMapper.MapToModel(AreaRepository.GetAreaById(areaId));
         }
 
         public ThingModel(string name, string ip, bool isVideo, bool isAlerted, string description, int areaId)
@@ -48,6 +51,7 @@ namespace Shyryi_WatchForYou.Models
             IsAlerted = isAlerted;
             Description = description;
             AreaId = areaId;
+            Area = AreaMapper.MapToModel(AreaRepository.GetAreaById(areaId));
         }
 
         public ThingModel(ThingModel other)

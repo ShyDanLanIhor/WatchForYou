@@ -3,6 +3,7 @@ using Shyryi_WatchForYou.DTOs;
 using Shyryi_WatchForYou.Exceptions;
 using Shyryi_WatchForYou.Mappers;
 using Shyryi_WatchForYou.Models;
+using Shyryi_WatchForYou.Services;
 using Shyryi_WatchForYou.Services.ModelServices;
 using Shyryi_WatchForYou.Views.AriaListView;
 using System;
@@ -101,20 +102,12 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
             {
                 try
                 {
-                    if (Regex.IsMatch(thing.Ip, @"^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}:(25[0-5]|(2[0-4]|1\d|[1-9]|)\d){2}$") != true &&
-                        Regex.IsMatch(thing.Ip, @"^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$") != true)
-                    { throw new InvalidDataInputException("Invalid device IP input!"); }
                     ThingService.UpdateThing(thing.Id, ThingMapper.MapToDto(new ThingModel(
-                        thing.Id, thing.Name, thing.Ip, thing.IsVideo, thing.IsAlerted, thing.Description, thing.AreaId,
-                        AreaMapper.MapToModel(AreaService.GetAreaById(thing.AreaId)))));
+                        thing.Id, thing.Name, thing.Ip, thing.IsVideo, thing.IsAlerted, thing.Description, thing.AreaId)));
                 }
-                catch (InputDataException e)
+                catch (Exception ex)
                 {
-                    MessageBoxViewModel.Show(e.Message);
-                }
-                catch (Exception)
-                {
-                    MessageBoxViewModel.Show("Device was not connected!");
+                    ExceptionService.HandleDataBaseException<bool>(ex);
                 }
             }
         }

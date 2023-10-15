@@ -32,8 +32,10 @@ namespace Shyryi_WatchForYou.Services
                 ex is IOException)
             {
                 return ex is InputDataException
-                    ? ((Brush)App.Current.FindResource("ErrorMessageColor"), TcpClientService.Connect())
-                    : ((Brush)App.Current.FindResource("ErrorMessageColor"), TcpClientService.Connect());
+                    ? ((Brush)App.Current.FindResource("ErrorMessageColor"), 
+                    TcpClientService.Connect())
+                    : ((Brush)App.Current.FindResource("ErrorMessageColor"), 
+                    TcpClientService.Connect());
             }
             else
             {
@@ -42,6 +44,5 @@ namespace Shyryi_WatchForYou.Services
                     : ((Brush)App.Current.FindResource("ErrorMessageColor"), ex.Message);
             }
         }
-
     }
 }

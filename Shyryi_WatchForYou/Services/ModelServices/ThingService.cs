@@ -1,11 +1,16 @@
 ﻿using Newtonsoft.Json;
 using Shyryi_WatchForYou.DTOs;
+using Shyryi_WatchForYou.Exceptions;
+using Shyryi_WatchForYou.Mappers;
+using Shyryi_WatchForYou.Repositories;
 using Shyryi_WatchForYou.ViewModels;
 using Shyryi_WatchForYou_Server.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Text.RegularExpressions;
 
 namespace Shyryi_WatchForYou.Services.ModelServices
 {
@@ -15,15 +20,7 @@ namespace Shyryi_WatchForYou.Services.ModelServices
         {
             try
             {
-                TcpClientService.Write(JsonConvert.SerializeObject(new RequestEntity
-                {
-                    Type = "Get things by area",
-                    Data = new
-                    {
-                        AreaId = areaId
-                    }
-                }));
-                return TcpClientService.Read<List<ThingDto>>();
+                return ThingRepository.GetThingsByArea(areaId);
             }
             catch (Exception ex)
             {
@@ -36,15 +33,7 @@ namespace Shyryi_WatchForYou.Services.ModelServices
         {
             try
             {
-                TcpClientService.Write(JsonConvert.SerializeObject(new RequestEntity
-                {
-                    Type = "Get thing by id",
-                    Data = new
-                    {
-                        ThingId = thingId
-                    }
-                }));
-                return TcpClientService.Read<ThingDto>();
+                return ThingRepository.GetThingById(thingId);
             }
             catch (Exception ex)
             {
@@ -55,61 +44,27 @@ namespace Shyryi_WatchForYou.Services.ModelServices
 
         public static bool CreateThing(ThingDto thing)
         {
-            try
-            {
-                TcpClientService.Write(JsonConvert.SerializeObject(
-                    new RequestEntity
-                    {
-                        Type = "Create thing",
-                        Data = JsonConvert.SerializeObject(thing)
-                    }));
-                return TcpClientService.Read<bool>() == true;
-            }
-            catch (Exception ex)
-            {
-                return ExceptionService
-                    .HandleDataBaseException<bool>(ex);
-            }
+            if (Regex.IsMatch(thing.Ip, @"^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}:(25[0-5]|(2[0-4]|1\d|[1-9]|)\d){2}$") != true &&
+                Regex.IsMatch(thing.Ip, @"^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$") != true)
+            { throw new InvalidDataInputException("Invalid device IP input!"); }
+            thing.Area = AreaRepository.GetAreaById(thing.AreaId);
+            return ThingRepository.AddThing(thing);
         }
 
         public static bool UpdateThing(int thingId, ThingDto updatedThing)
         {
-            try
-            {
-                TcpClientService.Write(JsonConvert.SerializeObject(
-                    new RequestEntity
-                    {
-                        Type = "Update thing",
-                        Data = JsonConvert.SerializeObject(
-                            new
-                            {
-                                ThingId = thingId,
-                                UpdatedThing = updatedThing
-                            })
-                    }));
-                return TcpClientService.Read<bool>() == true;
-            }
-            catch (Exception ex)
-            {
-                return ExceptionService
-                    .HandleDataBaseException<bool>(ex);
-            }
+            if (Regex.IsMatch(updatedThing.Ip, @"^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}:(25[0-5]|(2[0-4]|1\d|[1-9]|)\d){2}$") != true &&
+                Regex.IsMatch(updatedThing.Ip, @"^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$") != true)
+            { throw new InvalidDataInputException("Invalid device IP input!"); }
+            updatedThing.Area = AreaRepository.GetAreaById(updatedThing.AreaId);
+            return ThingRepository.UpdateThing(thingId, updatedThing);
         }
 
         public static bool RemoveThing(int thingId)
         {
             try
             {
-                TcpClientService.Write(JsonConvert.SerializeObject(
-                    new RequestEntity
-                    {
-                        Type = "Remove thing",
-                        Data = new
-                        {
-                            ThingId = thingId
-                        }
-                    }));
-                return TcpClientService.Read<bool>() == true;
+                return ThingRepository.RemoveThingById(thingId);
             }
             catch (Exception ex)
             {
@@ -121,18 +76,7 @@ namespace Shyryi_WatchForYou.Services.ModelServices
         {
             try
             {
-                TcpClientService.Write(JsonConvert.SerializeObject(
-                    new RequestEntity
-                    {
-                        Type = "Set thing is alerted",
-                        Data = JsonConvert.SerializeObject(
-                            new
-                            {
-                                ThingId = thingId,
-                                IsAlerted = isAlerted.ToString()
-                            })
-                    }));
-                return TcpClientService.Read<bool>() == true;
+                return ThingRepository.SetThingIsAlerted(thingId, isAlerted);
             }
             catch (Exception ex)
             {

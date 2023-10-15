@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Shyryi_WatchForYou.DTOs;
 using Shyryi_WatchForYou.Exceptions;
+using Shyryi_WatchForYou.Models.Repositories;
+using Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel;
 using Shyryi_WatchForYou_Server.Models;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Shyryi_WatchForYou.Services.ModelServices
 {
@@ -12,36 +17,21 @@ namespace Shyryi_WatchForYou.Services.ModelServices
     {
         public static bool CreateAccount(UserDto user)
         {
-            try
-            {
-                TcpClientService.Write(JsonConvert.SerializeObject(
-                    new RequestEntity
-                    {
-                        Type = "Create account",
-                        Data = JsonConvert.SerializeObject(user)
-                    }));
-                return TcpClientService.Read<bool>() == true;
-            }
-            catch (Exception ex)
-            {
-                return ExceptionService
-                    .HandleDataBaseException<bool>(ex);
-            }
+            if (Regex.IsMatch(user.Email, @"^$|^.*@.*\..*$") != true)
+            { throw new InvalidDataInputException("Invalid email input!"); }
+            if (Regex.IsMatch(user.Username, @"^[a-zA-Z0-9]*(?<!\.)(?<!@)$") != true)
+            { throw new InvalidDataInputException("Invalid username input!"); }
+            if (UserRepository.GetByUsername(user.Username) != null)
+            { throw new ExistingDataException("Username already exist!"); }
+            if (UserRepository.GetByEmail(user.Email) != null)
+            { throw new ExistingDataException("Email already connected!"); }
+            return UserRepository.AddUser(user);
         }
         public static UserDto GetByUsername(string username)
         {
             try
             {
-                TcpClientService.Write(JsonConvert.SerializeObject(
-                    new RequestEntity
-                    {
-                        Type = "Get by username",
-                        Data = new
-                        {
-                            Username = username
-                        }
-                    }));
-                return TcpClientService.Read<UserDto>();
+                return UserRepository.GetByUsername(username);
             }
             catch (Exception ex)
             {
@@ -53,16 +43,7 @@ namespace Shyryi_WatchForYou.Services.ModelServices
         {
             try
             {
-                TcpClientService.Write(JsonConvert.SerializeObject(
-                    new RequestEntity
-                    {
-                        Type = "Get by email",
-                        Data = new
-                        {
-                            Email = email
-                        }
-                    }));
-                return TcpClientService.Read<UserDto>();
+                return GetByEmail(email);
             }
             catch (Exception ex)
             {
@@ -73,17 +54,7 @@ namespace Shyryi_WatchForYou.Services.ModelServices
 
         public static bool AuthenticateUser(NetworkCredential credential)
         {
-            TcpClientService.Write(JsonConvert.SerializeObject(
-                new RequestEntity
-                {
-                    Type = "Authenticate user",
-                    Data = new 
-                    { 
-                        Username = credential.UserName, 
-                        Password = credential.Password
-                    }
-                }));
-            UserDto user = TcpClientService.Read<UserDto>();
+            UserDto user = UserRepository.GetByUsername(credential.UserName);
             if (user == null) { throw new InvalidDataInputException("Invalid username or password"); }
             if (user.IsVerificated == false) { throw new InvalidDataInputException("Email is not verificated"); }
             return true;
@@ -93,16 +64,7 @@ namespace Shyryi_WatchForYou.Services.ModelServices
         {
             try
             {
-                TcpClientService.Write(JsonConvert.SerializeObject(
-                    new RequestEntity
-                    {
-                        Type = "Delete account",
-                        Data = new
-                        {
-                            Username = username
-                        }
-                    }));
-                return TcpClientService.Read<bool>() == true;
+                return UserRepository.RemoveUserByUsername(username);
             }
             catch (Exception ex)
             {
@@ -113,66 +75,36 @@ namespace Shyryi_WatchForYou.Services.ModelServices
 
         public static bool UpdateUser(int userId, UserDto updatedUser)
         {
-            try
-            {
-                TcpClientService.Write(JsonConvert.SerializeObject(
-                    new RequestEntity
-                    {
-                        Type = "Update user",
-                        Data = JsonConvert.SerializeObject(
-                            new
-                            {
-                                UserId = userId,
-                                UpdatedUser = updatedUser
-                            })
-                    }));
-                return TcpClientService.Read<bool>() == true;
-            }
-            catch (Exception ex)
-            {
-                return ExceptionService
-                    .HandleDataBaseException<bool>(ex);
-            }
+            UserDto gotBy = new UserDto();
+            if ((gotBy = UserRepository.GetByUsername(updatedUser.Username)) != null
+                && gotBy.Username != updatedUser.Username)
+                throw new ExistingDataException("Username already exist!");
+            if ((gotBy = UserRepository.GetByEmail(updatedUser.Email)) != null
+                && gotBy.Email != updatedUser.Email)
+                throw new ExistingDataException("Email already connected!");
+            if (!Regex.IsMatch(updatedUser.Email, @"^$|^.*@.*\..*$"))
+                throw new InvalidDataInputException("Invalid email input!");
+            if (!Regex.IsMatch(updatedUser.Username, @"^[a-zA-Z0-9_.-]*(?<!\.)(?<!@)$"))
+                throw new InvalidDataInputException("Invalid username input!");
+            updatedUser.IsVerificated = gotBy.IsVerificated;
+            updatedUser.ConfirmationToken = gotBy.ConfirmationToken;
+            return UserRepository.UpdateUser(userId, updatedUser);
         }
 
-        public static bool UpdateUserPassword(UserDto updatedUser, string password)
+        public static bool UpdateUserPassword(string username)
         {
-            try
-            {
-                TcpClientService.Write(JsonConvert.SerializeObject(
-                    new RequestEntity
-                    {
-                        Type = "Update user password",
-                        Data = JsonConvert.SerializeObject(
-                            new
-                            {
-                                Password = password,
-                                UpdatedUser = updatedUser
-                            })
-                    }));
-                return TcpClientService.Read<bool>() == true;
-            }
-            catch (Exception ex)
-            {
-                return ExceptionService
-                    .HandleDataBaseException<bool>(ex);
-            }
+            string newPassword = EmailService.GenerateUniqueToken(10);
+            UserDto user = UserRepository.GetByUsername(username);
+            if (user == null) { throw new InvalidDataInputException("User does not exist!"); }
+            if (user.IsVerificated == false) { throw new InvalidDataInputException("Email is not verificated"); }
+            EmailService.SendPasswordOnEmail(user.Email, newPassword);
+            return UserRepository.UpdateUserPassword(user, newPassword);
         }
-
         public static List<ThingDto> GetAllThingsByUser(int userId)
         {
             try
             {
-                TcpClientService.Write(JsonConvert.SerializeObject(
-                    new RequestEntity
-                    {
-                        Type = "Get all things by user",
-                        Data = new
-                        {
-                           UserId = userId
-                        }
-                    }));
-                return TcpClientService.Read<List<ThingDto>>();
+                return UserRepository.GetAllThingsByUser(userId);
             }
             catch (Exception ex)
             {

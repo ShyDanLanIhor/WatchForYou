@@ -52,5 +52,15 @@ namespace Shyryi_WatchForYou.Models
             ConfirmationToken = other.ConfirmationToken;
             Areas = other.Areas.Select(area => new AreaModel(area)).ToList();
         }
+
+        public UserModel(int id, string username, string password, string firstName, string lastName, string email)
+        {
+            Id = id;
+            Username = username;
+            Password = password;
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+        }
     }
 }
