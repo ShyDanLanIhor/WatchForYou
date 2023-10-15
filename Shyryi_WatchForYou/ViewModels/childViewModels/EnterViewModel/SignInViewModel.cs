@@ -75,12 +75,7 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.EnterViewModel
         {
             try
             {
-                UserDto user = UserService.GetByUsername(Username);
-                if (user == null) { throw new InvalidDataInputException("User does not exist!"); }
-                if (user.IsVerificated == false) { throw new InvalidDataInputException("Email is not verificated"); }
-                string newPassword = EmailService.GenerateUniqueToken(10);
-                UserService.UpdateUserPassword(user, newPassword);
-                EmailService.SendPasswordOnEmail(user.Email, newPassword);
+                UserService.UpdateUserPassword(Username);
                 SingInInfoColor = (Brush)App.Current.FindResource("SignInColor");
                 SignInInfo = "New password was send on email!";
                 await Task.Delay(2000);

@@ -73,12 +73,8 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
         {
             try
             {
-                if (AreaService.CheckIfAreaExist(AreaName, Thread.CurrentPrincipal.Identity.Name))
-                { throw new ExistingDataException("Area name already exist!"); }
-                UserModel user = UserMapper.MapToModel(UserService.
-                    GetByUsername(Thread.CurrentPrincipal.Identity.Name));
                 AreaService.CreateArea(AreaMapper.MapToDto(
-                    new AreaModel(AreaName, AreaDescription, user.Id, user)));
+                    new AreaModel(AreaName, AreaDescription)));
                 AreaName = "";
                 AreaDescription = "";
                 AreaInfoColor = (Brush)App.Current.FindResource("CreateAreaColor");

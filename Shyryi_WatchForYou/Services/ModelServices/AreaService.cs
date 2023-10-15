@@ -1,5 +1,10 @@
 ﻿using Newtonsoft.Json;
 using Shyryi_WatchForYou.DTOs;
+using Shyryi_WatchForYou.Exceptions;
+using Shyryi_WatchForYou.Mappers;
+using Shyryi_WatchForYou.Models;
+using Shyryi_WatchForYou.Models.Repositories;
+using Shyryi_WatchForYou.Repositories;
 using Shyryi_WatchForYou.ViewModels;
 using Shyryi_WatchForYou_Server.Models;
 using System;
@@ -16,16 +21,8 @@ namespace Shyryi_WatchForYou.Services.ModelServices
         {
             try
             {
-                TcpClientService.Write(JsonConvert.SerializeObject(
-                    new RequestEntity
-                    {
-                        Type = "Get areas by current user",
-                        Data = new
-                        {
-                            Username = Thread.CurrentPrincipal.Identity.Name
-                        }
-                    }));
-                return TcpClientService.Read<List<AreaDto>>();
+                return AreaRepository.GetAreasByUser(
+                    Thread.CurrentPrincipal.Identity.Name);
             }
             catch (Exception ex)
             {
@@ -36,42 +33,18 @@ namespace Shyryi_WatchForYou.Services.ModelServices
 
         public static bool CreateArea(AreaDto area)
         {
-            try
-            {
-                TcpClientService.Write(JsonConvert.SerializeObject(
-                    new RequestEntity
-                    {
-                        Type = "Create area",
-                        Data = JsonConvert.SerializeObject(
-                            new
-                            {
-                                Username = Thread.CurrentPrincipal.Identity.Name,
-                                Area = area
-                            })
-                    }));
-                return TcpClientService.Read<bool>() == true;
-            }
-            catch (Exception ex)
-            {
-                return ExceptionService
-                    .HandleDataBaseException<bool>(ex);
-            }
+            if (AreaRepository.CheckIfAreaExist(area.Name, Thread.CurrentPrincipal.Identity.Name))
+            { throw new ExistingDataException("Area name already exist!"); }
+            area.User = UserRepository.GetByUsername(Thread.CurrentPrincipal.Identity.Name);
+            area.UserId = area.User.Id;
+            return AreaRepository.AddArea(area);
         }
 
         public static bool RemoveArea(int areaId)
         {
             try
             {
-                TcpClientService.Write(JsonConvert.SerializeObject(
-                    new RequestEntity
-                    {
-                        Type = "Remove area",
-                        Data = new
-                        {
-                            AreaId = areaId
-                        }
-                    }));
-                return TcpClientService.Read<bool>() == true;
+                return AreaRepository.RemoveAreaById(areaId);
             }
             catch (Exception ex)
             {
@@ -82,42 +55,20 @@ namespace Shyryi_WatchForYou.Services.ModelServices
 
         public static bool UpdateArea(int areaId, AreaDto updatedArea)
         {
-            try
-            {
-                TcpClientService.Write(JsonConvert.SerializeObject(
-                    new RequestEntity
-                    {
-                        Type = "Update area",
-                        Data = JsonConvert.SerializeObject(
-                            new
-                            {
-                                AreaId = areaId,
-                                UpdatedArea = updatedArea
-                            })
-                    }));
-                return TcpClientService.Read<bool>() == true;
-            }
-            catch (Exception ex)
-            {
-                return ExceptionService
-                    .HandleDataBaseException<bool>(ex);
-            }
+            if (AreaRepository.CheckIfAreaExist(updatedArea.Name, Thread.CurrentPrincipal.Identity.Name) 
+                && updatedArea.Name != AreaRepository.GetAreaById(areaId).Name)
+            { throw new ExistingDataException("Area name already exist!"); }
+            updatedArea.Id = areaId;
+            updatedArea.User = UserRepository.GetByUsername(Thread.CurrentPrincipal.Identity.Name);
+            updatedArea.UserId = updatedArea.User.Id;
+            return AreaRepository.UpdateArea(areaId, updatedArea);
         }
 
         public static AreaDto GetAreaById(int areaId)
         {
             try
             {
-                TcpClientService.Write(JsonConvert.SerializeObject(
-                    new RequestEntity
-                    {
-                        Type = "Get area by id",
-                        Data = new
-                        {
-                            AreaId = areaId
-                        }
-                    }));
-                return TcpClientService.Read<AreaDto>();
+                return AreaRepository.GetAreaById(areaId);
             }
             catch (Exception ex)
             {
@@ -129,17 +80,7 @@ namespace Shyryi_WatchForYou.Services.ModelServices
         {
             try
             {
-                TcpClientService.Write(JsonConvert.SerializeObject(
-                    new RequestEntity
-                    {
-                        Type = "Check if area exist",
-                        Data = new
-                        {
-                            AreaName = areaName,
-                            UserName = userName
-                        }
-                    }));
-                return TcpClientService.Read<bool>() == true;
+                return AreaRepository.CheckIfAreaExist(areaName, userName);
             }
             catch (Exception ex)
             {

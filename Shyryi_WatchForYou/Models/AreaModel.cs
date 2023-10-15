@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Shyryi_WatchForYou.Models
@@ -12,6 +13,15 @@ namespace Shyryi_WatchForYou.Models
         public UserModel User { get; set; }
         public ICollection<ThingModel> Things { get; set; }
 
+        public AreaModel(string name, string description)
+        {
+            Name = name;
+            Description = description;
+            UserId = 0;
+            this.User = new UserModel();
+            Things = new List<ThingModel>();
+        }
+
         public AreaModel(int id, string name, string description, int userId, UserModel user)
         {
             Id = id;
@@ -21,25 +31,6 @@ namespace Shyryi_WatchForYou.Models
             User = user;
             Things = new List<ThingModel>();
         }
-
-        public AreaModel(int id, string name, string description, int userId)
-        {
-            Id = id;
-            Name = name;
-            Description = description;
-            UserId = userId;
-            Things = new List<ThingModel>();
-        }
-
-        public AreaModel(string name, string description, int userId, UserModel user)
-        {
-            Name = name;
-            Description = description;
-            UserId = userId;
-            User = user;
-            Things = new List<ThingModel>();
-        }
-
 
         public AreaModel(AreaModel other)
         {

@@ -84,17 +84,11 @@ namespace Shyryi_WatchForYou.ViewModels.AriaListViewModels
         {
             try
             {
-                AreaDto currentArea = AreaService.GetAreaById(currentId);
-                bool first = AreaService.CheckIfAreaExist(AreaName, Thread.CurrentPrincipal.Identity.Name);
-                bool second = AreaName != currentArea.Name;
-                if (first && second)
-                { throw new ExistingDataException("Area name already exist!"); }
-                AreaService.UpdateArea(currentArea.Id, AreaMapper.MapToDto( new AreaModel(
-                    currentArea.Id, AreaName, AreaDescription, currentArea.UserId, UserMapper.MapToModel(
-                    UserService.GetByUsername(Thread.CurrentPrincipal.Identity.Name)))));
+                AreaService.UpdateArea(currentId, AreaMapper.MapToDto( 
+                    new AreaModel(AreaName, AreaDescription)));
 
                 AreasListChanged?.Invoke();
-                AreaChanged?.Invoke(currentArea.Id);
+                AreaChanged?.Invoke(currentId);
 
                 AreaInfoColor = (Brush)App.Current.FindResource("AreaInfoColor");
                 AreaInfo = "Area was changed!";

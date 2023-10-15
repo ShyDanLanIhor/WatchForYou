@@ -11,6 +11,7 @@ using System.Windows.Media;
 using Shyryi_WatchForYou.Services;
 using System.Net.Sockets;
 using System.IO;
+using System.Net;
 
 namespace Shyryi_WatchForYou.Commands.EnterViewModel
 {
@@ -56,7 +57,7 @@ namespace Shyryi_WatchForYou.Commands.EnterViewModel
         {
             try
             {
-                if (UserService.AuthenticateUser(new System.Net.NetworkCredential(
+                if (UserService.AuthenticateUser(new NetworkCredential(
                     _signInViewModel.Username, _signInViewModel.Password)))
                 {
                     App.Current.MainWindow.Visibility = Visibility.Collapsed;

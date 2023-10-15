@@ -117,48 +117,35 @@ namespace Shyryi_WatchForYou.ViewModels.childViewModels.MainViewModel
             ChangeCommand = new RelayCommand(ExecuteChangeCommand, CanExecuteChangeCommand);
         }
 
-private void ExecuteChangeCommand(object obj)
-{
-    try
-    {
-        UserDto gotBy;
-        if ((gotBy = UserService.GetByUsername(Username)) != null
-            && gotBy.Username != currentUser.Username)
-            throw new ExistingDataException("Username already exist!");
-        if ((gotBy = UserService.GetByEmail(Email)) != null
-            && gotBy.Email != currentUser.Email)
-            throw new ExistingDataException("Email already connected!");
-        if (!Regex.IsMatch(Email, @"^$|^.*@.*\..*$"))
-            throw new InvalidDataInputException("Invalid email input!");
-        if (!Regex.IsMatch(Username, @"^[a-zA-Z0-9_.-]*(?<!\.)(?<!@)$"))
-            throw new InvalidDataInputException("Invalid username input!");
-        UserService.UpdateUser(currentUser.Id, UserMapper.MapToDto(
-            new UserModel(
-                currentUser.Id, Username,
-                new NetworkCredential(string.Empty, NewPassword).Password,
-                FirstName, LastName, Email,
-                gotBy.IsVerificated,
-                gotBy.ConfirmationToken)));
-        UserDataChanged?.Invoke(Username);
-        Task.Run(async () =>
+        private void ExecuteChangeCommand(object obj)
         {
-            SettingsInfoColor = (Brush)App.Current.FindResource("SettingsColor");
-            SettingsInfo = "User data was changed!";
-            await Task.Delay(2000);
-            SettingsInfo = "";
-        });
-    }
-    catch (Exception ex)
-    {
-        Task.Run(async () =>
-        {
-            (SettingsInfoColor, SettingsInfo) =
-                ExceptionService.HandleGUIException(ex);
-            await Task.Delay(2000);
-            SettingsInfo = "";
-        });
-    }
-}
+            try
+            {
+                UserService.UpdateUser(currentUser.Id, UserMapper.MapToDto(
+                    new UserModel( currentUser.Id, Username,
+                        new NetworkCredential(string.Empty, NewPassword).Password,
+                        FirstName, LastName, Email)));
+                UserDataChanged?.Invoke(Username);
+                Task.Run(async () =>
+                {
+                    SettingsInfoColor = (Brush)App.Current
+                    .FindResource("SettingsColor");
+                    SettingsInfo = "User data was changed!";
+                    await Task.Delay(2000);
+                    SettingsInfo = "";
+                });
+            }
+            catch (Exception ex)
+            {
+                Task.Run(async () =>
+                {
+                    (SettingsInfoColor, SettingsInfo) =
+                        ExceptionService.HandleGUIException(ex);
+                    await Task.Delay(2000);
+                    SettingsInfo = "";
+                });
+            }
+        }
 
 
         private bool CanExecuteChangeCommand(object obj)
