@@ -21,8 +21,11 @@ namespace Shyryi_WatchForYou.Services.ModelServices
         {
             try
             {
-                return AreaRepository.GetAreasByUser(
+                List<AreaDto> areas = AreaRepository.GetAreasByUser(
                     Thread.CurrentPrincipal.Identity.Name);
+                if (areas == null) { throw new 
+                        NullReturnDataExeption("No areas was found!"); }
+                return areas;
             }
             catch (Exception ex)
             {

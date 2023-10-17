@@ -20,6 +20,11 @@ namespace Shyryi_WatchForYou.Services
                 MessageBoxViewModel.Show(TcpClientService.Connect());
                 return new();
             }
+            else if (ex is OwnException)
+            {
+                MessageBoxViewModel.Show(ex.Message);
+                return new();
+            }
             else
             {
                 MessageBoxViewModel.Show(ex.Message);
