@@ -27,7 +27,7 @@ namespace Shyryi_WatchForYou.Services
                 }
                 else
                 {
-                    return "Already connected!";
+                    return "Please, try again!";
                 }
             }
             catch (Exception ex)

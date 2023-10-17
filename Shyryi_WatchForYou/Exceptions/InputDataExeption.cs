@@ -2,7 +2,7 @@
 
 namespace Shyryi_WatchForYou.Exceptions
 {
-    public class InputDataException : Exception
+    public class InputDataException : OwnException
     {
         public InputDataException() { }
 

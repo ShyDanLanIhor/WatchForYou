@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading;
 using Newtonsoft.Json;
 using Shyryi_WatchForYou.DTOs;
 using Shyryi_WatchForYou.Exceptions;
@@ -54,7 +55,7 @@ namespace Shyryi_WatchForYou.Services.ModelServices
 
         public static bool AuthenticateUser(NetworkCredential credential)
         {
-            UserDto user = UserRepository.GetByUsername(credential.UserName);
+            UserDto user = UserRepository.GetUsersByUsernameAndPassword(credential);
             if (user == null) { throw new InvalidDataInputException("Invalid username or password"); }
             if (user.IsVerificated == false) { throw new InvalidDataInputException("Email is not verificated"); }
             return true;
@@ -75,19 +76,20 @@ namespace Shyryi_WatchForYou.Services.ModelServices
 
         public static bool UpdateUser(int userId, UserDto updatedUser)
         {
-            UserDto gotBy = new UserDto();
-            if ((gotBy = UserRepository.GetByUsername(updatedUser.Username)) != null
-                && gotBy.Username != updatedUser.Username)
+            UserDto currentUser = UserRepository
+                .GetByUsername(Thread.CurrentPrincipal.Identity.Name);
+            if (UserRepository.GetByUsername(updatedUser.Username) != null 
+                && updatedUser.Username != currentUser.Username)
                 throw new ExistingDataException("Username already exist!");
-            if ((gotBy = UserRepository.GetByEmail(updatedUser.Email)) != null
-                && gotBy.Email != updatedUser.Email)
+            if (UserRepository.GetByEmail(updatedUser.Email) != null
+                && updatedUser.Email != currentUser.Email)
                 throw new ExistingDataException("Email already connected!");
             if (!Regex.IsMatch(updatedUser.Email, @"^$|^.*@.*\..*$"))
                 throw new InvalidDataInputException("Invalid email input!");
             if (!Regex.IsMatch(updatedUser.Username, @"^[a-zA-Z0-9_.-]*(?<!\.)(?<!@)$"))
                 throw new InvalidDataInputException("Invalid username input!");
-            updatedUser.IsVerificated = gotBy.IsVerificated;
-            updatedUser.ConfirmationToken = gotBy.ConfirmationToken;
+            updatedUser.IsVerificated = currentUser.IsVerificated;
+            updatedUser.ConfirmationToken = currentUser.ConfirmationToken;
             return UserRepository.UpdateUser(userId, updatedUser);
         }
 
